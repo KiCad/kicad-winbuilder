@@ -1,0 +1,266 @@
+
+ Version history:
+
+      * Fix rebuild_cache target to keep the version history correct.
+        Appears to be a problem with CMake here, having the same target
+        file for OUTPUT_FILE and ERROR_FILE makes the target silently
+        fail. This should be possible according to the CMake documentation.
+        Thanks to m for reporting the bug. Fixes bug 1333243
+        
+3.4  11.06.2014 - BJS
+      * Copy *.kiface files to the kicad/bin directory. Fixes bug 1315945
+      * Fix issue with checking for wxPython (was checking for 2.94 binary)
+      * start kicad.exe instead of running it from RunKiCad.bat so that the
+        console window is dropped (Thanks to Ian Woloschin). Fixes
+        bug 1320512
+      * Use tee to be able to view progress of KiCad build instead of having
+        a static display (Thanks to Ian Woloschin). Fixes bug 1327263
+      * Install xsltproc so that the xsl templates can be used. (Thanks to
+        Peter Ogden). Fixes bug 1328339
+      * Install missing kicad.pro and other template files from the kicad
+        source code (Thanks to Ed Johns). Fixes bug 1276387
+      * Issue a warning when the installed path length may be too long to
+        build KiCad successfully. Fixes bug 1267057
+      * Fix issue with finding local (up-to-date) documentation because the
+        env var KICAD was incorrectly set (Thanks to Peter Ogden)
+
+3.3  10.01.2014 - BJS
+      * Fix move of kicad-library to github
+      * Remove now unneeded FPLIBTABLE as this is now ON by default
+      * Bumped wxPython to V3.0.0 with a couple of pathches to suit KiCad
+      * Added setting %USERPROFILE% so fp-lib-table is local
+      * All example fp-lib-tables are in the kicad/share/template directory
+      * Fix build issue regarding freeroute exchange html header file
+
+3.2   15.11.2013 - BJS
+      * KiCad Introduces BZIP2 dependancy, so BZIP2 is downloaded, patched
+        and built. Fixes Bug #1251717 reported by Ferdinand Keil
+      * The CHANGELOG was too long in the cmake script. So it's been ripped
+        out to CHANGELOG
+
+3.1   08.11.2013 - BJS
+      * Remove OpenSSL from build environment in anticipation of it being
+        built as part of KiCad instead using the OpenSSL-CMake project
+      * Change the GLEW compilation command to prevent a large amount of
+        errors and display when building GLEW
+      * Default parallel processing to ON, but prevent it being used until
+        the KiCad source tree has had the *_keywords.cpp files generated so
+        as not to cause build errors by these files being corrupted when
+        generated during a parallel build process
+
+      31.10.2013 - Orson
+      * Merged all the recent changes and modified the script to work with the
+        master branch, as it already includes CERN code
+
+      09.09.13 - BJS
+      * Copy /src/doc/internat folder for internationalisation strings when
+        making a local copy of KiCad. Fixes bug 1222480 reported by Kerusey
+        Karyu
+      * Made the parallel build option default OFF. This prevents some build
+        errors, especially on initial builds. There is a concurrency problem
+        when generating the keyword parser files resulting in corrupt source
+        files
+      * Default FPLIBTABLE to ON to provide the new footprint library table
+        support
+      * Add new GITHUB_PLUGIN support
+      * Default GITHUB_PLUGIN to ON to provide Github footprint library
+        connectivity
+      * Add OpenSSL library copying
+      * Swap to mingw-w64 to use sjlj exceptions to allow cross-DLL boundary
+        exception throwing
+      * Swap wxPython build to suit the new exception model
+
+3.0   13.10.13 - Orson
+      * GLEW is built using Brian's glew-cmake, instead of being downloaded
+        as binary
+
+      27.09.13 - Orson
+      * Changed the repository address
+
+      07.09.13 - BJS
+      * Fixed PATH problem to enable successful loading of _stc.pyd for
+        pycrust python console in PCBNEW
+      * Fixed Python API dependancy fix for PCBNEW. Simply delete the
+        generated files to force them to get re-generated before each build
+
+      12.08.13 - BJS
+      * Scrubbed stacked branch due to the revision not being accurate
+        anymore. Instead moved back to a checkout, but included the
+        lightweight option
+      * Changed Bazaar checkout to a stacked branch so that the checkout is
+        lighter. This speeds up the new build process significantly, and is
+        useful for all other checkouts too (as now there is a checkout of the
+        documentation too
+      * Added latest KiCad documentation to the install
+      * Added latest KiCad library to the install
+
+      09.08.13 - Orson
+      * Modified the script to work with the GAL branch
+
+      07.08.13 - BJS
+      * BUGFIX: Fixed build so it generates the scripting build again! CMake
+        options where being malformed by using quotes. So a single argument
+        was being passed instead of the full list of arguments
+
+      06.08.13 - BJS
+      * Added ability to check for a later version release. This way we'll be
+        able to inform the user that there is a new version available
+      * Added parallel build option so people can select whether to have high
+        CPU usage or not
+
+      05.08.13 - BJS
+      * Added easy to use options SCRIPTING and FPLIBTABLE to tune the KiCad
+        build
+      * Added debug version of wxWidgets-cmake for debug build
+      * Use ProcessorCount - 1 as the number of parallel compilation jobs
+      * Fixed environment build script which had an escape left over from my
+        system. CHECK DIFF BEFORE COMMIT!
+      * Added new release of wxWidgets-cmake which fixes an issue with the
+        STC library and therefore fixes a problem with PyCrust hanging in
+        PCBNEW when it gains focus. The scripting build now looks to be
+        complete
+
+      03.08.13 - BJS
+      * Binaries now release for the wxWidgets-cmake project. Updated URL
+        and MD5 accordingly
+      * Fixed several file copy operations which failed to "install" KiCad
+        with scripting in the /bin directory
+
+      28.07.13 - BJS
+      * Instead of building wxPython, a binary from the wxPython-CMake
+        project is used. This build also includes wxPython so that KiCad's
+        python bindings can be build
+      * Python-a-mingw-us is included in the environment
+
+2.1   07.06.13 - BJS
+      * Fixed bug 1186954 Reported by Kerusey Karyu. Windows UAC preventing
+        GNUWin32 patch program to execute because of requiring admin
+        priveleges to run any program that matches the simple search pattern
+        *patch*.exe - fixed with a manifest
+
+2.0   02.06.13 - BJS
+      * Updated the Bazaar installation to include the bzrtools plugins as
+        bzr patch is a requirement of the KiCad build now
+
+1.0   04.01.13 - BJS
+      * Added built-in build environment ready for a first binary release
+
+      * Added check to see if source if already up-to-date. If it is then
+        don't update the code or rebuild the codebase. Fixes bug #1065553
+
+0.9   03.01.13 - BJS
+      * Added SHELL=CMD to wxPython build line to prevent sh from MSYS or
+        WinAVR from preventing wxPython to build. As Cmake fails too, the
+        script checks for sh and returns with a graceful error message if it
+        is present in the environment path. Fixes bug #979001 #979002
+
+      * Added cmd /c to bzr commands so that cmake can execute bzr batch files
+        which is necessary when bzr is installed as python.
+        Fixes bug #1081915
+
+      * Checked code surrounding removal of dead archives, it works. However
+        cmake does not barf on 0 length .tar.bz2 archive so incorrect download
+        needs to be detected seperately. This is a bug in cmake.
+        Fixes bug #1083292
+
+0.8   03.08.12 - BJS
+      * Decreased the number of jobs to decrease the memory overhead required
+        to build KiCad. With -j over 4Gb is required otherwise, even for a
+        release build
+
+      02.08.12 - BJS
+      * Pumped wxPython to 2.9.4 because MinGW 4.7.0 (now installed as
+        default by mingw-get) fails to build 2.9.2
+      * Sped up compilation by including the -j flag on the KiCad build. It
+        cannot be added to the wxPython build as this fails several times
+        before setup.h is created
+
+0.7   13.04.12 - BJS
+      * Fixed version string information using 'make rebuild_cache'
+
+      03.02.11 - BJS
+      * Fix for MinGW-get URL from Sourceforge. Fixes bug #909809 reported by
+        Ian Woloschin
+      * Fix to fix the file structure if wxPython failed to download. Fixes
+        bug #892467 reported by Krzysztof Wesolowski
+
+      11.08.11 - BJS
+      * Added pcb_calculator.exe to the executable list to be copied to the
+        bin directory. Fixes bug #823159
+
+0.6   04.08.11 - BJS
+      * Pumped wxPython to 2.9.2 - no need to patch for localisation bug
+      * Changed cmake requirement from 2.6.4 to 2.8.2 due to requiring bz2
+        support in CPack
+      * Default optimisation level set to -O2
+      * Upon successful build, binaries and MinGW dependancies are copied to
+        the /bin directory so that they can be run in-place without having to
+        be installed
+
+0.5   01.08.11 - BJS
+      * Fixed broken MinGW installer download link. Hopefully they will move
+        to a stable version soon
+      * Added a newline to the "Configuring KiCad ..." messages as bzr doesn't
+        insert a newline after a checkout, and it uses \r to keep progress on
+        the current line
+      * Fixed spelling mistake in mingw stderr log file
+      * Added an error message if the script fails to build KiCad instead of
+        silently finishing without building
+      * Fixed if/endif mismatch in wxWidget build block
+
+0.4   01.07.11 - BJS
+      * Simplified the way Bazaar is used and instead of branching lp:kicad
+        only checkout lp:kicad and then update.
+      * This script must be run without the source code being already branched
+        otherwise the update will always pass as the source is a branch and
+        not a checkout of the remote head
+
+      28.06.11 - BJS
+      * Fixed bug in wxPython build check. Should be ${nnn} instead of nnn
+      * Command line settings do not appear to propogate, so build is Release
+        by default, but can still be selected as Debug by changing the setting
+        in the script
+      * Added tree revert before merging as an option. This is the default
+        behaviour and now merging is an option as the target audience for this
+        script should really use it with vanilla sources. Changes to the
+        source should be at developer level who should be able to put together
+        a development environment, or at least be able to use bazaar manually
+      * Fixed variable expansion bugs in Bazaar merging logic
+      * Got rid of needless debug message
+
+      23.06.11 - BJS
+      * Fixed bug when updating source code - bzr stdout redirected to
+        variable, but bzr also asks for credentials sometimes; hence stdout
+        should not be redirected
+      * Added check for bzr credentials with "bzr whoami". This needs to be
+        done on a fresh bzr install
+      * Fixed a bug in the bzr update logic. It is essential to merge AND
+        commit, otherwise the second merge will fail with an uncommitted
+        changes error from bzr
+      * Fixed the error checking for wxPython source code
+      * Compile only release or debug version of wxPython depending on which
+        version of KiCad is being targetted
+
+0.3   15.06.11 - BJS
+      * Fixed bug with updating source code - from bzr up to bzr merge
+      * Added several failure points, along with useful messages to inform the
+        user of why the script (or external) failed
+      * Moved wx source code to the src directory!
+
+0.2   13.06.11 - BJS
+      * Added variables for all directories
+
+      08.06.11 - BJS
+      * Correctly detect previously installed gcc compiler
+      * Simplified wxPython installation check by removing the check for a
+        system install. Instead, only the KiCad install is supported
+      * Added revision number printing so that it is easy to tell what
+        revision is being built
+      * Fixed configuring KiCad, no longer configures the project if it is not
+        needed
+
+0.1
+      03.06.11 - BJS
+      * Tidied up the script, added more useful comments
+      * First complete script capable of building KiCad
+

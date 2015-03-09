@@ -1,0 +1,12 @@
+[name *.png]
+eol = exact
+
+[name *.pdf]
+eol = exact
+
+[name *.sh]
+eol = lf
+
+[name *]
+eol = native
+
