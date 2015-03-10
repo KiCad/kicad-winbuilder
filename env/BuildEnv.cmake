@@ -84,7 +84,7 @@ macro( download_msys2mingw_package PACKAGE MD5 )
     # Don't repeat things when building the build environment
     if( NOT EXISTS "${DOWNLOADS_DIR}/${PACKAGE}" )
 
-        set( _PKG_URL "http://sourceforge.net/projects/msys2/files/Base/i686/${PACKAGE}/download" )
+        set( _PKG_URL "http://sourceforge.net/projects/msys2/files/Base/x86_64/${PACKAGE}/download" )
         #set( _PKG_URL "http://sourceforge.net/projects/msys2/files/REPOS/MINGW/i686/${PACKAGE}/download" )
 
         message( STATUS "Downloading ${PACKAGE}" )
