@@ -10,12 +10,19 @@
 # Usage:
 #
 # Build the KiCad winbuilder environment by running the command line:
-#     cmake -P GenerateEnvironment.cmake
+#
+#     cmake -P BuildEnv.cmake
+#
+# or else on windows you can run
+#
+#     make.bat
+#
+# from this directory
 #
 #
 # Licence:
 #
-# Copyright (C) 2011-2013 Brian Sidebotham
+# Copyright (C) 2011-2015 Brian Sidebotham
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -39,35 +46,26 @@
 #
 # Using only cmake, this script can generate a complete, isolated build
 # environment for KiCad Winbuilder
-#
-#
-#-------------------------------------------------------------------------------
-#
-# Version history:
-#
-#     See CHANGELOG
-#
 
 # ------------------------------------------------------------------------------
 #
 # Minimum cmake version required for this script
 
-cmake_minimum_required(VERSION 2.8.2)
+cmake_minimum_required( VERSION 2.8.8 )
 
 # We need a temporary directory for somewhere to download files to
 set( DOWNLOADS_DIR "${CMAKE_SOURCE_DIR}/.downloads" )
 
-# Set the binary directory and make sure it exists
-set( BIN_DIR "${CMAKE_SOURCE_DIR}/mingw32/bin" )
-file( MAKE_DIRECTORY "${BIN_DIR}" )
+set( BIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bin" )
+if( NOT EXISTS "${BIN_DIR}" )
+    file( MAKE_DIRECTORY "${BIN_DIR}" )
+endif()
 
-# We need 7-zip in order to extract the MSYS2 package
-
+# We need 7-zip in order to extract MSYS2 packages without requiring 7z to be required.
 set( SEVENZ_URL     http://downloads.sourceforge.net/sevenzip/7za920.zip )
 set( SEVENZ_MD5     2fac454a90ae96021f4ffc607d4c00f8 )
 set( SEVENZ_FN      7za920.zip )
 set( SEVENZ_COMMAND "${BIN_DIR}/7za.exe" )
-
 
 # Download and install an msys MinGW i686 package
 macro( download_msys2mingw_package PACKAGE MD5 )
@@ -82,7 +80,8 @@ macro( download_msys2mingw_package PACKAGE MD5 )
         file( DOWNLOAD "${_PKG_URL}" "${DOWNLOADS_DIR}/${PACKAGE}"
               EXPECTED_MD5 "${MD5}"
               STATUS _sts
-              LOG lg )
+              LOG lg
+              SHOW_PROGRESS )
 
         list( GET _sts 0 sts_code )
         list( GET _sts 1 sts_string )
@@ -104,9 +103,15 @@ macro( download_msys2mingw_package PACKAGE MD5 )
             ERROR_VARIABLE error
             RESULT_VARIABLE result )
 
+        if( NOT ${result} EQUAL 0 )
+            message( STATUS "7z result ${result}" )
+            message( STATUS "7z output ${output}" )
+            message( STATUS "7z error ${error}" )
+        endif()
+
         # Remove the .xz part of the filename because 7-zip extracts the tar from the tar.xz
         string( LENGTH "${PACKAGE}" _FN_LEN )
-        math( EXPR _SUBLEN "${_FN_LEN} - 2" )
+        math( EXPR _SUBLEN "${_FN_LEN} - 3" )
         string( SUBSTRING "${PACKAGE}" 0 ${_SUBLEN} _TAR_FN )
 
         # Now use Cmake's internal tar implementation to extract mingw-w64
@@ -118,7 +123,6 @@ macro( download_msys2mingw_package PACKAGE MD5 )
             RESULT_VARIABLE result )
 
         if( NOT ${result} EQUAL 0 )
-
             message( FATAL_ERROR
                 " ${PACKAGE} extraction FAILED!\n"
                 "  ERROR: ${error}\n"
@@ -129,8 +133,6 @@ macro( download_msys2mingw_package PACKAGE MD5 )
 endmacro()
 
 # ------------------------------------------------------------------------------
-
-
 
 message( STATUS "Downloading and installing 7zip" )
 
@@ -170,37 +172,65 @@ if( NOT ${result} EQUAL 0 )
 
 endif()
 
+# ------------------------------------------------------------------------------
+
+# tee so that we can split the stdout and stderr streams into log file and
+# console
+set( TEE_URL        https://wintee.googlecode.com/files/wtee.exe )
+set( TEE_MD5        836bf5c65101a8977b8c1704472c6fcd )
+set( TEE_FN         wtee.exe )
+
+message( STATUS "Downloading and installing tee" )
+
+file( DOWNLOAD ${TEE_URL} "${BIN_DIR}/${TEE_FN}"
+        EXPECTED_MD5 ${TEE_MD5}
+        STATUS status
+        LOG log )
+
+list( GET status 0 status_code )
+list( GET status 1 status_string )
+
+if( NOT ${status_code} EQUAL 0 )
+
+    message( FATAL_ERROR
+            " tee download FAILED!\n"
+            "    URL: ${TEE_URL}\n"
+            "   CODE: ${status_code}\n"
+            " STRING: ${status_string}\n"
+            "    LOG: ${log}\n" )
+
+endif()
 
 # ------------------------------------------------------------------------------
 
-message( STATUS "Installing MSYS2" )
+set( MSYS2 msys32 )
 
-download_msys2mingw_package( msys2-base-i686-20150202.tar.xz
-                             cf6c40b999a8d20085a18eb64c51c99f )
+if( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2} )
 
-return()
+    message( STATUS "Installing MSYS2 Base" )
 
-# See https://github.com/Alexpux/MSYS2-packages/blob/master/msys2-installer/make-msys2-installer.bat
-# for setup information
+    download_msys2mingw_package( msys2-base-i686-20150202.tar.xz
+                                cf6c40b999a8d20085a18eb64c51c99f )
+endif()
 
-message( STATUS "Running pacman... ${CMAKE_CURRENT_SOURCE_DIR}/msys32/usr/bin/bash.exe" )
-execute_process( COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/msys32/usr/bin/bash.exe -l -c "pacman --needed --noconfirm -Sy bash pacman pacman-mirrors msys2-runtime"
-    RESULT_VARIABLE _PAC_RESULT
-    ERROR_VARIABLE _PAC_ERROR
-    OUTPUT_VARIABLE _PAC_OUTPUT )
+macro( execute_msys2_bash CMD )
+    message( STATUS "Running ${CMD}" )
 
-message( STATUS "Running pacman... ${CMAKE_CURRENT_SOURCE_DIR}/msys32/usr/bin/bash.exe" )
-execute_process( COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/msys32/usr/bin/bash.exe -l -c "pacman --needed --noconfirm -Sy bash pacman pacman-mirrors msys2-runtime"
-    RESULT_VARIABLE _PAC_RESULT
-    ERROR_VARIABLE _PAC_ERROR
-    OUTPUT_VARIABLE _PAC_OUTPUT )
+    execute_process(
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/usr/bin/bash.exe -l -c ${CMD}
+        RESULT_VARIABLE CMD_RESULT )
 
-message( STATUS "Result: ${_PAC_RESULT}\nError: ${_PAC_ERROR}\nOutput${_PAC_OUTPUT}\n" )
+endmacro()
 
-message( STATUS "Running pacman.... ${CMAKE_CURRENT_SOURCE_DIR}/msys32/usr/bin/bash.exe" )
-execute_process( COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/msys32/usr/bin/bash.exe -l -c "pacman -Syu git --noconfirm"
-    RESULT_VARIABLE _PAC_RESULT
-    ERROR_VARIABLE _PAC_ERROR
-    OUTPUT_VARIABLE _PAC_OUTPUT )
+# According to section III of http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/
+# we should:
 
-message( STATUS "Result: ${_PAC_RESULT}\nError: ${_PAC_ERROR}\nOutput${_PAC_OUTPUT}\n" )
+execute_msys2_bash( "pacman --noconfirm -Sy" )
+execute_msys2_bash( "pacman --noconfirm --needed -S bash pacman pacman-mirrors msys2-runtime" )
+
+# is using msys 32-bit (apparently not required for 64-bit)
+execute_process( COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/autorebase.bat )
+
+# Final update and then we're ready to use msys2...
+execute_msys2_bash( "pacman --noconfirm -Su" )
+
