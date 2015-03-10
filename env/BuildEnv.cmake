@@ -245,7 +245,9 @@ execute_process( COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/autorebase.bat )
 
 # Final update and then we're ready to use msys2...
 execute_msys2_bash( "pacman --noconfirm -Su" )
+
 execute_msys2_bash( "pacman --noconfirm -S git mingw-w64-x86_64-toolchain" )
+execute_msys2_bash( "pacman --noconfirm -Su" )
 
 execute_msys2_bash( "git clone https://github.com/Alexpux/MINGW-packages.git" )
 
