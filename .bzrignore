@@ -1,6 +1,0 @@
-.bzrignore
-env/bazaar
-env/cmake
-env/mingw
-env/patch
-env/temp

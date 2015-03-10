@@ -61,6 +61,17 @@ if( NOT EXISTS "${BIN_DIR}" )
     file( MAKE_DIRECTORY "${BIN_DIR}" )
 endif()
 
+# Decide between msys32 and msys64
+if( i686 )
+    set( MSYS2 msys32 )
+    set( MSYS2_PACKAGE msys2-base-i686-20150202.tar.xz )
+    set( MSYS2_MD5 cf6c40b999a8d20085a18eb64c51c99f )
+else()
+    set( MSYS2 msys64 )
+    set( MSYS2_PACKAGE msys2-base-x86_64-20150202.tar.xz )
+    set( MSYS2_MD5 0155b909f450d45427a51633851a81df )
+endif()
+
 # We need 7-zip in order to extract MSYS2 packages without requiring 7z to be required.
 set( SEVENZ_URL     http://downloads.sourceforge.net/sevenzip/7za920.zip )
 set( SEVENZ_MD5     2fac454a90ae96021f4ffc607d4c00f8 )
@@ -133,43 +144,45 @@ macro( download_msys2mingw_package PACKAGE MD5 )
 endmacro()
 
 # ------------------------------------------------------------------------------
+if( NOT EXISTS "${BIN_DIR}/${SEVENZ_COMMAND}" )
 
-message( STATUS "Downloading and installing 7zip" )
+    message( STATUS "Downloading and installing 7zip" )
 
-file( DOWNLOAD "${SEVENZ_URL}" "${DOWNLOADS_DIR}/${SEVENZ_FN}"
-        EXPECTED_MD5 "${SEVENZ_MD5}"
-        STATUS status
-        LOG log )
+    file( DOWNLOAD "${SEVENZ_URL}" "${DOWNLOADS_DIR}/${SEVENZ_FN}"
+            EXPECTED_MD5 "${SEVENZ_MD5}"
+            STATUS status
+            LOG log )
 
-list( GET status 0 status_code )
-list( GET status 1 status_string )
+    list( GET status 0 status_code )
+    list( GET status 1 status_string )
 
-if( NOT ${status_code} EQUAL 0 )
+    if( NOT ${status_code} EQUAL 0 )
 
-    message( FATAL_ERROR
-            " 7-Zip download FAILED!\n"
-            "    URL: ${SEVENZ_URL}\n"
-            "   FILE: ${DOWNLOADS_DIR}/${SEVENZ_FN}\n"
-            "   CODE: ${status_code}\n"
-            " STRING: ${status_string}\n"
-            "    LOG: ${log}\n" )
+        message( FATAL_ERROR
+                " 7-Zip download FAILED!\n"
+                "    URL: ${SEVENZ_URL}\n"
+                "   FILE: ${DOWNLOADS_DIR}/${SEVENZ_FN}\n"
+                "   CODE: ${status_code}\n"
+                " STRING: ${status_string}\n"
+                "    LOG: ${log}\n" )
 
-endif()
+    endif()
 
-execute_process(
-        COMMAND ${CMAKE_COMMAND} -E tar xzf "${DOWNLOADS_DIR}/${SEVENZ_FN}"
-        WORKING_DIRECTORY "${BIN_DIR}"
-        OUTPUT_VARIABLE output
-        ERROR_VARIABLE error
-        RESULT_VARIABLE result )
+    execute_process(
+            COMMAND ${CMAKE_COMMAND} -E tar xzf "${DOWNLOADS_DIR}/${SEVENZ_FN}"
+            WORKING_DIRECTORY "${BIN_DIR}"
+            OUTPUT_VARIABLE output
+            ERROR_VARIABLE error
+            RESULT_VARIABLE result )
 
-if( NOT ${result} EQUAL 0 )
+    if( NOT ${result} EQUAL 0 )
 
-    message( FATAL_ERROR
-            "7-Zip Installation failed!\n"
-            "  ERROR: ${error}\n"
-            " OUTPUT: ${output}\n" )
+        message( FATAL_ERROR
+                "7-Zip Installation failed!\n"
+                "  ERROR: ${error}\n"
+                " OUTPUT: ${output}\n" )
 
+    endif()
 endif()
 
 # ------------------------------------------------------------------------------
@@ -180,37 +193,36 @@ set( TEE_URL        https://wintee.googlecode.com/files/wtee.exe )
 set( TEE_MD5        836bf5c65101a8977b8c1704472c6fcd )
 set( TEE_FN         wtee.exe )
 
-message( STATUS "Downloading and installing tee" )
+if( NOT EXISTS "${BIN_DIR}/${TEE_FN}" )
 
-file( DOWNLOAD ${TEE_URL} "${BIN_DIR}/${TEE_FN}"
-        EXPECTED_MD5 ${TEE_MD5}
-        STATUS status
-        LOG log )
+    message( STATUS "Downloading and installing tee" )
 
-list( GET status 0 status_code )
-list( GET status 1 status_string )
+    file( DOWNLOAD ${TEE_URL} "${BIN_DIR}/${TEE_FN}"
+            EXPECTED_MD5 ${TEE_MD5}
+            STATUS status
+            LOG log )
 
-if( NOT ${status_code} EQUAL 0 )
+    list( GET status 0 status_code )
+    list( GET status 1 status_string )
 
-    message( FATAL_ERROR
-            " tee download FAILED!\n"
-            "    URL: ${TEE_URL}\n"
-            "   CODE: ${status_code}\n"
-            " STRING: ${status_string}\n"
-            "    LOG: ${log}\n" )
+    if( NOT ${status_code} EQUAL 0 )
 
+        message( FATAL_ERROR
+                " tee download FAILED!\n"
+                "    URL: ${TEE_URL}\n"
+                "   CODE: ${status_code}\n"
+                " STRING: ${status_string}\n"
+                "    LOG: ${log}\n" )
+
+    endif()
 endif()
-
 # ------------------------------------------------------------------------------
-
-set( MSYS2 msys32 )
 
 if( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2} )
 
     message( STATUS "Installing MSYS2 Base" )
+    download_msys2mingw_package( ${MSYS2_PACKAGE} ${MSYS2_MD5} )
 
-    download_msys2mingw_package( msys2-base-i686-20150202.tar.xz
-                                cf6c40b999a8d20085a18eb64c51c99f )
 endif()
 
 macro( execute_msys2_bash CMD )
@@ -233,4 +245,10 @@ execute_process( COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/autorebase.bat )
 
 # Final update and then we're ready to use msys2...
 execute_msys2_bash( "pacman --noconfirm -Su" )
+execute_msys2_bash( "pacman --noconfirm -S git mingw-w64-i686-toolchain" )
+
+execute_msys2_bash( "git clone https://github.com/Alexpux/MINGW-packages.git" )
+
+# Actually build KiCad
+execute_msys2_bash( "cd ~/MINGW-packages/mingw-w64-kicad-git && makepkg-mingw -s --noconfirm" )
 
