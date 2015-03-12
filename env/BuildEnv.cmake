@@ -56,7 +56,8 @@ cmake_minimum_required( VERSION 2.8.8 )
 # We need a temporary directory for somewhere to download files to
 set( DOWNLOADS_DIR "${CMAKE_SOURCE_DIR}/.downloads" )
 
-set( BIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bin" )
+set( SUPPORT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/support" )
+set( BIN_DIR "${SUPPORT_DIR}/bin" )
 if( NOT EXISTS "${BIN_DIR}" )
     file( MAKE_DIRECTORY "${BIN_DIR}" )
 endif()
@@ -66,26 +67,21 @@ if( i686 )
     set( MSYS2 msys32 )
     set( MSYS2_PACKAGE msys2-base-i686-20150202.tar.xz )
     set( MSYS2_MD5 cf6c40b999a8d20085a18eb64c51c99f )
+    set( ARCH i686 )
 else()
     set( MSYS2 msys64 )
     set( MSYS2_PACKAGE msys2-base-x86_64-20150202.tar.xz )
     set( MSYS2_MD5 0155b909f450d45427a51633851a81df )
+    set( ARCH x86_64 )
 endif()
 
-# We need 7-zip in order to extract MSYS2 packages without requiring 7z to be required.
-set( SEVENZ_URL     http://downloads.sourceforge.net/sevenzip/7za920.zip )
-set( SEVENZ_MD5     2fac454a90ae96021f4ffc607d4c00f8 )
-set( SEVENZ_FN      7za920.zip )
-set( SEVENZ_COMMAND "${BIN_DIR}/7za.exe" )
-
 # Download and install an msys MinGW i686 package
-macro( download_msys2mingw_package PACKAGE MD5 )
+macro( download_msys2mingw_base_package PACKAGE MD5 )
 
     # Don't repeat things when building the build environment
     if( NOT EXISTS "${DOWNLOADS_DIR}/${PACKAGE}" )
 
-        set( _PKG_URL "http://sourceforge.net/projects/msys2/files/Base/x86_64/${PACKAGE}/download" )
-        #set( _PKG_URL "http://sourceforge.net/projects/msys2/files/REPOS/MINGW/i686/${PACKAGE}/download" )
+        set( _PKG_URL "http://sourceforge.net/projects/msys2/files/Base/${ARCH}/${PACKAGE}/download" )
 
         message( STATUS "Downloading ${PACKAGE}" )
         file( DOWNLOAD "${_PKG_URL}" "${DOWNLOADS_DIR}/${PACKAGE}"
@@ -143,13 +139,11 @@ macro( download_msys2mingw_package PACKAGE MD5 )
     endif()
 endmacro()
 
-# ------------------------------------------------------------------------------
-if( NOT EXISTS "${BIN_DIR}/${SEVENZ_COMMAND}" )
+macro( download_and_install URL MD5 FN WD )
+    message( STATUS "Downloading and installing ${FN}" )
 
-    message( STATUS "Downloading and installing 7zip" )
-
-    file( DOWNLOAD "${SEVENZ_URL}" "${DOWNLOADS_DIR}/${SEVENZ_FN}"
-            EXPECTED_MD5 "${SEVENZ_MD5}"
+    file( DOWNLOAD "${URL}" "${DOWNLOADS_DIR}/${FN}"
+            EXPECTED_MD5 "${MD5}"
             STATUS status
             LOG log )
 
@@ -157,33 +151,53 @@ if( NOT EXISTS "${BIN_DIR}/${SEVENZ_COMMAND}" )
     list( GET status 1 status_string )
 
     if( NOT ${status_code} EQUAL 0 )
-
         message( FATAL_ERROR
-                " 7-Zip download FAILED!\n"
-                "    URL: ${SEVENZ_URL}\n"
-                "   FILE: ${DOWNLOADS_DIR}/${SEVENZ_FN}\n"
+                " ${FN} download FAILED!\n"
+                "    URL: ${URL}\n"
                 "   CODE: ${status_code}\n"
                 " STRING: ${status_string}\n"
                 "    LOG: ${log}\n" )
-
     endif()
 
+    # If the download is a zip file...
     execute_process(
-            COMMAND ${CMAKE_COMMAND} -E tar xzf "${DOWNLOADS_DIR}/${SEVENZ_FN}"
-            WORKING_DIRECTORY "${BIN_DIR}"
+            COMMAND ${CMAKE_COMMAND} -E tar xzf "${DOWNLOADS_DIR}/${FN}"
+            WORKING_DIRECTORY "${WD}"
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
             RESULT_VARIABLE result )
 
     if( NOT ${result} EQUAL 0 )
-
         message( FATAL_ERROR
-                "7-Zip Installation failed!\n"
+                "${FN} Installation failed!\n"
                 "  ERROR: ${error}\n"
                 " OUTPUT: ${output}\n" )
-
     endif()
+endmacro()
+
+# ------------------------------------------------------------------------------
+
+# We need 7-zip in order to extract MSYS2 packages without requiring 7z to be required.
+set( SEVENZ_URL     http://downloads.sourceforge.net/sevenzip/7za920.zip )
+set( SEVENZ_MD5     2fac454a90ae96021f4ffc607d4c00f8 )
+set( SEVENZ_FN      7za920.zip )
+set( SEVENZ_COMMAND "${BIN_DIR}/7za.exe" )
+
+if( NOT EXISTS "${BIN_DIR}/${SEVENZ_COMMAND}" )
+    download_and_install( "${SEVENZ_URL}" "${SEVENZ_MD5}" "${SEVENZ_FN}" "${BIN_DIR}" )
 endif()
+
+# ------------------------------------------------------------------------------
+
+set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%203%20Pre-release/3.0b1/nsis-3.0b1.zip/download )
+set( NSIS_MD5 b0760ddb5308f2e20d44d70fc3eb2b3d )
+set( NSIS_FN nsis-3.0b1.zip )
+
+#set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%202/2.46/nsis-2.46.zip/download )
+#set( NSIS_MD5 d7e43beabc017a7d892a3d6663e988d4 )
+#set( NSIS_FN nsis-2.46.zip )
+
+download_and_install( "${NSIS_URL}" "${NSIS_MD5}" "${NSIS_FN}" "${SUPPORT_DIR}" )
 
 # ------------------------------------------------------------------------------
 
@@ -221,7 +235,7 @@ endif()
 if( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2} )
 
     message( STATUS "Installing MSYS2 Base" )
-    download_msys2mingw_package( ${MSYS2_PACKAGE} ${MSYS2_MD5} )
+    download_msys2mingw_base_package( ${MSYS2_PACKAGE} ${MSYS2_MD5} )
 
 endif()
 
@@ -240,13 +254,13 @@ endmacro()
 execute_msys2_bash( "pacman --noconfirm -Sy" )
 execute_msys2_bash( "pacman --noconfirm --needed -S bash pacman pacman-mirrors msys2-runtime" )
 
-# is using msys 32-bit (apparently not required for 64-bit)
-execute_process( COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/autorebase.bat )
+# if using msys 32-bit (apparently not required for 64-bit)
+execute_process( COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/autorebase.bat" )
 
 # Final update and then we're ready to use msys2...
 execute_msys2_bash( "pacman --noconfirm -Su" )
 
-execute_msys2_bash( "pacman --noconfirm -S git make mingw-w64-x86_64-toolchain" )
+execute_msys2_bash( "pacman --noconfirm -S git make mingw-w64-${ARCH}-toolchain" )
 execute_msys2_bash( "pacman --noconfirm -Su" )
 
 execute_msys2_bash( "git clone https://github.com/Alexpux/MINGW-packages.git" )
