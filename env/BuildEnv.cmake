@@ -62,17 +62,29 @@ if( NOT EXISTS "${BIN_DIR}" )
     file( MAKE_DIRECTORY "${BIN_DIR}" )
 endif()
 
-# Decide between msys32 and msys64
-if( i686 )
-    set( MSYS2 msys32 )
-    set( MSYS2_PACKAGE msys2-base-i686-20150202.tar.xz )
-    set( MSYS2_MD5 cf6c40b999a8d20085a18eb64c51c99f )
-    set( ARCH i686 )
-else()
+# Discover if we're on Windows 64-bit or 32-bit to determine which msys to use
+set( WINDOWS_DIR $ENV{WINDIR} )
+if( EXISTS "${WINDOWS_DIR}/SysWOW64" )
     set( MSYS2 msys64 )
     set( MSYS2_PACKAGE msys2-base-x86_64-20150202.tar.xz )
     set( MSYS2_MD5 0155b909f450d45427a51633851a81df )
     set( ARCH x86_64 )
+else()
+    set( MSYS2 msys32 )
+    set( MSYS2_PACKAGE msys2-base-i686-20150202.tar.xz )
+    set( MSYS2_MD5 cf6c40b999a8d20085a18eb64c51c99f )
+    set( ARCH i686 )
+endif()
+
+# Select the target architectures...
+set( TOOLCHAIN_PACKAGES "" )
+
+if( i686 )
+    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-i686-toolchain" )
+endif()
+
+if( x86_64 )
+    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain" )
 endif()
 
 # Download and install an msys MinGW i686 package
@@ -189,13 +201,15 @@ endif()
 
 # ------------------------------------------------------------------------------
 
-set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%203%20Pre-release/3.0b1/nsis-3.0b1.zip/download )
-set( NSIS_MD5 b0760ddb5308f2e20d44d70fc3eb2b3d )
-set( NSIS_FN nsis-3.0b1.zip )
+#set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%203%20Pre-release/3.0b1/nsis-3.0b1.zip/download )
+#set( NSIS_MD5 b0760ddb5308f2e20d44d70fc3eb2b3d )
+#set( NSIS_FN nsis-3.0b1.zip )
+#set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-3.0b1/Bin/makensis.exe" )
 
-#set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%202/2.46/nsis-2.46.zip/download )
-#set( NSIS_MD5 d7e43beabc017a7d892a3d6663e988d4 )
-#set( NSIS_FN nsis-2.46.zip )
+set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%202/2.46/nsis-2.46.zip/download )
+set( NSIS_MD5 d7e43beabc017a7d892a3d6663e988d4 )
+set( NSIS_FN nsis-2.46.zip )
+set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-2.46/makensis.exe" )
 
 download_and_install( "${NSIS_URL}" "${NSIS_MD5}" "${NSIS_FN}" "${SUPPORT_DIR}" )
 
@@ -230,6 +244,7 @@ if( NOT EXISTS "${BIN_DIR}/${TEE_FN}" )
 
     endif()
 endif()
+
 # ------------------------------------------------------------------------------
 
 if( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2} )
@@ -260,11 +275,29 @@ execute_process( COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/autorebase.bat" )
 # Final update and then we're ready to use msys2...
 execute_msys2_bash( "pacman --noconfirm -Su" )
 
-execute_msys2_bash( "pacman --noconfirm -S git make mingw-w64-${ARCH}-toolchain" )
+# Get the initial required packages and then update pacman again
+execute_msys2_bash( "pacman --noconfirm -S git make ${TOOLCHAIN_PACKAGES}" )
 execute_msys2_bash( "pacman --noconfirm -Su" )
 
+# Get the MinGW packages source from github so we can get the official MSYS2
+# KiCad pacman package source
 execute_msys2_bash( "git clone https://github.com/Alexpux/MINGW-packages.git" )
 
 # Actually build KiCad
 execute_msys2_bash( "cd ~/MINGW-packages/mingw-w64-kicad-git && makepkg-mingw -s --noconfirm" )
+
+# Get the home directory
+file( GLOB HOME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/home/*" )
+message( STATUS "HOME_DIR ${HOME_DIR}" )
+
+set( KICAD_PACKAGE_SOURCE_DIR "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git/" )
+file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/COPYRIGHT.txt"
+      DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" )
+
+# Copy the whole NSIS packaging directory to the built package
+file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
+      DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" )
+
+execute_process( COMMAND ${NSIS_MAKE_COMMAND} "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis/install.nsi"
+    WORKING_DIRECTORY  "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis" )
 

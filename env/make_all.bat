@@ -2,5 +2,5 @@
 
 REM Build the KiCad Winbuilder build environment
 
-cmake -Dx86_64=ON -P BuildEnv.cmake
+cmake -Di686=ON -Dx86_64 -P BuildEnv.cmake
 pause
