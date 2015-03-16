@@ -1,6 +1,3 @@
 @ECHO OFF
-
-REM Build the KiCad Winbuilder build environment
-
-cmake -Di686=ON -P BuildEnv.cmake
+cmake -Di686=ON -P KiCad-Winbuilder.cmake
 pause
