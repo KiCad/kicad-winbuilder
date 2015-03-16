@@ -68,15 +68,15 @@ if( EXISTS "${WINDOWS_DIR}/SysWOW64" )
     set( MSYS2 msys64 )
     set( MSYS2_PACKAGE msys2-base-x86_64-20150202.tar.xz )
     set( MSYS2_MD5 0155b909f450d45427a51633851a81df )
-    set( ARCH x86_64 )
+    set( HOST_ARCH x86_64 )
 else()
     set( MSYS2 msys32 )
     set( MSYS2_PACKAGE msys2-base-i686-20150202.tar.xz )
     set( MSYS2_MD5 cf6c40b999a8d20085a18eb64c51c99f )
-    set( ARCH i686 )
+    set( HOST_ARCH i686 )
 endif()
 
-# Select the target architectures...
+# Select the target architecture(s)...
 set( TOOLCHAIN_PACKAGES "" )
 
 if( i686 )
@@ -93,7 +93,7 @@ macro( download_msys2mingw_base_package PACKAGE MD5 )
     # Don't repeat things when building the build environment
     if( NOT EXISTS "${DOWNLOADS_DIR}/${PACKAGE}" )
 
-        set( _PKG_URL "http://sourceforge.net/projects/msys2/files/Base/${ARCH}/${PACKAGE}/download" )
+        set( _PKG_URL "http://sourceforge.net/projects/msys2/files/Base/${HOST_ARCH}/${PACKAGE}/download" )
 
         message( STATUS "Downloading ${PACKAGE}" )
         file( DOWNLOAD "${_PKG_URL}" "${DOWNLOADS_DIR}/${PACKAGE}"
@@ -288,16 +288,37 @@ execute_msys2_bash( "cd ~/MINGW-packages/mingw-w64-kicad-git && makepkg-mingw -s
 
 # Get the home directory
 file( GLOB HOME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/home/*" )
-message( STATUS "HOME_DIR ${HOME_DIR}" )
-
 set( KICAD_PACKAGE_SOURCE_DIR "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git/" )
-file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/COPYRIGHT.txt"
-      DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" )
 
-# Copy the whole NSIS packaging directory to the built package
-file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
-      DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" )
+# Copy the runtime helper script to the MSYS2 system
+file( COPY "${CMAKE_SOURCE_DIR}/copydlls.sh" DESTINATION "${HOME_DIR}/copydlls.sh" )
 
-execute_process( COMMAND ${NSIS_MAKE_COMMAND} "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis/install.nsi"
-    WORKING_DIRECTORY  "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis" )
+# Run through the installer process for each architecture
+if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" AND i686 )
+    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
+          DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" )
+    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/COPYRIGHT.txt"
+        DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" )
+
+    # Copy the runtime requirements (shared objects mainly)
+    execute_msys2_bash( "~/copydlls.sh --arch=i686 --pkgpath=~/MINGW-packages.mingw-w64-kicad-git" )
+
+    # Package the whole lot into a new installer
+    execute_process( COMMAND ${NSIS_MAKE_COMMAND} "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis/install.nsi"
+        WORKING_DIRECTORY  "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis" )
+endif()
+
+if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw64" AND x86_64 )
+    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
+          DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw64" )
+    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/COPYRIGHT.txt"
+        DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw64" )
+
+    # Copy the runtime requirements (shared objects mainly)
+    execute_msys2_bash( "~/copydlls.sh --arch=x86_64 --pkgpath=~/MINGW-packages.mingw-w64-kicad-git" )
+
+    # Package the whole lot into a new installer
+    execute_process( COMMAND ${NSIS_MAKE_COMMAND} "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis/install.nsi"
+        WORKING_DIRECTORY  "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw64/nsis" )
+endif()
 
