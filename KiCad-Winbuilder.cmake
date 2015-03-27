@@ -259,7 +259,7 @@ macro( execute_msys2_bash CMD LOG )
     message( STATUS "Running ${CMD}" )
 
     execute_process(
-        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/usr/bin/bash.exe -l -c ${CMD}
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/usr/bin/bash.exe -l -c ${CMD} 2>&1
         COMMAND "${TEE_COMMAND}" ${LOG}
         RESULT_VARIABLE CMD_RESULT )
 
@@ -291,7 +291,7 @@ message( STATUS "KICAD_PACKAGE_SOURCE_DIR ${KICAD_PACKAGE_SOURCE_DIR}" )
 
 # Get the MinGW packages project for MSYS2
 if( NOT EXISTS "${HOME_DIR}/MINGW-packages" )
-    execute_msys2_bash( "cd ~ %% git clone https://github.com/Alexpux/MINGW-packages.git" log6 )
+    execute_msys2_bash( "cd ~ && git clone https://github.com/Alexpux/MINGW-packages.git" log6 )
 endif()
 
 set( EXPORT_CARCH "" )
