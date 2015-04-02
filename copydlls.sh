@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script is intended to copy the relevant dll's and other KiCad binaries
+# This script is intedned to copy the relevant dll's and other KiCad binaries
 # from the MSYS2 version of the KiCad build, for standalone inclusion in the
 # NSIS installer, which is run in the end of this script.
 
@@ -10,7 +10,8 @@ display_help() {
     echo "  -h, --help           This help message"
     echo "  -a, --arch=ARCH      Determine arch for packaging"
     echo "  -p, --pkgpath=PATH   Path to pkg.tar.xz package"
-    exit 0
+	echo "  -m, --makensis=PATH  Path to makensis.exe"
+	echo "  -s, --nsispath=PATH  Path to the NSIS packaging scripts"
 }
 
 decode_arch() {
@@ -67,12 +68,46 @@ case $i in
     decode_pkg
     shift
     ;;
+	-m=*|--makensis=*)
+    MAKENSIS="${i#*=}"
+    echo "\$MAKENSIS=$MAKENSIS"
+    decode_pkg
+    shift
+    ;;
+	-s=*|--nsispath=*)
+    NSISPATH="${i#*=}"
+    echo "\$NSISPATH=$NSISPATH"
+    decode_pkg
+    shift
+    ;;
+	-o=*|--outdir=*)
+    OUTDIR="${i#*=}"
+    echo "\$OUTDIR=$OUTDIR"
+    decode_pkg
+    shift
+    ;;
     *)
     echo "Unknown option, see the help info below:"
     display_help
     ;;
 esac
 done
+
+# Temporary dir to store the file structure
+if [ -z $OUTDIR ]; then
+	OUTDIR="$HOME/out"
+	echo "warn: using hardcoded outdir path"
+fi
+# Path to the KiCad NSIS scripts
+if [ -z $NSISPATH ]; then
+	NSISPATH="$HOME/kicad-windows-nsis-packaging/nsis"
+	echo "warn: using hardcoded nsis path"
+fi
+# Path to the NSIS compiler
+if [ -z $MAKENSIS ]; then
+	MAKENSIS="$HOME/NSIS-bin/Bin/makensis.exe"
+	echo "warn: using hardcoded makensis path"
+fi
 
 # Sets some other variables depending on the ARCH set
 handle_arch() {
@@ -95,14 +130,6 @@ handle_arch() {
         exit 0
     fi
 }
-
-
-# Temporary dir to store the file structure
-OUTDIR="$HOME/out"
-# Path to the KiCad NSIS scripts
-NSISPATH="$HOME/kicad-windows-nsis-packaging/nsis"
-# Path to the NSIS compiler
-MAKENSIS="$HOME/NSIS-bin/Bin/makensis.exe"
 
 copystuff() {
     SEARCHLIST=( \
@@ -163,6 +190,7 @@ makensis() {
         //DOPTION_STRING="native-mingw-with-scripting-$ARCH" \
         //DPRODUCT_VERSION=$VERSION \
         //DOUTFILE="..\kicad-product-$VERSION-$ARCH.exe" \
+        //DARCH="$ARCH" \
         install.nsi
     cd -
 }
@@ -195,13 +223,3 @@ if [[ $entry == *"pkg.tar.xz"* ]]; then
     makensis
 fi
 done
-
-
-
-
-
-
-
-
-
-

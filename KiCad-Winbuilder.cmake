@@ -46,7 +46,11 @@
 #
 # Using only cmake, this script can generate a complete, isolated build
 # environment for KiCad Winbuilder
-
+#
+# TODO
+# * Make it such that the pacman commands is not run every time after it has
+#   been setup once. Maybe write a file indicating that it should not update.
+# * Better handling of the packaged packages output, and remove old pkg.tar.xz
 # ------------------------------------------------------------------------------
 #
 # Minimum cmake version required for this script
@@ -201,15 +205,15 @@ endif()
 
 # ------------------------------------------------------------------------------
 
-#set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%203%20Pre-release/3.0b1/nsis-3.0b1.zip/download )
-#set( NSIS_MD5 b0760ddb5308f2e20d44d70fc3eb2b3d )
-#set( NSIS_FN nsis-3.0b1.zip )
-#set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-3.0b1/Bin/makensis.exe" )
+set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%203%20Pre-release/3.0b1/nsis-3.0b1.zip/download )
+set( NSIS_MD5 b0760ddb5308f2e20d44d70fc3eb2b3d )
+set( NSIS_FN nsis-3.0b1.zip )
+set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-3.0b1/Bin/makensis.exe" )
 
-set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%202/2.46/nsis-2.46.zip/download )
-set( NSIS_MD5 d7e43beabc017a7d892a3d6663e988d4 )
-set( NSIS_FN nsis-2.46.zip )
-set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-2.46/makensis.exe" )
+#set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%202/2.46/nsis-2.46.zip/download )
+#set( NSIS_MD5 d7e43beabc017a7d892a3d6663e988d4 )
+#set( NSIS_FN nsis-2.46.zip )
+#set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-2.46/makensis.exe" )
 
 download_and_install( "${NSIS_URL}" "${NSIS_MD5}" "${NSIS_FN}" "${SUPPORT_DIR}" )
 
@@ -268,18 +272,19 @@ endmacro()
 # According to section III of http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/
 # we should:
 
-execute_msys2_bash( "pacman --noconfirm -Sy" log1 )
-execute_msys2_bash( "pacman --noconfirm --needed -S bash pacman pacman-mirrors msys2-runtime" log2 )
+# execute_msys2_bash( "pacman --noconfirm -Sy" log1 )
+# execute_msys2_bash( "pacman --noconfirm --needed -S bash pacman pacman-mirrors msys2-runtime" log2 )
 
-# if using msys 32-bit (apparently not required for 64-bit)
-execute_process( COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/autorebase.bat" )
+# # if using msys 32-bit (apparently not required for 64-bit)
+# execute_process( COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/autorebase.bat" )
 
-# Final update and then we're ready to use msys2...
-execute_msys2_bash( "pacman --noconfirm -Su" log3 )
+# # Final update and then we're ready to use msys2...
+# execute_msys2_bash( "pacman --noconfirm -Su" log3 )
 
-# Get the initial required packages and then update pacman again
-execute_msys2_bash( "pacman --noconfirm -S git make ${TOOLCHAIN_PACKAGES}" log4 )
-execute_msys2_bash( "pacman --noconfirm -Su" log5 )
+# # Get the initial required packages and then update pacman again
+# execute_msys2_bash( "pacman --noconfirm -S git make ${TOOLCHAIN_PACKAGES}" log4 )
+# execute_msys2_bash( "pacman --noconfirm -Su" log5 )
+
 
 # Get the MinGW packages source from github so we can get the official MSYS2
 # KiCad pacman package source
@@ -288,6 +293,8 @@ file( GLOB HOME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${MSYS2}/home/*" )
 set( KICAD_PACKAGE_SOURCE_DIR "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git/" )
 message( STATUS "HOME_DIR ${HOME_DIR}" )
 message( STATUS "KICAD_PACKAGE_SOURCE_DIR ${KICAD_PACKAGE_SOURCE_DIR}" )
+get_filename_component( USERNAME ${HOME_DIR} NAME )
+message( STATUS "MSYS2 user name is: $USERNAME=${USERNAME}" )
 
 # Get the MinGW packages project for MSYS2
 if( NOT EXISTS "${HOME_DIR}/MINGW-packages" )
@@ -302,7 +309,7 @@ elseif( NOT i686 AND x86_64 )
 endif()
 
 # Actually build KiCad
-execute_msys2_bash( "cd ~/MINGW-packages/mingw-w64-kicad-git && ${EXPORT_CARCH} makepkg-mingw -s --noconfirm" log7 )
+###execute_msys2_bash( "cd ${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git && ${EXPORT_CARCH} makepkg-mingw -s --noconfirm" log7 )
 
 
 # Copy the runtime helper script to the MSYS2 system
@@ -310,30 +317,30 @@ file( COPY "${CMAKE_SOURCE_DIR}/copydlls.sh" DESTINATION "${HOME_DIR}/" )
 
 # Run through the installer process for each architecture
 if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" AND i686 )
-    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
-          DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" )
-    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/COPYRIGHT.txt"
-        DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" )
+#    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
+    file( COPY "${CMAKE_CURRENT_SOURCE_DIR}/nsis"
+          DESTINATION "${HOME_DIR}" )
 
     # Copy the runtime requirements (shared objects mainly)
-    execute_msys2_bash( "~/copydlls.sh --arch=i686 --pkgpath=~/MINGW-packages.mingw-w64-kicad-git" log8 )
-
-    # Package the whole lot into a new installer
-    execute_process( COMMAND ${NSIS_MAKE_COMMAND} "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis/install.nsi"
-        WORKING_DIRECTORY  "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32/nsis" )
+	execute_msys2_bash( "$HOME/copydlls.sh \
+						 --arch=i686 \
+						 --pkgpath=$HOME/MINGW-packages/mingw-w64-kicad-git \
+						 --nsispath=$HOME/nsis \
+						 --makensis=${NSIS_MAKE_COMMAND}"
+						 log8 )
 endif()
 
 if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw64" AND x86_64 )
-    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
-          DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw64" )
-    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/COPYRIGHT.txt"
-        DESTINATION "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw64" )
+#    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
+	file( COPY "${CMAKE_CURRENT_SOURCE_DIR}/nsis"
+          DESTINATION "${HOME_DIR}" )
 
     # Copy the runtime requirements (shared objects mainly)
-    execute_msys2_bash( "~/copydlls.sh --arch=x86_64 --pkgpath=~/MINGW-packages.mingw-w64-kicad-git" log9 )
-
-    # Package the whole lot into a new installer
-    execute_process( COMMAND ${NSIS_MAKE_COMMAND} "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw64/nsis/install.nsi"
-        WORKING_DIRECTORY  "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw64/nsis" )
+    execute_msys2_bash( "~/copydlls.sh \
+	                     --arch=x86_64 \
+						 --pkgpath=\$HOME/MINGW-packages/mingw-w64-kicad-git \
+						 --nsispath=${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw32/nsis \
+						 --makensis=${NSIS_MAKE_COMMAND}"
+						 log9 )
 endif()
 
