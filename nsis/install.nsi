@@ -53,13 +53,16 @@ Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 !endif
 OutFile ${OUTFILE}
 
-!if ${ARCH} == 'x86_64'
-  InstallDir "$PROGRAMFILES64\KiCad"
-!else
-  InstallDir "$PROGRAMFILES\KiCad"
-!endif
+;The installer does now install correctly when installing to %PROGRAMFILES%.
+;Seems like it is installed in the VirtualStore and no exe or dll's present.
+; Probably needs raised privileges.
+;!if ${ARCH} == 'x86_64'
+;  InstallDir "$PROGRAMFILES64\KiCad"
+;!else
+;  InstallDir "$PROGRAMFILES\KiCad"
+;!endif
 
-;InstallDir "C:\KiCad"
+InstallDir "C:\KiCad"
 
 ShowInstDetails show
 ShowUnInstDetails show

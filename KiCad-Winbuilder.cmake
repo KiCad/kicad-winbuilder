@@ -51,6 +51,9 @@
 # * Make it such that the pacman commands is not run every time after it has
 #   been setup once. Maybe write a file indicating that it should not update.
 # * Better handling of the packaged packages output, and remove old pkg.tar.xz
+# * In the nsis script, the installer does now install correctly when installing
+#   to %PROGRAMFILES%. Seems like it is installed in the VirtualStore and no exe
+#   or dll's present. Probably needs raised privileges.
 # ------------------------------------------------------------------------------
 #
 # Minimum cmake version required for this script
@@ -309,7 +312,7 @@ elseif( NOT i686 AND x86_64 )
 endif()
 
 # Actually build KiCad
-###execute_msys2_bash( "cd ${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git && ${EXPORT_CARCH} makepkg-mingw -s --noconfirm" log7 )
+execute_msys2_bash( "cd ${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git && ${EXPORT_CARCH} makepkg-mingw -s --noconfirm" log7 )
 
 
 # Copy the runtime helper script to the MSYS2 system

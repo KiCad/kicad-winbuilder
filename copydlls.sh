@@ -10,8 +10,8 @@ display_help() {
     echo "  -h, --help           This help message"
     echo "  -a, --arch=ARCH      Determine arch for packaging"
     echo "  -p, --pkgpath=PATH   Path to pkg.tar.xz package"
-	echo "  -m, --makensis=PATH  Path to makensis.exe"
-	echo "  -s, --nsispath=PATH  Path to the NSIS packaging scripts"
+    echo "  -m, --makensis=PATH  Path to makensis.exe"
+    echo "  -s, --nsispath=PATH  Path to the NSIS packaging scripts"
 }
 
 decode_arch() {
@@ -156,6 +156,9 @@ copystuff() {
         "libiconv*.dll" \
         "zlib*.dll" \
         "libintl*.dll" \
+        "libtiff*.dll" \
+        "libjbig*.dll" \
+        "liblzma*.dll" \
         "libpython*.dll" )
 
     #echo Copying kicad binaries and stuff...
