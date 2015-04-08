@@ -163,38 +163,40 @@ macro( download_msys2mingw_base_package PACKAGE MD5 )
 endmacro()
 
 macro( download_and_install URL MD5 FN WD )
-    message( STATUS "Downloading and installing ${FN}" )
+    if( NOT EXISTS "${DOWNLOADS_DIR}/${FN}" )
+        message( STATUS "Downloading and installing ${FN}" )
 
-    file( DOWNLOAD "${URL}" "${DOWNLOADS_DIR}/${FN}"
-            EXPECTED_MD5 "${MD5}"
-            STATUS status
-            LOG log )
+        file( DOWNLOAD "${URL}" "${DOWNLOADS_DIR}/${FN}"
+                EXPECTED_MD5 "${MD5}"
+                STATUS status
+                LOG log )
 
-    list( GET status 0 status_code )
-    list( GET status 1 status_string )
+        list( GET status 0 status_code )
+        list( GET status 1 status_string )
 
-    if( NOT ${status_code} EQUAL 0 )
-        message( FATAL_ERROR
-                " ${FN} download FAILED!\n"
-                "    URL: ${URL}\n"
-                "   CODE: ${status_code}\n"
-                " STRING: ${status_string}\n"
-                "    LOG: ${log}\n" )
-    endif()
+        if( NOT ${status_code} EQUAL 0 )
+            message( FATAL_ERROR
+                    " ${FN} download FAILED!\n"
+                    "    URL: ${URL}\n"
+                    "   CODE: ${status_code}\n"
+                    " STRING: ${status_string}\n"
+                    "    LOG: ${log}\n" )
+        endif()
 
-    # If the download is a zip file...
-    execute_process(
-            COMMAND ${CMAKE_COMMAND} -E tar xzf "${DOWNLOADS_DIR}/${FN}"
-            WORKING_DIRECTORY "${WD}"
-            OUTPUT_VARIABLE output
-            ERROR_VARIABLE error
-            RESULT_VARIABLE result )
+        # If the download is a zip file...
+        execute_process(
+                COMMAND ${CMAKE_COMMAND} -E tar xzf "${DOWNLOADS_DIR}/${FN}"
+                WORKING_DIRECTORY "${WD}"
+                OUTPUT_VARIABLE output
+                ERROR_VARIABLE error
+                RESULT_VARIABLE result )
 
-    if( NOT ${result} EQUAL 0 )
-        message( FATAL_ERROR
-                "${FN} Installation failed!\n"
-                "  ERROR: ${error}\n"
-                " OUTPUT: ${output}\n" )
+        if( NOT ${result} EQUAL 0 )
+            message( FATAL_ERROR
+                    "${FN} Installation failed!\n"
+                    "  ERROR: ${error}\n"
+                    " OUTPUT: ${output}\n" )
+        endif()
     endif()
 endmacro()
 
@@ -294,7 +296,7 @@ if( NOT EXISTS "${LOG_DIR}/pacman_initial" )
     execute_msys2_bash( "pacman --noconfirm -Su" "${LOG_DIR}/pacman_update" )
 endif()
 
-if( NOT EXISTS "${CMAKE_SOURCE_DIR}/pacman_required_packages" )
+if( NOT EXISTS "${LOG_DIR}/pacman_required_packages" )
     # Get the initial required packages and then update pacman again
     execute_msys2_bash( "pacman --noconfirm -S git make ${TOOLCHAIN_PACKAGES}" "${LOG_DIR}/pacman_required_packages" )
     execute_msys2_bash( "pacman --noconfirm -Su" "${LOG_DIR}/pacman_required_packages_update" )
