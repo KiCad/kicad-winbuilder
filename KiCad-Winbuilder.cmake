@@ -50,7 +50,7 @@
 #
 # TODO
 # * Better handling of the packaged packages output, and remove old pkg.tar.xz
-# * In the nsis script, the installer does now install correctly when installing
+# * In the nsis script, the installer does not install correctly when installing
 #   to %PROGRAMFILES%. Seems like it is installed in the VirtualStore and no exe
 #   or dll's present. Probably needs raised privileges.
 # ------------------------------------------------------------------------------
