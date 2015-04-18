@@ -1,0 +1,82 @@
+# Maintainer: Alexey Pavlov <alexpux@gmail.com>
+
+_realname=kicad
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
+pkgver=r6982.bd199b8
+pkgrel=1
+pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork"
+arch=('any')
+url="http://www.kicad-pcb.org"
+license=("GPL2+")
+provides=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+depends=("${MINGW_PACKAGE_PREFIX}-boost"
+        "${MINGW_PACKAGE_PREFIX}-cairo"
+        "${MINGW_PACKAGE_PREFIX}-glew"
+        "${MINGW_PACKAGE_PREFIX}-openssl"
+        "${MINGW_PACKAGE_PREFIX}-wxPython"
+        "${MINGW_PACKAGE_PREFIX}-wxWidgets")
+makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
+             "${MINGW_PACKAGE_PREFIX}-gcc"
+             "${MINGW_PACKAGE_PREFIX}-python2"
+             "${MINGW_PACKAGE_PREFIX}-pkg-config"
+             "${MINGW_PACKAGE_PREFIX}-swig"
+             "bzr"
+             "git"
+             "doxygen")
+source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
+#        "${_realname}-docs"::"bzr+https://code.launchpad.net/~kicad-developers/kicad/doc"
+        "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
+       )
+md5sums=('SKIP'
+#         'SKIP'
+         'SKIP'
+        )
+
+pkgver() {
+  cd "$srcdir/$_realname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  # Configure and build KiCad.
+  [[ -d build-${MINGW_CHOST} ]] && rm -r build-${MINGW_CHOST}
+  mkdir build-${MINGW_CHOST} && cd build-${MINGW_CHOST}
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G"MSYS Makefiles" \
+    -DCMAKE_PREFIX_PATH=${MINGW_PREFIX} \
+    -DCMAKE_INSTALL_PREFIX=${pkgdir}${MINGW_PREFIX} \
+    -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
+    -DKICAD_SKIP_BOOST=ON \
+    -DKICAD_SCRIPTING=ON \
+    -DKICAD_SCRIPTING_MODULES=ON \
+    -DKICAD_SCRIPTING_WXPYTHON=ON \
+    -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
+    ../$_realname
+    #-DVERBOSE=1
+
+  make
+
+  cd ../
+
+  # Configure the library installation build.
+  [[ -d build-libs ]] && rm -r build-libs
+  mkdir build-libs && cd build-libs
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${pkgdir}${MINGW_PREFIX} \
+    ../${_realname}-libs
+
+}
+
+package() {
+  # Install KiCad.
+  cd build-${MINGW_CHOST}
+  make install
+
+  cd ../
+
+  # Install KiCad libraries.
+  cd build-libs
+  make install
+}

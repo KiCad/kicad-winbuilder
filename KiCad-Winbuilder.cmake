@@ -87,7 +87,7 @@ else()
     set( HOST_ARCH i686 )
 endif()
 
-# Select the target architecture(s)...
+# Select the target architecture(s) specified from cmake command...
 set( TOOLCHAIN_PACKAGES "" )
 
 if( i686 )
@@ -292,6 +292,11 @@ if( NOT EXISTS "${LOG_DIR}/pacman_initial" )
             COMMAND "${TEE_COMMAND}" "${LOGDIR}/autorebase" )
     endif()
 
+	# Append our own mirror
+	file( APPEND "${CMAKE_SOURCE_DIR}/${MSYS2}/etc/pacman.d/mirrorlist.mingw32" "\nServer = https://www2.futureware.at/~nickoe/msys2-mirror/mingw32" )
+	file( APPEND "${CMAKE_SOURCE_DIR}/${MSYS2}/etc/pacman.d/mirrorlist.mingw64" "\nServer = https://www2.futureware.at/~nickoe/msys2-mirror/mingw64" )
+	file( APPEND "${CMAKE_SOURCE_DIR}/${MSYS2}/etc/pacman.d/mirrorlist.msys" "\nServer = https://www2.futureware.at/~nickoe/msys2-mirror/msys2-$arch" )
+
     # Final update and then we're ready to use msys2...
     execute_msys2_bash( "pacman --noconfirm -Su" "${LOG_DIR}/pacman_update" )
 endif()
@@ -323,6 +328,9 @@ if( i686 AND NOT x86_64 )
 elseif( NOT i686 AND x86_64 )
     set( EXPORT_CARCH "export CARCH=x86_64 &&" )
 endif()
+
+# Copy proper PKGBUILD (without bzr docs!)
+file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD" DESTINATION "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git" )
 
 # Actually build KiCad
 execute_msys2_bash( "cd ${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git && ${EXPORT_CARCH} makepkg-mingw -s --noconfirm" "${LOG_DIR}/makepkg" )
