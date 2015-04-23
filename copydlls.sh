@@ -68,19 +68,19 @@ case $i in
     decode_pkg
     shift
     ;;
-	-m=*|--makensis=*)
+    -m=*|--makensis=*)
     MAKENSIS="${i#*=}"
     echo "\$MAKENSIS=$MAKENSIS"
     decode_pkg
     shift
     ;;
-	-s=*|--nsispath=*)
+    -s=*|--nsispath=*)
     NSISPATH="${i#*=}"
     echo "\$NSISPATH=$NSISPATH"
     decode_pkg
     shift
     ;;
-	-o=*|--outdir=*)
+    -o=*|--outdir=*)
     OUTDIR="${i#*=}"
     echo "\$OUTDIR=$OUTDIR"
     decode_pkg
@@ -95,18 +95,18 @@ done
 
 # Temporary dir to store the file structure
 if [ -z $OUTDIR ]; then
-	OUTDIR="$HOME/out"
-	echo "warn: using hardcoded outdir path"
+    OUTDIR="$HOME/out"
+    echo "warn: using hardcoded outdir path"
 fi
 # Path to the KiCad NSIS scripts
 if [ -z $NSISPATH ]; then
-	NSISPATH="$HOME/kicad-windows-nsis-packaging/nsis"
-	echo "warn: using hardcoded nsis path"
+    NSISPATH="$HOME/kicad-windows-nsis-packaging/nsis"
+    echo "warn: using hardcoded nsis path"
 fi
 # Path to the NSIS compiler
 if [ -z $MAKENSIS ]; then
-	MAKENSIS="$HOME/NSIS-bin/Bin/makensis.exe"
-	echo "warn: using hardcoded makensis path"
+    MAKENSIS="$HOME/NSIS-bin/Bin/makensis.exe"
+    echo "warn: using hardcoded makensis path"
 fi
 
 # Sets some other variables depending on the ARCH set
@@ -118,7 +118,7 @@ handle_arch() {
         echo "error: ARCH is not set"
         exit 0
     fi
-     
+
     if [ "$ARCH" == "x86_64" ]; then
         echo 64bit
         MINGWBIN="mingw64"
@@ -175,7 +175,12 @@ copystuff() {
 
     echo Copying lib/python2.7...
     cp -r "$MSYSDIR/lib/python2.7/" "$TARGETDIR/lib/"
-    rm -f $TARGETDIR/lib/python2.7/config/libpython2.7.dll.a # Not really needed
+    # Get rid of any parts of the python install that are not required by
+    # a KiCad installation
+    rm -f "$TARGETDIR/lib/python2.7/config/libpython2.7.dll.a"
+    rm -rf "$TARGETDIR/lib/python2.7/test"
+    find "${TARGETDIR}/lib/python2.7/" -name "*.pyc" -type f -delete
+    find "${TARGETDIR}/lib/python2.7/" -name "*.pyo" -type f -delete
 
     echo Copying python.exe...
     cp $MSYSDIR/bin/python.exe $TARGETDIR/bin
@@ -188,7 +193,7 @@ copystuff() {
 makensis() {
     cd $TARGETDIR/nsis
     pwd
-    echo "This is still a work in progress... but GPL..." > ../COPYRIGHT.txt 
+    echo "This is still a work in progress... but GPL..." > ../COPYRIGHT.txt
     $MAKENSIS \
         //DOPTION_STRING="native-mingw-with-scripting-$ARCH" \
         //DPRODUCT_VERSION=$VERSION \
@@ -206,13 +211,13 @@ if [[ $entry == *"pkg.tar.xz"* ]]; then
     echo "Decoded pkg is $ARCH and $VERSION"
     handle_arch
     echo $ARCH $ARCH
-    
+
     TARGETDIR="$OUTDIR/pack-$ARCH"
     MSYSDIR="/$MINGWBIN"
 
     echo "\$TARGETDIR=$TARGETDIR"
     echo "\$MSYSDIR=$MSYSDIR"
-    
+
     echo Output will be in $TARGETDIR
     if [ -e $TARGETDIR ]; then
         rm -rf $TARGETDIR/*
@@ -220,7 +225,7 @@ if [[ $entry == *"pkg.tar.xz"* ]]; then
     mkdir -p $TARGETDIR/bin
     mkdir -p $TARGETDIR/lib
     mkdir -p $TARGETDIR/include
-    
+
     copystuff
     extract_pkg $entry $TARGETDIR
     makensis
