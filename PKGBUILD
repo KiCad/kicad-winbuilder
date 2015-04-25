@@ -35,7 +35,7 @@ md5sums=('SKIP'
 
 pkgver() {
   cd "$srcdir/$_realname"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  printf "r%s.%s" "$(git rev-list --count --first-parent HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
