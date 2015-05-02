@@ -91,11 +91,11 @@ endif()
 set( TOOLCHAIN_PACKAGES "" )
 
 if( i686 )
-    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-i686-toolchain" )
+    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-i686-toolchain mingw-w64-i686-boost mingw-w64-i686-cairo mingw-w64-i686-glew mingw-w64-i686-openssl mingw-w64-i686-wxPython mingw-w64-i686-wxWidgets mingw-w64-i686-cmake mingw-w64-i686-gcc mingw-w64-i686-python2 mingw-w64-i686-pkg-config mingw-w64-i686-swig bzr git doxygen" )
 endif()
 
 if( x86_64 )
-    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain" )
+    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain mingw-w64-x86_64-boost mingw-w64-x86_64-cairo mingw-w64-x86_64-glew mingw-w64-x86_64-openssl mingw-w64-x86_64-wxPython mingw-w64-x86_64-wxWidgets mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 mingw-w64-x86_64-pkg-config mingw-w64-x86_64-swig bzr git doxygen" )
 endif()
 
 # Download and install an msys MinGW i686 package
@@ -284,9 +284,10 @@ endmacro()
 if( NOT EXISTS "${LOG_DIR}/pacman_initial" )
     execute_msys2_bash( "pacman --noconfirm -Sy" "${LOG_DIR}/pacman_initial" )
     execute_msys2_bash( "pacman --noconfirm --needed -S bash pacman pacman-mirrors msys2-runtime" "${LOG_DIR}/pacman_bash" )
+    execute_msys2_bash( "pacman --noconfirm --needed -S ca-certificates" "${LOG_DIR}/pacman_bash2" )
 
     # if using msys 32-bit (apparently not required for 64-bit)
-    if( "${MSYS}" STREQUAL "msys2" )
+    if( "${MSYS}" STREQUAL "msys32" )
         execute_process(
             COMMAND "${CMAKE_SOURCE_DIR}/${MSYS2}/autorebase.bat" 2>&1
             COMMAND "${TEE_COMMAND}" "${LOGDIR}/autorebase" )
