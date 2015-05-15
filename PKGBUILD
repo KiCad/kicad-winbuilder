@@ -24,11 +24,11 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "bzr"
              "git"
              "doxygen")
-source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
+source=(#"${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
 #        "${_realname}-docs"::"bzr+https://code.launchpad.net/~kicad-developers/kicad/doc"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
        )
-md5sums=('SKIP'
+md5sums=(#'SKIP'
 #         'SKIP'
          'SKIP'
         )
@@ -40,24 +40,24 @@ pkgver() {
 
 build() {
   # Configure and build KiCad.
-  [[ -d build-${MINGW_CHOST} ]] && rm -r build-${MINGW_CHOST}
-  mkdir build-${MINGW_CHOST} && cd build-${MINGW_CHOST}
-  ${MINGW_PREFIX}/bin/cmake.exe \
-    -G"MSYS Makefiles" \
-    -DCMAKE_PREFIX_PATH=${MINGW_PREFIX} \
-    -DCMAKE_INSTALL_PREFIX=${pkgdir}${MINGW_PREFIX} \
-    -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
-    -DKICAD_SKIP_BOOST=ON \
-    -DKICAD_SCRIPTING=ON \
-    -DKICAD_SCRIPTING_MODULES=ON \
-    -DKICAD_SCRIPTING_WXPYTHON=ON \
-    -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
-    ../$_realname
+#  [[ -d build-${MINGW_CHOST} ]] && rm -r build-${MINGW_CHOST}
+#  mkdir build-${MINGW_CHOST} && cd build-${MINGW_CHOST}
+#  ${MINGW_PREFIX}/bin/cmake.exe \
+#    -G"MSYS Makefiles" \
+#    -DCMAKE_PREFIX_PATH=${MINGW_PREFIX} \
+#    -DCMAKE_INSTALL_PREFIX=${pkgdir}${MINGW_PREFIX} \
+#    -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
+#    -DKICAD_SKIP_BOOST=ON \
+#    -DKICAD_SCRIPTING=ON \
+#    -DKICAD_SCRIPTING_MODULES=ON \
+#    -DKICAD_SCRIPTING_WXPYTHON=ON \
+#    -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
+#    ../$_realname
     #-DVERBOSE=1
 
-  make
+#  make
 
-  cd ../
+#  cd ../
 
   # Configure the library installation build.
   [[ -d build-libs ]] && rm -r build-libs
@@ -71,10 +71,10 @@ build() {
 
 package() {
   # Install KiCad.
-  cd build-${MINGW_CHOST}
-  make install
+#  cd build-${MINGW_CHOST}
+#  make install
 
-  cd ../
+#  cd ../
 
   # Install KiCad libraries.
   cd build-libs
