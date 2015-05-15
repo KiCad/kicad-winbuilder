@@ -64,7 +64,7 @@ build() {
   mkdir build-libs && cd build-libs
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
-    -DCMAKE_INSTALL_PREFIX=${pkgdir}${MINGW_PREFIX} \
+    -DCMAKE_INSTALL_PREFIX="//${pkgdir}${MINGW_PREFIX}" \
     ../${_realname}-libs
 
 }
