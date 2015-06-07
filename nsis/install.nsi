@@ -225,7 +225,6 @@ SectionEnd
 Section -CreateShortcuts
   SetOutPath $INSTDIR
   WriteIniStr "$INSTDIR\HomePage.url"     "InternetShortcut" "URL" "${KICAD_MAIN_SITE}"
-  WriteIniStr "$INSTDIR\AltDownloadSite.url" "InternetShortcut" "URL" "${ALT_DOWNLOAD_WEB_SITE}"
   WriteIniStr "$INSTDIR\UserGroup.url"    "InternetShortcut" "URL" "${HELP_WEB_SITE}"
   WriteIniStr "$INSTDIR\DevelGroup.url"   "InternetShortcut" "URL" "${DEVEL_WEB_SITE}"
   WriteIniStr "$INSTDIR\LibrariesGroup.url" "InternetShortcut" "URL" "${LIBRARIES_WEB_SITE}"
@@ -233,14 +232,19 @@ Section -CreateShortcuts
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\KiCad"
   CreateShortCut "$SMPROGRAMS\KiCad\Home Page.lnk" "$INSTDIR\HomePage.url"
-  CreateShortCut "$SMPROGRAMS\KiCad\Kicad Alternate Download.lnk" "$INSTDIR\AltDownloadSite.url"
-  CreateShortCut "$SMPROGRAMS\KiCad\Kicad Libraries.lnk" "$INSTDIR\LibrariesGroup.url"
+  CreateShortCut "$SMPROGRAMS\KiCad\KiCad Alternate Download.lnk" "$INSTDIR\AltDownloadSite.url"
+  CreateShortCut "$SMPROGRAMS\KiCad\KiCad Libraries.lnk" "$INSTDIR\LibrariesGroup.url"
   CreateShortCut "$SMPROGRAMS\KiCad\Wings3D.lnk" "$INSTDIR\Wings3D.url"
-  CreateShortCut "$SMPROGRAMS\KiCad\User Group.lnk" "$INSTDIR\UserGroup.url"
-  CreateShortCut "$SMPROGRAMS\KiCad\Devel Group.lnk" "$INSTDIR\DevelGroup.url"
+  CreateShortCut "$SMPROGRAMS\KiCad\KiCad User Group.lnk" "$INSTDIR\UserGroup.url"
+  CreateShortCut "$SMPROGRAMS\KiCad\KiCad Devel Group.lnk" "$INSTDIR\DevelGroup.url"
   CreateShortCut "$SMPROGRAMS\KiCad\Uninstall.lnk" "$INSTDIR\uninstaller.exe"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad.lnk" "$INSTDIR\bin\kicad.exe"
-  CreateShortCut "$SMPROGRAMS\KiCad\pcbnew.lnk" "$INSTDIR\bin\pcbnew.exe"
+  CreateShortCut "$SMPROGRAMS\KiCad\Eeschema.lnk" "$INSTDIR\bin\eeschema.exe"
+  CreateShortCut "$SMPROGRAMS\KiCad\Pcbnew.lnk" "$INSTDIR\bin\pcbnew.exe"
+  CreateShortCut "$SMPROGRAMS\KiCad\Gerbview.lnk" "$INSTDIR\bin\gerbview.exe"
+  CreateShortCut "$SMPROGRAMS\KiCad\Bitmap2component.lnk" "$INSTDIR\bin\bitmap2component.exe"
+  CreateShortCut "$SMPROGRAMS\KiCad\PCB calculator.lnk" "$INSTDIR\bin\pcb_calculator.exe"
+  CreateShortCut "$SMPROGRAMS\KiCad\Pagelayout editor.lnk" "$INSTDIR\bin\pl_editor.exe"
   CreateShortCut "$DESKTOP\KiCad.lnk" "$INSTDIR\bin\kicad.exe"
 SectionEnd
 
