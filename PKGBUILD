@@ -54,7 +54,7 @@ prepare() {
     echo "DELETING"
     rm ${srcdir}/kicad/CMakeModules/CreateGitVersionHeader.cmake
   fi
-  patch -p1 -i ../../git-cmake-version-v2.patch
+##  patch -p1 -i ../../git-cmake-version-v2.patch
 }
 
 build() {
