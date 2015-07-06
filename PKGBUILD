@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=r5762.d3b3131
+pkgver=r5886.94ad141
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork"
 arch=('any')
@@ -54,7 +54,7 @@ prepare() {
     echo "DELETING"
     rm ${srcdir}/kicad/CMakeModules/CreateGitVersionHeader.cmake
   fi
-##  patch -p1 -i ../../git-cmake-version-v2.patch
+  patch -p1 -i ../../git-cmake-version-v3.patch
 }
 
 build() {
