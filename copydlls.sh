@@ -154,7 +154,6 @@ copystuff() {
         "zlib*.dll" \
         "libintl*.dll" \
         "libtiff*.dll" \
-        "libjbig*.dll" \
         "liblzma*.dll" \
         "libpython*.dll" )
 
@@ -191,7 +190,7 @@ makensis() {
     cd $TARGETDIR/nsis
     pwd
     echo "This is still a work in progress... but GPL..." > ../COPYRIGHT.txt
-    $MAKENSIS \
+    "$MAKENSIS" \
         //DOPTION_STRING="native-mingw-with-scripting-$ARCH" \
         //DPRODUCT_VERSION=$VERSION \
         //DOUTFILE="..\kicad-product-$VERSION-$ARCH.exe" \
@@ -222,6 +221,7 @@ if [[ $entry == *"pkg.tar.xz"* ]]; then
     mkdir -p $TARGETDIR/bin
     mkdir -p $TARGETDIR/lib
     mkdir -p $TARGETDIR/include
+    #mkdir -p $TARGETDIR/nsis
 
     copystuff
     extract_pkg $entry $TARGETDIR
