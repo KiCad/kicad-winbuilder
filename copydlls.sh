@@ -71,19 +71,16 @@ case $i in
     -m=*|--makensis=*)
     MAKENSIS="${i#*=}"
     echo "\$MAKENSIS=$MAKENSIS"
-    decode_pkg
     shift
     ;;
     -s=*|--nsispath=*)
     NSISPATH="${i#*=}"
     echo "\$NSISPATH=$NSISPATH"
-    decode_pkg
     shift
     ;;
     -o=*|--outdir=*)
     OUTDIR="${i#*=}"
     echo "\$OUTDIR=$OUTDIR"
-    decode_pkg
     shift
     ;;
     *)
@@ -96,17 +93,17 @@ done
 # Temporary dir to store the file structure
 if [ -z $OUTDIR ]; then
     OUTDIR="$HOME/out"
-    echo "warn: using hardcoded outdir path"
+    echo "warning: using hardcoded outdir path"
 fi
 # Path to the KiCad NSIS scripts
 if [ -z $NSISPATH ]; then
     NSISPATH="$HOME/kicad-windows-nsis-packaging/nsis"
-    echo "warn: using hardcoded nsis path"
+    echo "warning: using hardcoded nsis path"
 fi
 # Path to the NSIS compiler
 if [ -z $MAKENSIS ]; then
     MAKENSIS="$HOME/NSIS-bin/Bin/makensis.exe"
-    echo "warn: using hardcoded makensis path"
+    echo "warning: using hardcoded makensis path"
 fi
 
 # Sets some other variables depending on the ARCH set
