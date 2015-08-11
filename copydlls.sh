@@ -91,17 +91,17 @@ esac
 done
 
 # Temporary dir to store the file structure
-if [ -z $OUTDIR ]; then
+if [ -z "$OUTDIR" ]; then
     OUTDIR="$HOME/out"
     echo "warning: using hardcoded outdir path"
 fi
 # Path to the KiCad NSIS scripts
-if [ -z $NSISPATH ]; then
+if [ -z "$NSISPATH" ]; then
     NSISPATH="$HOME/kicad-windows-nsis-packaging/nsis"
     echo "warning: using hardcoded nsis path"
 fi
 # Path to the NSIS compiler
-if [ -z $MAKENSIS ]; then
+if [ -z "$MAKENSIS" ]; then
     MAKENSIS="$HOME/NSIS-bin/Bin/makensis.exe"
     echo "warning: using hardcoded makensis path"
 fi
@@ -163,18 +163,18 @@ copystuff() {
     echo Copying dll depends...
     for i in ${SEARCHLIST[@]}; do
         echo $i
-        find $MSYSDIR/bin -name $i | xargs cp -t $TARGETDIR/bin
+        find "$MSYSDIR/bin" -name $i | xargs cp -t "$TARGETDIR/bin"
     done
 
     echo Copying include/python2.7...
-    cp -r $MSYSDIR/include/python2.7 $TARGETDIR/include
+    cp -r "$MSYSDIR/include/python2.7" "$TARGETDIR/include"
 
     echo Copying lib/python2.7...
     cp -r "$MSYSDIR/lib/python2.7/" "$TARGETDIR/lib/"
     # Get rid of any parts of the python install that are not required by
     # a KiCad installation
-    rm -f "$TARGETDIR/lib/python2.7/config/libpython2.7.dll.a"
-    rm -rf "$TARGETDIR/lib/python2.7/test"
+    rm -f "${TARGETDIR}/lib/python2.7/config/libpython2.7.dll.a"
+    rm -rf "${TARGETDIR}/lib/python2.7/test"
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyc" -type f -delete
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyo" -type f -delete
 
@@ -187,7 +187,7 @@ copystuff() {
 
 
 makensis() {
-    cd $TARGETDIR/nsis
+    cd "$TARGETDIR/nsis"
     pwd
     echo "This is still a work in progress... but GPL..." > ../COPYRIGHT.txt
     "$MAKENSIS" \
@@ -218,13 +218,13 @@ if [[ $entry == *"pkg.tar.xz"* ]]; then
     if [ -e $TARGETDIR ]; then
         rm -rf $TARGETDIR/*
     fi
-    mkdir -p $TARGETDIR/bin
-    mkdir -p $TARGETDIR/lib
-    mkdir -p $TARGETDIR/include
-    #mkdir -p $TARGETDIR/nsis
+    mkdir -p "$TARGETDIR/bin"
+    mkdir -p "$TARGETDIR/lib"
+    mkdir -p "$TARGETDIR/include"
+    #mkdir -p "$TARGETDIR/nsis"
 
     copystuff
-    extract_pkg $entry $TARGETDIR
+    extract_pkg $entry "$TARGETDIR"
     makensis
 fi
 done
