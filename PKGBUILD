@@ -15,7 +15,8 @@ depends=("${MINGW_PACKAGE_PREFIX}-boost"
          "${MINGW_PACKAGE_PREFIX}-glew"
          "${MINGW_PACKAGE_PREFIX}-openssl"
          "${MINGW_PACKAGE_PREFIX}-wxPython"
-         "${MINGW_PACKAGE_PREFIX}-wxWidgets")
+         "${MINGW_PACKAGE_PREFIX}-wxWidgets"
+         "${MINGW_PACKAGE_PREFIX}-libxslt")
 makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-doxygen"
              "${MINGW_PACKAGE_PREFIX}-gcc"
