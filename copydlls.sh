@@ -155,7 +155,11 @@ copystuff() {
         "libintl*.dll" \
         "libtiff*.dll" \
         "liblzma*.dll" \
-        "libpython*.dll" )
+        "libpython*.dll" \
+        "libxml*.dll" \
+        "libxslt*.dll" \
+        "libexslt*.dll" \
+        "xsltproc.exe" )
 
     #echo Copying kicad binaries and stuff...
     #cp -r $MSYSDIR/bin/* $TARGETDIR/bin
