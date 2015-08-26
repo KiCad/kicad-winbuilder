@@ -45,6 +45,17 @@ build() {
   [[ -d build-${MINGW_CHOST} ]] && rm -r build-${MINGW_CHOST}
   mkdir build-${MINGW_CHOST} && cd build-${MINGW_CHOST}
   
+  # Get GCC version
+  GCCVERSION=`gcc --version | grep ^gcc | sed 's/^.* //g'`
+
+  # Add flag to silence deprecation warnings
+  # Due to bug in gcc 5.1,5.2
+  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65974
+  EXTRA_FLAGS=""
+  if [ $GCCVERSION = "5.1.0" ] || [ $GCCVERSION = "5.2.0" ]; then
+    EXTRA_FLAGS=" -DCMAKE_CXX_FLAGS=-Wno-deprecated-declarations"
+  fi
+  
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G"MSYS Makefiles" \
@@ -57,8 +68,8 @@ build() {
     -DKICAD_SCRIPTING_MODULES=ON \
     -DKICAD_SCRIPTING_WXPYTHON=ON \
     -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
+    ${EXTRA_FLAGS} \
     ../${_realname}
-
   make
 
   cd "${srcdir}"
