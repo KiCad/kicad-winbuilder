@@ -4,7 +4,7 @@
 LicenseLangString MUILicense ${LANG_ENGLISH} "..\COPYRIGHT.txt"
 
 ;Welcome page
-LangString WELCOME_PAGE_TEXT ${LANG_ENGLISH} "This installer will guide you through the installation of KiCad ${PRODUCT_VERSION}.\r\n\r\nIt is not required to close any other applications before starting the installer, neither is it nessesary to reboot your computer.\r\n\r\nThis is free open source software licensed under the GPL.\r\n\r\nClick Next to continue."
+LangString WELCOME_PAGE_TEXT ${LANG_ENGLISH} "This installer will guide you through the installation of KiCad ${PRODUCT_VERSION}.\r\n\r\nIt is not required to close any other applications before starting the installer, neither is it necessary to reboot your computer.\r\n\r\nThis is free open source software licensed under the GPL.\r\n\r\nClick Next to continue."
 
 ;Component option
 LangString TITLE_SEC_MAIN ${LANG_ENGLISH} "Main application"
@@ -15,10 +15,10 @@ LangString TITLE_SEC_DOCS ${LANG_ENGLISH} "Help files"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_ENGLISH} "Main application files."
-LangString DESC_SEC_SCHLIB ${LANG_ENGLISH} "Schematic libraies are required unless they have been previously installed."
-LangString DESC_SEC_FPLIB ${LANG_ENGLISH} "Footrint libraries are required unless they have been previously installed."
+LangString DESC_SEC_SCHLIB ${LANG_ENGLISH} "Schematic libraries are required unless they have been previously installed."
+LangString DESC_SEC_FPLIB ${LANG_ENGLISH} "Footprint libraries are required unless they have been previously installed."
 LangString DESC_SEC_DEMOS ${LANG_ENGLISH} "Some demonstration projects and tutorials."
-LangString DESC_SEC_DOCS ${LANG_ENGLISH} "Help files in pdf format."
+LangString DESC_SEC_DOCS ${LANG_ENGLISH} "Help files in PDF format."
 
 ;General messages
 LangString WINGS3D_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models you need to install Wings3D. \
