@@ -26,7 +26,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "git")
 source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar.xz"
-        "https://github.com/blairbonnett-mirrors/kicad-doc/archive/master.zip")
+        "https://github.com/blairbonnett-mirrors/kicad-doc/archive/master.zip"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
        )
 md5sums=('8b642d965f906e6a1a5747974832b080'
