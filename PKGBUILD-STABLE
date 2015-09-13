@@ -24,7 +24,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-pkg-config"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "git")
-source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
+source=("${_realname}"::https://launchpad.net/kicad/4.0/4.0.0-rc1/+download/kicad-4.0.0-rc1.tar.xz"
         "${_realname}-docs"::"git+https://github.com/blairbonnett-mirrors/kicad-doc.git"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
        )
