@@ -79,7 +79,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-docs
+    ../kicad-doc-master
 
   cd "${srcdir}"
 
