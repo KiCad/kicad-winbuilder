@@ -208,7 +208,13 @@ Section $(TITLE_SEC_FPLIB) SEC03
   File /nonfatal /r "..\share\kicad\modules\*"
 SectionEnd
 
-Section $(TITLE_SEC_DEMOS) SEC04
+Section $(TITLE_SEC_FPWIZ) SEC04
+  SetOverwrite try
+  SetOutPath "$INSTDIR\share\kicad\scripting\plugins"
+  File /nonfatal /r "..\share\kicad\scripting\plugins\*"
+SectionEnd
+
+Section $(TITLE_SEC_DEMOS) SEC05
   SetOverwrite try
   SetOutPath "$INSTDIR\share\kicad\demos"
   File /nonfatal /r "..\share\kicad\demos\*"
@@ -216,7 +222,7 @@ Section $(TITLE_SEC_DEMOS) SEC04
   File /nonfatal /r "..\share\doc\kicad\tutorials\*"
 SectionEnd
 
-Section $(TITLE_SEC_DOCS) SEC05
+Section $(TITLE_SEC_DOCS) SEC06
   SetOverwrite try
   SetOutPath "$INSTDIR\share\doc\kicad\help"
   File /nonfatal /r "..\share\doc\kicad\help\*"
@@ -269,8 +275,9 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} $(DESC_SEC_MAIN)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} $(DESC_SEC_SCHLIB)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} $(DESC_SEC_FPLIB)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC04} $(DESC_SEC_DEMOS)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC05} $(DESC_SEC_DOCS)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC04} $(DESC_SEC_FPWIZ)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC05} $(DESC_SEC_DEMOS)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06} $(DESC_SEC_DOCS)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Function un.onInit

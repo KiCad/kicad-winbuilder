@@ -10,6 +10,7 @@ LangString WELCOME_PAGE_TEXT ${LANG_ENGLISH} "This installer will guide you thro
 LangString TITLE_SEC_MAIN ${LANG_ENGLISH} "Main application"
 LangString TITLE_SEC_SCHLIB ${LANG_ENGLISH} "Schematic libraries"
 LangString TITLE_SEC_FPLIB ${LANG_ENGLISH} "Footprint libraries"
+LangString TITLE_SEC_FPWIZ ${LANG_ENGLISH} "Footprint wizards"
 LangString TITLE_SEC_DEMOS ${LANG_ENGLISH} "Demonstration projects"
 LangString TITLE_SEC_DOCS ${LANG_ENGLISH} "Help files"
 
@@ -17,6 +18,7 @@ LangString TITLE_SEC_DOCS ${LANG_ENGLISH} "Help files"
 LangString DESC_SEC_MAIN ${LANG_ENGLISH} "Main application files."
 LangString DESC_SEC_SCHLIB ${LANG_ENGLISH} "Schematic libraries are required unless they have been previously installed."
 LangString DESC_SEC_FPLIB ${LANG_ENGLISH} "Footprint libraries are required unless they have been previously installed."
+LangString DESC_SEC_FPWIZ ${LANG_ENGLISH} "Default python based footprint wizards available in the footprint editor. This is an experimental feature on windows."
 LangString DESC_SEC_DEMOS ${LANG_ENGLISH} "Some demonstration projects and tutorials."
 LangString DESC_SEC_DOCS ${LANG_ENGLISH} "Help files in PDF format."
 
