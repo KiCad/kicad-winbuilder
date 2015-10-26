@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=r6023.cb629e0
+pkgver=r6281.c877c5f
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -27,7 +27,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
 source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
-        "${_realname}-docs"::"http://docs.kicad-pcb.org/kicad-doc-unknown.tar.gz"
+        "http://docs.kicad-pcb.org/kicad-doc-unknown.tar.gz"
        )
 md5sums=('SKIP'
          'SKIP'
@@ -112,5 +112,5 @@ package() {
   make DESTDIR=${pkgdir} install
 
   # Install KiCad docs.
-  cp -r "${srcdir}/build-libs/share/doc/kicad/help" "${pkgdir}/${MINGW_PREFIX}/share/doc/kicad/"
+  cp -r "${srcdir}/kicad-doc-unknown/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/kicad/doc/"
 }
