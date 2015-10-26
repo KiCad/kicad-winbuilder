@@ -73,7 +73,7 @@ build() {
     -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
     ${EXTRA_FLAGS} \
     ../${_realname}
-  #make
+  make
 
   cd "${srcdir}"
 
@@ -102,15 +102,15 @@ build() {
 package() {
   # Install KiCad.
   cd "${srcdir}/build-${MINGW_CHOST}"
-  #make DESTDIR=${pkgdir} install
+  make DESTDIR=${pkgdir} install
 
   # Install KiCad i18n.
   cd "${srcdir}/build-i18n"
-  #make DESTDIR=${pkgdir} install
+  make DESTDIR=${pkgdir} install
 
   # Install KiCad libraries.
   cd "${srcdir}/build-libs"
-  #make DESTDIR=${pkgdir} install
+  make DESTDIR=${pkgdir} install
 
   # Install KiCad docs.
   cp -r "${srcdir}/kicad-doc-unknown/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
