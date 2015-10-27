@@ -28,8 +28,10 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
 source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar.xz"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
+        "http://docs.kicad-pcb.org/kicad-doc-unknown.tar.gz"
        )
 md5sums=('8b642d965f906e6a1a5747974832b080'
+         'SKIP'
          'SKIP'
          'SKIP'
         )
@@ -100,11 +102,14 @@ package() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   make DESTDIR=${pkgdir} install
 
-  # Install KiCad documentation.
+  # Install KiCad i18n.
   cd "${srcdir}/build-i18n"
   make DESTDIR=${pkgdir} install
 
   # Install KiCad libraries.
   cd "${srcdir}/build-libs"
   make DESTDIR=${pkgdir} install
+
+  # Install KiCad docs.
+  cp -r "${srcdir}/kicad-doc-unknown/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
