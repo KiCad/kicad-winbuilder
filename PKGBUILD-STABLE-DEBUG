@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.0_rc1
+pkgver=4.0.0_rc2
 _upver="${pkgver//_/-}"
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
@@ -25,12 +25,12 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-pkg-config"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "git")
-source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar.xz"
+source=("https://launchpad.net/kicad/4.0/4.0.0-rc1/+download/kicad-${_upver}.tar.xz"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
         "http://docs.kicad-pcb.org/kicad-doc-unknown.tar.gz"
        )
-md5sums=('8b642d965f906e6a1a5747974832b080'
+md5sums=('36695be10ec2d343822147e658b5616e'
          'SKIP'
          'SKIP'
          'SKIP'
@@ -63,7 +63,7 @@ build() {
     -DDEFAULT_INSTALL_PATH=${MINGW_PREFIX} \
     -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
     -DKICAD_REPO_NAME=stable \
-    -DKICAD_BUILD_VERSION=4.0.0-rc1 \
+    -DKICAD_BUILD_VERSION=${_upver} \
     -DKICAD_SKIP_BOOST=ON \
     -DKICAD_SCRIPTING=ON \
     -DKICAD_SCRIPTING_MODULES=ON \
