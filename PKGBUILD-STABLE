@@ -30,7 +30,7 @@ source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
         "http://docs.kicad-pcb.org/kicad-doc-unknown.tar.gz"
        )
-md5sums=('b079301172a1693e78516d2d931802de'
+md5sums=('f4f7ea77ee854ca12e1fd4463f681657'
          'SKIP'
          'SKIP'
          'SKIP'
