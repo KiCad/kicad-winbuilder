@@ -112,5 +112,5 @@ package() {
   make DESTDIR=${pkgdir} install
 
   # Install KiCad docs.
-  cp -r "${srcdir}/kicad-doc-unknown/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  cp -r "${srcdir}/kicad-doc-HEAD/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
