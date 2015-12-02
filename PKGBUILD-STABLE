@@ -26,15 +26,16 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "git")
 source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar.xz"
-        "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
-        "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
-        "http://docs.kicad-pcb.org/kicad-doc-HEAD.tar.gz"
+        "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_upver}.tar.gz"
+        "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_upver}.tar.gz"
+        "http://downloads.kicad-pcb.org/libraries/kicad-library-${_upver}.tar.gz"
+        "http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
        )
 md5sums=('f4f7ea77ee854ca12e1fd4463f681657'
-         'SKIP'
-         'SKIP'
-         'SKIP'
-        )
+         '991a099359fbbe6fa0dbba960b44eecb'
+         'e31d83fed31b10c30918fcfd7db4c6b7'
+         '676bafdb4eb003083cded3245bffb7e6'
+         'cd5ade06b261e4316218b0045a23ab20')
 
 build() {
   cd "${srcdir}"
@@ -81,7 +82,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-i18n
+    ../${_realname}-i18n-${_upver}
 
   cd "${srcdir}"
 
@@ -92,7 +93,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-libs
+    ../${_realname}-library-${_upver}
 
 }
 
@@ -110,5 +111,5 @@ package() {
   make DESTDIR=${pkgdir} install
 
   # Install KiCad docs.
-  cp -r "${srcdir}/kicad-doc-HEAD/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  cp -r "${srcdir}/kicad-doc-${_upver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
