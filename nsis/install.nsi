@@ -23,6 +23,8 @@
 ; This script expects the install.ico, uninstall.ico, language and license
 ; files to be in the same directory as this script
 
+!include "winmessages.nsh"
+
 ; General Product Description Definitions
 !define PRODUCT_NAME "KiCad"
 !define ALT_DOWNLOAD_WEB_SITE "http://iut-tice.ujf-grenoble.fr/kicad/"
@@ -38,6 +40,8 @@
 
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define UNINST_ROOT "HKLM"
+
+!define ENV_HKLM 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
 
 !define gflag ;Needed to use ifdef and such
 ;Define on command line //DPRODUCT_VERSION=42
@@ -228,6 +232,16 @@ Section $(TITLE_SEC_DOCS) SEC06
   File /nonfatal /r "..\share\doc\kicad\help\*"
 SectionEnd
 
+Section $(TITLE_SEC_ENV) SEC07
+  WriteRegExpandStr ${ENV_HKLM} KICAD_PTEMPLATES "$INSTDIR\share\kicad\template"
+  WriteRegExpandStr ${ENV_HKLM} KISYS3DMOD "$INSTDIR\share\kicad\modules\packages3d"
+  WriteRegExpandStr ${ENV_HKLM} KISYSMOD "$INSTDIR\share\kicad\modules"
+  
+  WriteRegDWORD ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "EnvInstalled" "1"
+  
+  SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
+SectionEnd
+
 Section -CreateShortcuts
   SetOutPath $INSTDIR
   WriteIniStr "$INSTDIR\HomePage.url"     "InternetShortcut" "URL" "${KICAD_MAIN_SITE}"
@@ -344,6 +358,19 @@ Section Uninstall
   Delete "$INSTDIR\*.txt"
   RMDir "$INSTDIR"
 
+  ;remove environment only if it was "installed" last
+  ClearErrors
+  ReadRegDWORD $0 ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "EnvInstalled"
+  IfErrors FinishUninstall 0
+  
+  IntCmp $0 1 0 FinishUninstall FinishUninstall
+  
+  DeleteRegValue ${ENV_HKLM} KICAD_PTEMPLATES
+  DeleteRegValue ${ENV_HKLM} KISYS3DMOD
+  DeleteRegValue ${ENV_HKLM} KISYSMOD
+  SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
+  
+  FinishUninstall:
   ;Note - application registry keys are stored in the users individual registry hive (HKCU\Software\kicad".
   ;It might be possible to remove these keys as well but it would require a lot of testing of permissions
   ;and access to other people's registry entries. So for now we will leave the application registry keys.

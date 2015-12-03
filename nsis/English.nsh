@@ -13,6 +13,7 @@ LangString TITLE_SEC_FPLIB ${LANG_ENGLISH} "Footprint libraries"
 LangString TITLE_SEC_FPWIZ ${LANG_ENGLISH} "Footprint wizards"
 LangString TITLE_SEC_DEMOS ${LANG_ENGLISH} "Demonstration projects"
 LangString TITLE_SEC_DOCS ${LANG_ENGLISH} "Help files"
+LangString TITLE_SEC_ENV ${LANG_ENGLISH} "Environment variables
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_ENGLISH} "Main application files."
