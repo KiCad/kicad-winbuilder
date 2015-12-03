@@ -27,7 +27,6 @@
 
 ; General Product Description Definitions
 !define PRODUCT_NAME "KiCad"
-!define ALT_DOWNLOAD_WEB_SITE "http://iut-tice.ujf-grenoble.fr/kicad/"
 !define LIBRARIES_WEB_SITE "https://github.com/KiCad/"
 !define KICAD_MAIN_SITE "www.kicad-pcb.org/"
 !define COMPANY_NAME ""
@@ -252,7 +251,6 @@ Section -CreateShortcuts
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\KiCad"
   CreateShortCut "$SMPROGRAMS\KiCad\Home Page.lnk" "$INSTDIR\HomePage.url"
-  CreateShortCut "$SMPROGRAMS\KiCad\KiCad Alternate Download.lnk" "$INSTDIR\AltDownloadSite.url"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad Libraries.lnk" "$INSTDIR\LibrariesGroup.url"
   CreateShortCut "$SMPROGRAMS\KiCad\Wings3D.lnk" "$INSTDIR\Wings3D.url"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad User Group.lnk" "$INSTDIR\UserGroup.url"
