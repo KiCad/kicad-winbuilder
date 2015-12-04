@@ -37,6 +37,11 @@ md5sums=('f4f7ea77ee854ca12e1fd4463f681657'
          '676bafdb4eb003083cded3245bffb7e6'
          'cd5ade06b261e4316218b0045a23ab20')
 
+prepare() {
+  cd "${srcdir}"
+  patch -p1 -i ../0001-Default-saved-paths-to-environment-variables-if-avai.patch
+}
+
 build() {
   cd "${srcdir}"
 
