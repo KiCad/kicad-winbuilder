@@ -38,8 +38,10 @@ md5sums=('f4f7ea77ee854ca12e1fd4463f681657'
          'cd5ade06b261e4316218b0045a23ab20')
 
 prepare() {
-  cd "${srcdir}"
-  patch -p1 -i ../0001-Default-saved-paths-to-environment-variables-if-avai.patch
+  cd "${srcdir}/kicad-${_upver}"
+
+  msg2 "Patching..."
+  patch -p1 -i ../../0001-Default-saved-paths-to-environment-variables-if-avai.patch
 }
 
 build() {
