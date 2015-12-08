@@ -23,6 +23,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-python2"
              "${MINGW_PACKAGE_PREFIX}-pkg-config"
              "${MINGW_PACKAGE_PREFIX}-swig"
+             "${MINGW_PACKAGE_PREFIX}-glm"
              "git")
 source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
