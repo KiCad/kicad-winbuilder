@@ -41,6 +41,14 @@ pkgver() {
   printf "r%s.%s" "$(git rev-list --count --first-parent HEAD)" "$(git rev-parse --short HEAD)"
 }
 
+
+prepare() {
+  cd "${srcdir}/kicad-${_upver}"
+
+  msg2 "Patching..."
+  patch -p1 -i ../../0001-Replace-avhttp-with-libcurl-implementation.patch
+}
+
 build() {
   cd "${srcdir}"
 
@@ -66,6 +74,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DDEFAULT_INSTALL_PATH=${MINGW_PREFIX} \
     -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
+    -DKICAD_REPO_NAME=0001-Replace-avhttp-with-libcurl-implementation.patch \
     -DKICAD_SKIP_BOOST=ON \
     -DKICAD_SCRIPTING=ON \
     -DKICAD_SCRIPTING_MODULES=ON \
