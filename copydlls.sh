@@ -229,6 +229,7 @@ if [[ $entry == *"pkg.tar.xz"* ]]; then
     mkdir -p "$TARGETDIR/bin"
     mkdir -p "$TARGETDIR/lib"
     mkdir -p "$TARGETDIR/include"
+    mkdir -p "$TARGETDIR/ssl/certs"
     #mkdir -p "$TARGETDIR/nsis"
 
     copystuff
