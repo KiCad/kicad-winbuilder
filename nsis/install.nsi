@@ -197,6 +197,8 @@ Section $(TITLE_SEC_MAIN) SEC01
   File /r "..\lib\*"
   SetOutPath "$INSTDIR\share\kicad\internat"
   File /nonfatal /r "..\share\kicad\internat\*"
+  SetOutPath "$INSTDIR\ssl\certs"
+  File "..\ssl\certs\ca-bundle.crt"
 SectionEnd
 
 Section $(TITLE_SEC_SCHLIB) SEC02
