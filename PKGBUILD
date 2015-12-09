@@ -47,7 +47,7 @@ prepare() {
   cd "${srcdir}/kicad"
 
   msg2 "Patching..."
-  patch -p1 -i ../../0001-Replace-avhttp-with-libcurl-implementation.patch
+  git apply ../../0001-Replace-avhttp-with-libcurl-implementation.patch
 }
 
 build() {
