@@ -159,7 +159,8 @@ copystuff() {
         "libxml*.dll" \
         "libxslt*.dll" \
         "libexslt*.dll" \
-        "xsltproc.exe" )
+        "xsltproc.exe"  \
+        "libcurl*.dll" )
 
     #echo Copying kicad binaries and stuff...
     #cp -r $MSYSDIR/bin/* $TARGETDIR/bin
@@ -181,6 +182,9 @@ copystuff() {
     rm -rf "${TARGETDIR}/lib/python2.7/test"
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyc" -type f -delete
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyo" -type f -delete
+
+    echo Copying ssl/certs/ca-bundle.crt
+    cp "$MSYSDIR/ssl/certs/ca-bundle.crt" "$TARGETDIR/ssl/certs"
 
     echo Copying python.exe...
     cp $MSYSDIR/bin/python.exe $TARGETDIR/bin
