@@ -192,7 +192,7 @@ copystuff() {
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyc" -type f -delete
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyo" -type f -delete
 
-    echo Copying ssl/certs/ca-bundle.crt
+    echo Copying ssl/certs/ca-bundle.crt...
     cp "$MSYSDIR/ssl/certs/ca-bundle.crt" "$TARGETDIR/ssl/certs"
 
     echo Copying python.exe...
