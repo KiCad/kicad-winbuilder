@@ -42,15 +42,12 @@ pkgver() {
   printf "r%s.%s" "$(git rev-list --count --first-parent HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-
-prepare() {
+build() {
   cd "${srcdir}/kicad"
 
   msg2 "Patching..."
   git apply ../../0001-Replace-avhttp-with-libcurl-implementation.patch
-}
 
-build() {
   cd "${srcdir}"
 
   # Configure and build KiCad.
