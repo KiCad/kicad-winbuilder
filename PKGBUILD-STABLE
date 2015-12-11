@@ -31,11 +31,11 @@ source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar
         "http://downloads.kicad-pcb.org/libraries/kicad-library-${_upver}.tar.gz"
         "http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
        )
-md5sums=('f4f7ea77ee854ca12e1fd4463f681657'
-         '991a099359fbbe6fa0dbba960b44eecb'
-         'e31d83fed31b10c30918fcfd7db4c6b7'
-         '676bafdb4eb003083cded3245bffb7e6'
-         'cd5ade06b261e4316218b0045a23ab20')
+md5sums=('e85e9ab6ba7736377a31cfecc8aca4a6'
+         '42db67dac237675af91e705de4913d04'
+         '8a0b3b0a5e93b7e9f7387577093540fe'
+         '09f626d9bcd95333c09d47d8a900f4a5'
+         '18325bc93eb3030060f20c321c3e9789')
 
 build() {
   cd "${srcdir}"
