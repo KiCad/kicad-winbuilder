@@ -12,6 +12,7 @@ provides=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 depends=("${MINGW_PACKAGE_PREFIX}-boost"
          "${MINGW_PACKAGE_PREFIX}-cairo"
+         "${MINGW_PACKAGE_PREFIX}-curl"
          "${MINGW_PACKAGE_PREFIX}-glew"
          "${MINGW_PACKAGE_PREFIX}-openssl"
          "${MINGW_PACKAGE_PREFIX}-wxPython"
@@ -42,6 +43,11 @@ pkgver() {
 }
 
 build() {
+  cd "${srcdir}/kicad"
+
+  msg2 "Patching..."
+  git apply ../../0001-Replace-avhttp-with-libcurl-implementation.patch
+
   cd "${srcdir}"
 
   # Configure and build KiCad.
@@ -66,6 +72,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DDEFAULT_INSTALL_PATH=${MINGW_PREFIX} \
     -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
+    -DKICAD_REPO_NAME=0001-Replace-avhttp-with-libcurl-implementation.patch \
     -DKICAD_SKIP_BOOST=ON \
     -DKICAD_SCRIPTING=ON \
     -DKICAD_SCRIPTING_MODULES=ON \
