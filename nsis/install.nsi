@@ -353,6 +353,8 @@ Section Uninstall
   RMDir /r "$INSTDIR\share\doc"
   RMDir /r "$INSTDIR\share"
   RMDir /r "$INSTDIR\wings3d"
+  RMDir /r "$INSTDIR\ssl\certs"
+  RMDir /r "$INSTDIR\ssl"
   ;don't remove $INSTDIR recursively just in case the user has installed it in c:\ or
   ;c:\program files as this would attempt to delete a lot more than just this package
   Delete "$INSTDIR\*.txt"
