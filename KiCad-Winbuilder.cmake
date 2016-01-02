@@ -283,7 +283,7 @@ endmacro()
 
 if( NOT EXISTS "${LOG_DIR}/pacman_initial" )
     # first we need to establish the user settings, and do some post-install configuration
-    COMMAND "${CMAKE_SOURCE_DIR}/${MSYS2}/msys2_shell.bat"
+    COMMAND("${CMAKE_SOURCE_DIR}/${MSYS2}/msys2_shell.bat")
     
     # next we update the package database from remote sources
     execute_msys2_bash( "pacman --noconfirm -Sy" "${LOG_DIR}/pacman_initial" )
