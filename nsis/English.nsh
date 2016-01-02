@@ -33,4 +33,4 @@ This will also remove all modified and new files, libraries and modules in the p
 LangString UNINST_SUCCESS ${LANG_ENGLISH} "$(^Name) was successfully removed from your computer."
 LangString INSTALLER_RUNNING ${LANG_ENGLISH} "The installer is already running."
 LangString UNINSTALLER_RUNNING ${LANG_ENGLISH} "The uninstaller is already running."
-LangString ALREADY_INSTALLED ${LANG_ENGLISH} "${PRODUCT_NAME} is already installed. Install this package will overwrite existing files. Do you want to continue?"
+LangString ALREADY_INSTALLED ${LANG_ENGLISH} "${PRODUCT_NAME} is already installed. Installing this package will overwrite existing files. Do you want to continue?"
