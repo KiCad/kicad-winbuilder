@@ -282,7 +282,14 @@ endmacro()
 # we should:
 
 if( NOT EXISTS "${LOG_DIR}/pacman_initial" )
+    # first we need to establish the user settings, and do some post-install configuration
+    COMMAND "${CMAKE_SOURCE_DIR}/${MSYS2}/msys2_shell.bat"
+    
+    # next we update the package database from remote sources
     execute_msys2_bash( "pacman --noconfirm -Sy" "${LOG_DIR}/pacman_initial" )
+    
+    # then we update the core packages first.  Only one of these is required, but it won't hurt to do both.
+    execute_msys2_bash( "update-core" "${LOG_DIR}/updatecore_bash" )
     execute_msys2_bash( "pacman --noconfirm --needed -S bash pacman pacman-mirrors msys2-runtime" "${LOG_DIR}/pacman_bash" )
     execute_msys2_bash( "pacman --noconfirm --needed -S ca-certificates" "${LOG_DIR}/pacman_bash2" )
 
@@ -299,7 +306,7 @@ if( NOT EXISTS "${LOG_DIR}/pacman_initial" )
     file( APPEND "${CMAKE_SOURCE_DIR}/${MSYS2}/etc/pacman.d/mirrorlist.msys" "\nServer = https://www2.futureware.at/~nickoe/msys2-mirror/msys2-$arch" )
 
     # Final update and then we're ready to use msys2...
-    execute_msys2_bash( "pacman --noconfirm -Su" "${LOG_DIR}/pacman_update" )
+    execute_msys2_bash( "pacman --noconfirm -Syu" "${LOG_DIR}/pacman_update" )
 endif()
 
 if( NOT EXISTS "${LOG_DIR}/pacman_required_packages" )
