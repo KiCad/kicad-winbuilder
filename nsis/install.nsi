@@ -78,8 +78,9 @@ ShowInstDetails show
 ShowUnInstDetails show
 BrandingText "KiCad installer for windows"
 
-; MUI 1.67 compatible ------
-!include "MUI.nsh"
+; MUI 2 compatible ------
+!include "MUI2.nsh"
+!include "InstallOptions.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
@@ -177,9 +178,9 @@ Function myGuiInit
 FunctionEnd
 
 Function ModifyFinishPage
-  !insertmacro MUI_INSTALLOPTIONS_WRITE "ioSpecial.ini" "Field 4" "Text" $(WINGS3D_PROMPT)
-  !insertmacro MUI_INSTALLOPTIONS_WRITE "ioSpecial.ini" "Field 4" "Bottom" 168                 ;make more space for prompt
-  !insertmacro MUI_INSTALLOPTIONS_WRITE "ioSpecial.ini" "Settings" "CancelShow" "0"            ;hide cancel button - already installed!!
+  !insertmacro INSTALLOPTIONS_WRITE "ioSpecial.ini" "Field 4" "Text" $(WINGS3D_PROMPT)
+  !insertmacro INSTALLOPTIONS_WRITE "ioSpecial.ini" "Field 4" "Bottom" 168                 ;make more space for prompt
+  !insertmacro INSTALLOPTIONS_WRITE "ioSpecial.ini" "Settings" "CancelShow" "0"            ;hide cancel button - already installed!!
 FunctionEnd
 
 Section $(TITLE_SEC_MAIN) SEC01
