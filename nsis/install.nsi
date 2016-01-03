@@ -8,6 +8,7 @@
 ; Copyright (C) 2006 Alastair Hoyle <ahoyle@hoylesolutions.co.uk>
 ; Copyright (C) 2015 Nick Østergaard
 ; Copyright (C) 2015 Brian Sidebotham <brian.sidebotham@gmail.com>
+; Copyright (C) 2016 Bevan Weiss <bevan.weiss@gmail.com>
 ;
 ; This program is free software; you can redistribute it and/or modify it
 ; under the terms of the GNU General Public License as published by the Free
@@ -78,7 +79,7 @@ ShowInstDetails show
 ShowUnInstDetails show
 BrandingText "KiCad installer for windows"
 
-; MUI 1.67 compatible ------
+; MUI2 compatible ------
 !include "MUI.nsh"
 
 ; MUI Settings
@@ -98,7 +99,6 @@ BrandingText "KiCad installer for windows"
 !define MUI_CUSTOMFUNCTION_GUIINIT myGuiInit
 !define MUI_CUSTOMFUNCTION_UNGUIINIT un.myGuiInit
 !define MUI_WELCOMEPAGE_TEXT $(WELCOME_PAGE_TEXT)
-;!define MUI_WELCOMEPAGE_TEXT "test"
 !insertmacro MUI_PAGE_WELCOME
 ;!insertmacro MUI_PAGE_LICENSE $(MUILicense)
 !insertmacro MUI_PAGE_COMPONENTS
@@ -126,13 +126,22 @@ BrandingText "KiCad installer for windows"
 ;!insertmacro MUI_LANGUAGE "Japanese"
 
 !include "English.nsh"
+;!include "German.nsh"
+;!include "Spanish.nsh"
 ;!include "French.nsh"
-;!include "Dutch.nsh"
 ;!include "Italian.nsh"
 ;!include "Japanese.nsh"
+;!include "Dutch.nsh"
 ;!include "Polish.nsh"
-;!include "Portuguese.nsh"
-;!include "Russian.nsh"
+
+;--------------------------------
+;Reserve Files
+  
+  ;If you are using solid compression, files that are required before
+  ;the actual installation should be stored first in the data block,
+  ;because this will make your installer start faster.
+  
+  !insertmacro MUI_RESERVEFILE_LANGDLL
 
 ; MUI end ------
 
@@ -151,7 +160,7 @@ Function .onInit
     Goto LangDisplay
   
   AdminQuit:
-    MessageBox MB_OK "Admin rights are required to install KiCad!"
+    MessageBox MB_OK $(ERROR_ADMIN_REQ)
     Quit
 
   LangDisplay:    
@@ -165,7 +174,7 @@ Function .onInit
     Goto done
 
   Win9x:
-    MessageBox MB_OK "Error! This can't run under Windows 9x!"
+    MessageBox MB_OK $(ERROR_WIN9X)
     Quit
 
   done:
@@ -227,11 +236,48 @@ Section $(TITLE_SEC_DEMOS) SEC05
   File /nonfatal /r "..\share\doc\kicad\tutorials\*"
 SectionEnd
 
-Section $(TITLE_SEC_DOCS) SEC06
-  SetOverwrite try
-  SetOutPath "$INSTDIR\share\doc\kicad\help"
-  File /nonfatal /r "..\share\doc\kicad\help\*"
-SectionEnd
+SectionGroup $(TITLE_SEC_DOCS) SEC06
+  Section $(LANGUAGE_NAME_EN) SEC06_EN
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\en"
+    File /nonfatal /r "..\share\doc\kicad\help\en\*"
+  SectionEnd
+  Section $(LANGUAGE_NAME_DE) SEC06_DE
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\de"
+    File /nonfatal /r "..\share\doc\kicad\help\de\*"
+  SectionEnd
+  Section $(LANGUAGE_NAME_ES) SEC06_ES
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\es"
+    File /nonfatal /r "..\share\doc\kicad\help\es\*"
+  SectionEnd
+  Section $(LANGUAGE_NAME_FR) SEC06_FR
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\fr"
+    File /nonfatal /r "..\share\doc\kicad\help\fr\*"
+  SectionEnd
+  Section $(LANGUAGE_NAME_IT) SEC06_IT
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\it"
+    File /nonfatal /r "..\share\doc\kicad\help\it\*"
+  SectionEnd
+  Section $(LANGUAGE_NAME_JA) SEC06_JA
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\ja"
+    File /nonfatal /r "..\share\doc\kicad\help\ja\*"
+  SectionEnd
+  Section $(LANGUAGE_NAME_NL) SEC06_NL
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\nl"
+    File /nonfatal /r "..\share\doc\kicad\help\nl\*"
+  SectionEnd
+  Section $(LANGUAGE_NAME_PL) SEC06_PL
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\pl"
+    File /nonfatal /r "..\share\doc\kicad\help\pl\*"
+  SectionEnd
+SectionGroupEnd
 
 Section $(TITLE_SEC_ENV) SEC07
   WriteRegExpandStr ${ENV_HKLM} KICAD_PTEMPLATES "$INSTDIR\share\kicad\template"
@@ -292,6 +338,14 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC04} $(DESC_SEC_FPWIZ)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC05} $(DESC_SEC_DEMOS)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06} $(DESC_SEC_DOCS)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_EN} $(DESC_SEC_DOCS_EN)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_DE} $(DESC_SEC_DOCS_DE)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_ES} $(DESC_SEC_DOCS_ES)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_FR} $(DESC_SEC_DOCS_FR)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_IT} $(DESC_SEC_DOCS_IT)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_JA} $(DESC_SEC_DOCS_JA)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_NL} $(DESC_SEC_DOCS_NL)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_PL} $(DESC_SEC_DOCS_PL)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Function un.onInit
