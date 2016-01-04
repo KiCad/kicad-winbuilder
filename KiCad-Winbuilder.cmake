@@ -77,13 +77,13 @@ endif()
 set( WINDOWS_DIR $ENV{WINDIR} )
 if( EXISTS "${WINDOWS_DIR}/SysWOW64" )
     set( MSYS2 msys64 )
-    set( MSYS2_PACKAGE msys2-base-x86_64-20150202.tar.xz )
-    set( MSYS2_MD5 0155b909f450d45427a51633851a81df )
+    set( MSYS2_PACKAGE msys2-base-x86_64-20150916.tar.xz )
+    set( MSYS2_MD5 86e930e98489d5cd96bc03d52e7ecb18 )
     set( HOST_ARCH x86_64 )
 else()
     set( MSYS2 msys32 )
-    set( MSYS2_PACKAGE msys2-base-i686-20150202.tar.xz )
-    set( MSYS2_MD5 cf6c40b999a8d20085a18eb64c51c99f )
+    set( MSYS2_PACKAGE msys2-base-i686-20150916.tar.xz )
+    set( MSYS2_MD5 30106e320aaebcd7e4925119bfd98ecc )
     set( HOST_ARCH i686 )
 endif()
 
@@ -214,15 +214,15 @@ endif()
 
 # ------------------------------------------------------------------------------
 
-set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%203%20Pre-release/3.0b1/nsis-3.0b1.zip/download )
-set( NSIS_MD5 b0760ddb5308f2e20d44d70fc3eb2b3d )
-set( NSIS_FN nsis-3.0b1.zip )
-set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-3.0b1/Bin/makensis.exe" )
+set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%203%20Pre-release/3.0b3/nsis-3.0b3.zip/download )
+set( NSIS_MD5 474bbfe55b908929ddf0b1c01744eb98 )
+set( NSIS_FN nsis-3.0b3.zip )
+set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-3.0b3/Bin/makensis.exe" )
 
-#set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%202/2.46/nsis-2.46.zip/download )
-#set( NSIS_MD5 d7e43beabc017a7d892a3d6663e988d4 )
-#set( NSIS_FN nsis-2.46.zip )
-#set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-2.46/makensis.exe" )
+#set( NSIS_URL http://sourceforge.net/projects/nsis/files/NSIS%202/2.50/nsis-2.50.zip/download )
+#set( NSIS_MD5 94194d1fd5d604f293e22ede4b960ad9 )
+#set( NSIS_FN nsis-2.50.zip )
+#set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-2.50/makensis.exe" )
 
 download_and_install( "${NSIS_URL}" "${NSIS_MD5}" "${NSIS_FN}" "${SUPPORT_DIR}" )
 
@@ -320,7 +320,7 @@ message( STATUS "MSYS2 user name is: $USERNAME=${USERNAME}" )
 
 # Get the MinGW packages project for MSYS2
 if( NOT EXISTS "${HOME_DIR}/MINGW-packages" )
-    execute_msys2_bash( "cd ${HOME_DIR} && git clone https://github.com/Alexpux/MINGW-packages.git" "${LOG_DIR}/git_clone" )
+    execute_msys2_bash( "cd \"${HOME_DIR}\" && git clone https://github.com/Alexpux/MINGW-packages.git" "${LOG_DIR}/git_clone" )
 endif()
 
 set( EXPORT_CARCH "" )
@@ -334,7 +334,7 @@ endif()
 file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD" DESTINATION "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git" )
 
 # Actually build KiCad
-execute_msys2_bash( "cd ${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git && ${EXPORT_CARCH} makepkg-mingw -s --noconfirm" "${LOG_DIR}/makepkg" )
+execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git\" && ${EXPORT_CARCH} makepkg-mingw -s --noconfirm" "${LOG_DIR}/makepkg" )
 
 # Copy the runtime helper script to the MSYS2 system
 file( COPY "${CMAKE_SOURCE_DIR}/copydlls.sh" DESTINATION "${HOME_DIR}/" )
