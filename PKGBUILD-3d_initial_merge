@@ -75,7 +75,7 @@ build() {
     -DKICAD_SCRIPTING_MODULES=ON \
     -DKICAD_SCRIPTING_WXPYTHON=ON \
     -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
-		-DDDEBUG_VRML2=2 \
+    -DDEBUG_VRML2=2 \
     ${EXTRA_FLAGS} \
     ../${_realname}
   make
