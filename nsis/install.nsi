@@ -79,7 +79,7 @@ ShowInstDetails show
 ShowUnInstDetails show
 BrandingText "KiCad installer for windows"
 
-; MUI2 compatible ------
+; MUI compatible ------
 !include "MUI.nsh"
 
 ; MUI Settings
