@@ -79,8 +79,9 @@ ShowInstDetails show
 ShowUnInstDetails show
 BrandingText "KiCad installer for windows"
 
-; MUI compatible ------
-!include "MUI.nsh"
+; MUI 2 compatible ------
+!include "MUI2.nsh"
+!include "${NSISDIR}\Examples\System\System.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
@@ -105,9 +106,9 @@ BrandingText "KiCad installer for windows"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !define MUI_FINISHPAGE_SHOWREADME ${WINGS3D_WEB_SITE}
-!define MUI_FINISHPAGE_SHOWREADME_TEXT "text"
+!define MUI_FINISHPAGE_SHOWREADME_TEXT $(WINGS3D_PROMPT)
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
-!define MUI_PAGE_CUSTOMFUNCTION_PRE ModifyFinishPage
+!define MUI_PAGE_CUSTOMFUNCTION_SHOW ModifyFinishPage
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstaller pages
@@ -166,10 +167,8 @@ Function .onInit
   LangDisplay:    
     ReserveFile "install.ico"
     ReserveFile "uninstall.ico"
-    ReserveFile "${NSISDIR}\Plugins\x86-unicode\InstallOptions.dll"
     ReserveFile "${NSISDIR}\Plugins\x86-unicode\LangDLL.dll"
     ReserveFile "${NSISDIR}\Plugins\x86-unicode\System.dll"
-    ReserveFile "${NSISDIR}\Contrib\Modern UI\ioSpecial.ini"
     !insertmacro MUI_LANGDLL_DISPLAY
     Goto done
 
@@ -186,9 +185,21 @@ Function myGuiInit
 FunctionEnd
 
 Function ModifyFinishPage
-  !insertmacro MUI_INSTALLOPTIONS_WRITE "ioSpecial.ini" "Field 4" "Text" $(WINGS3D_PROMPT)
-  !insertmacro MUI_INSTALLOPTIONS_WRITE "ioSpecial.ini" "Field 4" "Bottom" 168                 ;make more space for prompt
-  !insertmacro MUI_INSTALLOPTIONS_WRITE "ioSpecial.ini" "Settings" "CancelShow" "0"            ;hide cancel button - already installed!!
+  ; resize the Text control, otherwise we get clipping on the top and bottom
+  ; Create RECT struct
+  System::Call "*${stRECT} .r1"
+  ; Find Window info for the window we're displaying
+  System::Call "User32::GetWindowRect(i, i) i ($mui.FinishPage.ShowReadme, r1) .r2"
+  ; Get left/top/right/bottom
+  System::Call "*$1${stRECT} (.r2, .r3, .r4, .r5)"
+  System::Free $1
+  ; calculate the width, we'll keep this the same
+  IntOp $6 $4 - $2
+  ; then calculate the height, and we'll make this 4 times as high
+  IntOp $7 $5 - $3
+  IntOp $7 4 * $7
+  ; then we finally update the control size.. we don't want to move it, or change its z-order however
+  System::Call "User32::SetWindowPos(i $mui.FinishPage.ShowReadme, i 0, i 0, i 0, i $6, i $7, i ${SWP_NOMOVE} | ${SWP_NOZORDER})"
 FunctionEnd
 
 Section $(TITLE_SEC_MAIN) SEC01
