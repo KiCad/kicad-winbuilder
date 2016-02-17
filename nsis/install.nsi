@@ -30,7 +30,7 @@
 !define PRODUCT_NAME "KiCad"
 !define LIBRARIES_WEB_SITE "https://github.com/KiCad/"
 !define KICAD_MAIN_SITE "www.kicad-pcb.org/"
-!define COMPANY_NAME ""
+!define COMPANY_NAME "KiCad"
 !define TRADE_MARKS ""
 !define COPYRIGHT "Kicad Developers Team"
 !define COMMENTS ""
