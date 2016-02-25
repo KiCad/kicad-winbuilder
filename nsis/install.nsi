@@ -235,6 +235,8 @@ SectionEnd
 
 Section $(TITLE_SEC_FPWIZ) SEC04
   SetOverwrite try
+  SetOutPath "$INSTDIR\share\kicad\scripting\kicad_pyshell"
+  File /nonfatal /r "..\share\kicad\scripting\kicad_pyshell\*"
   SetOutPath "$INSTDIR\share\kicad\scripting\plugins"
   File /nonfatal /r "..\share\kicad\scripting\plugins\*"
 SectionEnd
