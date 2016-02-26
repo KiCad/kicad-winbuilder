@@ -135,6 +135,14 @@ BrandingText "KiCad installer for windows"
 ;!include "Dutch.nsh"
 ;!include "Polish.nsh"
 
+VIProductVersion "0.0.0.0" ; Dummy version, because this can only be X.X.X.X
+VIAddVersionKey "ProductName" "${COMPANY_NAME}"
+VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
+VIAddVersionKey "LegalCopyright" "${COMPANY_NAME}"
+VIAddVersionKey "FileDescription" "Installer for the KiCad EDA Suite"
+VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
+VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
+
 ;--------------------------------
 ;Reserve Files
   
@@ -331,8 +339,6 @@ Section -CreateAddRemoveEntry
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "Publisher" "${COMPANY_NAME}"
-  WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "ProductName" "${COMPANY_NAME}"
-  WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "ProductVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninstaller.exe"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${KICAD_MAIN_SITE}"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\bin\kicad.exe"
