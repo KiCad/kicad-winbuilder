@@ -331,6 +331,8 @@ Section -CreateAddRemoveEntry
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "Publisher" "${COMPANY_NAME}"
+  WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "ProductName" "${COMPANY_NAME}"
+  WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "ProductVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninstaller.exe"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${KICAD_MAIN_SITE}"
   WriteRegStr ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\bin\kicad.exe"
