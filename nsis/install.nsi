@@ -135,6 +135,14 @@ BrandingText "KiCad installer for windows"
 ;!include "Dutch.nsh"
 ;!include "Polish.nsh"
 
+VIProductVersion "0.0.0.0" ; Dummy version, because this can only be X.X.X.X
+VIAddVersionKey "ProductName" "${COMPANY_NAME}"
+VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
+VIAddVersionKey "LegalCopyright" "${COMPANY_NAME}"
+VIAddVersionKey "FileDescription" "Installer for the KiCad EDA Suite"
+VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
+VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
+
 ;--------------------------------
 ;Reserve Files
   
