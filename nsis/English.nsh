@@ -54,7 +54,8 @@ LangString WINGS3D_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models yo
 Wings3D and user manual can be download free from the Wings3D web page Check this box to open the Wings3D web page"
 
 LangString UNINST_PROMPT ${LANG_ENGLISH} "Are you sure you want to completely remove $(^Name) and all of its components? $\n\
-This will also remove all modified and new files, libraries and modules in the program directory"
+This will also remove all modified and new files, libraries and modules in the program directory \
+(including python modules installed by user)!"
 
 LangString UNINST_SUCCESS ${LANG_ENGLISH} "$(^Name) was successfully removed from your computer."
 LangString INSTALLER_RUNNING ${LANG_ENGLISH} "The installer is already running."
