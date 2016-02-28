@@ -196,9 +196,23 @@ copystuff() {
     echo Copying ssl/certs/ca-bundle.crt...
     cp "$MSYSDIR/ssl/certs/ca-bundle.crt" "$TARGETDIR/ssl/certs"
 
-    echo Copying python.exe, python2w.exe...
+    echo Copying python...
     cp $MSYSDIR/bin/python.exe $TARGETDIR/bin
-    cp $MSYSDIR/bin/python2w.exe $TARGETDIR/bin
+    cp $MSYSDIR/bin/python2w.exe $TARGETDIR/bin/pythonw.exe
+
+    echo Copying setuptools for python...
+    cp $MSYSDIR/bin/easy_install.exe $TARGETDIR/bin
+    cp $MSYSDIR/bin/easy_install.exe.manifest $TARGETDIR/bin
+    cp $MSYSDIR/bin/easy_install-script.py $TARGETDIR/bin
+    sed -i 's/^#!.*exe$/#!python.exe/' $TARGETDIR/bin/easy_install-script.py
+    # Rest of setuptools in lib/python2.7/site-packages
+
+    echo Copying pip for python...
+    cp $MSYSDIR/bin/pip.exe $TARGETDIR/bin
+    cp $MSYSDIR/bin/pip.exe.manifest $TARGETDIR/bin
+    cp $MSYSDIR/bin/pip-script.py $TARGETDIR/bin
+    sed -i 's/^#!.*exe$/#!python.exe/' $TARGETDIR/bin/pip-script.py
+    # Rest of pip in lib/python2.7/site-packages
 
     echo Building NSIS insaller exe...
     cp -r $NSISPATH $TARGETDIR

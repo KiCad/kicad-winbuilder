@@ -91,11 +91,11 @@ endif()
 set( TOOLCHAIN_PACKAGES "" )
 
 if( i686 )
-    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-i686-toolchain mingw-w64-i686-boost mingw-w64-i686-cairo mingw-w64-i686-curl mingw-w64-i686-glew mingw-w64-i686-openssl mingw-w64-i686-wxPython mingw-w64-i686-wxWidgets mingw-w64-i686-cmake mingw-w64-i686-gcc mingw-w64-i686-python2 mingw-w64-i686-pkg-config mingw-w64-i686-swig mingw-w64-i686-libxslt bzr git doxygen" )
+    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-i686-toolchain mingw-w64-i686-boost mingw-w64-i686-cairo mingw-w64-i686-curl mingw-w64-i686-glew mingw-w64-i686-openssl mingw-w64-i686-wxPython mingw-w64-i686-wxWidgets mingw-w64-i686-cmake mingw-w64-i686-gcc mingw-w64-i686-python2 mingw-w64-i686-python2-pip mingw-w64-i686-pkg-config mingw-w64-i686-swig mingw-w64-i686-libxslt bzr git doxygen" )
 endif()
 
 if( x86_64 )
-    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain mingw-w64-x86_64-boost mingw-w64-x86_64-cairo mingw-w64-x86_64-curl mingw-w64-x86_64-glew mingw-w64-x86_64-openssl mingw-w64-x86_64-wxPython mingw-w64-x86_64-wxWidgets mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 mingw-w64-x86_64-pkg-config mingw-w64-x86_64-swig mingw-w64-x86_64-libxslt bzr git doxygen" )
+    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain mingw-w64-x86_64-boost mingw-w64-x86_64-cairo mingw-w64-x86_64-curl mingw-w64-x86_64-glew mingw-w64-x86_64-openssl mingw-w64-x86_64-wxPython mingw-w64-x86_64-wxWidgets mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 mingw-w64-x86_64-python2-pip mingw-w64-x86_64-pkg-config mingw-w64-x86_64-swig mingw-w64-x86_64-libxslt bzr git doxygen" )
 endif()
 
 # Download and install an msys MinGW i686 package
