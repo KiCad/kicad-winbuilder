@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.0
+pkgver=4.0.2
 _upver="${pkgver//_/-}"
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
@@ -31,7 +31,7 @@ source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
         "http://docs.kicad-pcb.org/kicad-doc-HEAD.tar.gz"
        )
-md5sums=('f4f7ea77ee854ca12e1fd4463f681657'
+md5sums=('6c40f3a511f47c1145ccc75b9c3729f7'
          'SKIP'
          'SKIP'
          'SKIP'
@@ -58,7 +58,7 @@ build() {
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G"MSYS Makefiles" \
-		-DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_PREFIX_PATH=${MINGW_PREFIX} \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DDEFAULT_INSTALL_PATH=${MINGW_PREFIX} \
