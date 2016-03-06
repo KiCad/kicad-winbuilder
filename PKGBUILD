@@ -78,7 +78,7 @@ build() {
 
   cd "${srcdir}"
 
-  # Configure the translationn installation build.
+  # Configure the translation installation build.
   [[ -d build-i18n ]] && rm -r build-i18n
   mkdir build-i18n && cd build-i18n
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
