@@ -214,7 +214,7 @@ copystuff() {
     sed -i 's/^#!.*exe$/#!python.exe/' $TARGETDIR/bin/pip-script.py
     # Rest of pip in lib/python2.7/site-packages
 
-    echo Building NSIS insaller exe...
+    echo Building NSIS installer exe...
     cp -r $NSISPATH $TARGETDIR
 }
 
