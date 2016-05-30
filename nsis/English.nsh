@@ -51,7 +51,7 @@ LangString DESC_SEC_ENV ${LANG_ENGLISH} "Sets KISYSMOD, KISYS3DMOD and KICAD_PTE
 
 ;General messages
 LangString WINGS3D_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models you need to install Wings3D. \
-Wings3D and user manual can be download free from the Wings3D web page Check this box to open the Wings3D web page"
+Wings3D and user manual can be download free from the Wings3D web page. Check this box to open the Wings3D web page."
 
 LangString UNINST_PROMPT ${LANG_ENGLISH} "Are you sure you want to completely remove $(^Name) and all of its components? $\n\
 This will also remove all modified and new files, libraries and modules in the program directory \
