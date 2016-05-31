@@ -160,7 +160,6 @@ VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 Function .onInit
   ; Request that we get elevated rights to install so that we don't end up in
   ; the virtual store
-  !define MUI_LANGDLL_ALWAYSSHOW
   ClearErrors
   UserInfo::GetName
   IfErrors Win9x
@@ -181,7 +180,7 @@ Function .onInit
     ReserveFile "uninstall.ico"
     ReserveFile "${NSISDIR}\Plugins\x86-unicode\LangDLL.dll"
     ReserveFile "${NSISDIR}\Plugins\x86-unicode\System.dll"
-    !insertmacro MUI_LANGDLL_DISPLAY
+    ;!insertmacro MUI_LANGDLL_DISPLAY
     Goto done
 
   Win9x:
