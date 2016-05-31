@@ -53,6 +53,9 @@
   !define OPTION_STRING "unknown"
 !endif
 
+;Properly display all languages (Installer will not work on Windows 95, 98 or ME!)
+Unicode true
+
 ;Comment out the following SetCompressor command while testing this script
 ;SetCompressor /final /solid lzma
 
@@ -157,6 +160,7 @@ VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 Function .onInit
   ; Request that we get elevated rights to install so that we don't end up in
   ; the virtual store
+  !define MUI_LANGDLL_ALWAYSSHOW
   ClearErrors
   UserInfo::GetName
   IfErrors Win9x
@@ -367,7 +371,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_JA} $(DESC_SEC_DOCS_JA)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_NL} $(DESC_SEC_DOCS_NL)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_PL} $(DESC_SEC_DOCS_PL)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06} $(DESC_SEC_EMV)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06} $(DESC_SEC_ENV)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Function un.onInit

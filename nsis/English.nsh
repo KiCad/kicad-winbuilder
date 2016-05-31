@@ -4,9 +4,9 @@
 LicenseLangString MUILicense ${LANG_ENGLISH} "..\COPYRIGHT.txt"
 
 ;Welcome page
-LangString WELCOME_PAGE_TEXT ${LANG_ENGLISH} "This installer will guide you through the installation of KiCad ${PRODUCT_VERSION}.$\r$\n$\r$\n \
-It is not required to close any other applications before starting the installer, neither is it necessary to reboot your computer.$\r$\n$\r$\n \
-This is free open source software licensed under the GPL.$\r$\n$\r$\n \
+LangString WELCOME_PAGE_TEXT ${LANG_ENGLISH} "This installer will guide you through the installation of KiCad ${PRODUCT_VERSION}.$\r$\n$\r$\n\
+It is not required to close any other applications before starting the installer, neither is it necessary to reboot your computer.$\r$\n$\r$\n\
+This is free open source software licensed under the GPL.$\r$\n$\r$\n\
 Click Next to continue."
 
 ;Error messages
