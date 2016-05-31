@@ -103,6 +103,7 @@ BrandingText "KiCad installer for windows"
 !define MUI_CUSTOMFUNCTION_GUIINIT myGuiInit
 !define MUI_CUSTOMFUNCTION_UNGUIINIT un.myGuiInit
 !define MUI_WELCOMEPAGE_TEXT $(WELCOME_PAGE_TEXT)
+!define MUI_WELCOMEPAGE_TITLE_3LINES
 !insertmacro MUI_PAGE_WELCOME
 ;!insertmacro MUI_PAGE_LICENSE $(MUILicense)
 !insertmacro MUI_PAGE_COMPONENTS
