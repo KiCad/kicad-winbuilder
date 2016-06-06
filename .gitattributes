@@ -1,1 +1,3 @@
 PKGBUILD -crlf
+*.nsi -crlf
+*.nsh -crlf
