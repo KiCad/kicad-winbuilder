@@ -122,6 +122,8 @@ BrandingText "KiCad installer for windows"
 ; - To add another language; add an insert macro line here and include a language file as below
 ; - This must be after all page macros have been inserted
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
+!insertmacro MUI_LANGUAGE "Spanish"
+!insertmacro MUI_LANGUAGE "Italian"
 ;!insertmacro MUI_LANGUAGE "French"
 !insertmacro MUI_LANGUAGE "Italian"
 ;!insertmacro MUI_LANGUAGE "Polish"
@@ -132,7 +134,7 @@ BrandingText "KiCad installer for windows"
 
 !include "English.nsh"
 ;!include "German.nsh"
-;!include "Spanish.nsh"
+!include "Spanish.nsh"
 ;!include "French.nsh"
 !include "Italian.nsh"
 ;!include "Japanese.nsh"
