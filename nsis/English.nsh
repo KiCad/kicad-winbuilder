@@ -4,9 +4,9 @@
 LicenseLangString MUILicense ${LANG_ENGLISH} "..\COPYRIGHT.txt"
 
 ;Welcome page
-LangString WELCOME_PAGE_TEXT ${LANG_ENGLISH} "This installer will guide you through the installation of KiCad ${PRODUCT_VERSION}.$\r$\n$\r$\n \
-It is not required to close any other applications before starting the installer, neither is it necessary to reboot your computer.$\r$\n$\r$\n \
-This is free open source software licensed under the GPL.$\r$\n$\r$\n \
+LangString WELCOME_PAGE_TEXT ${LANG_ENGLISH} "This installer will guide you through the installation of KiCad ${PRODUCT_VERSION}.$\r$\n$\r$\n\
+It is not required to close any other applications before starting the installer, neither is it necessary to reboot your computer.$\r$\n$\r$\n\
+This is free open source software licensed under the GPL.$\r$\n$\r$\n\
 Click Next to continue."
 
 ;Error messages
@@ -47,11 +47,11 @@ LangString DESC_SEC_DOCS_IT ${LANG_ENGLISH} "$(LANGUAGE_NAME_IT) $(TITLE_SEC_DOC
 LangString DESC_SEC_DOCS_JA ${LANG_ENGLISH} "$(LANGUAGE_NAME_JA) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_NL ${LANG_ENGLISH} "$(LANGUAGE_NAME_NL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_PL ${LANG_ENGLISH} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOCS)"
-
+LangString DESC_SEC_ENV ${LANG_ENGLISH} "Sets KISYSMOD, KISYS3DMOD and KICAD_PTEMPLATES environment variables to default install paths."
 
 ;General messages
 LangString WINGS3D_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models you need to install Wings3D. \
-Wings3D and user manual can be download free from the Wings3D web page Check this box to open the Wings3D web page"
+Wings3D and user manual can be download free from the Wings3D web page. Check this box to open the Wings3D web page."
 
 LangString UNINST_PROMPT ${LANG_ENGLISH} "Are you sure you want to completely remove $(^Name) and all of its components? $\n\
 This will also remove all modified and new files, libraries and modules in the program directory \

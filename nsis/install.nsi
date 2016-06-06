@@ -53,6 +53,9 @@
   !define OPTION_STRING "unknown"
 !endif
 
+;Properly display all languages (Installer will not work on Windows 95, 98 or ME!)
+Unicode true
+
 ;Comment out the following SetCompressor command while testing this script
 ;SetCompressor /final /solid lzma
 
@@ -100,6 +103,7 @@ BrandingText "KiCad installer for windows"
 !define MUI_CUSTOMFUNCTION_GUIINIT myGuiInit
 !define MUI_CUSTOMFUNCTION_UNGUIINIT un.myGuiInit
 !define MUI_WELCOMEPAGE_TEXT $(WELCOME_PAGE_TEXT)
+!define MUI_WELCOMEPAGE_TITLE_3LINES
 !insertmacro MUI_PAGE_WELCOME
 ;!insertmacro MUI_PAGE_LICENSE $(MUILicense)
 !insertmacro MUI_PAGE_COMPONENTS
@@ -119,7 +123,7 @@ BrandingText "KiCad installer for windows"
 ; - This must be after all page macros have been inserted
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 ;!insertmacro MUI_LANGUAGE "French"
-;!insertmacro MUI_LANGUAGE "Italian"
+!insertmacro MUI_LANGUAGE "Italian"
 ;!insertmacro MUI_LANGUAGE "Polish"
 ;!insertmacro MUI_LANGUAGE "Portuguese"
 ;!insertmacro MUI_LANGUAGE "Dutch"
@@ -130,7 +134,7 @@ BrandingText "KiCad installer for windows"
 ;!include "German.nsh"
 ;!include "Spanish.nsh"
 ;!include "French.nsh"
-;!include "Italian.nsh"
+!include "Italian.nsh"
 ;!include "Japanese.nsh"
 ;!include "Dutch.nsh"
 ;!include "Polish.nsh"
@@ -177,7 +181,7 @@ Function .onInit
     ReserveFile "uninstall.ico"
     ReserveFile "${NSISDIR}\Plugins\x86-unicode\LangDLL.dll"
     ReserveFile "${NSISDIR}\Plugins\x86-unicode\System.dll"
-    !insertmacro MUI_LANGDLL_DISPLAY
+    ;!insertmacro MUI_LANGDLL_DISPLAY
     Goto done
 
   Win9x:
@@ -367,6 +371,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_JA} $(DESC_SEC_DOCS_JA)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_NL} $(DESC_SEC_DOCS_NL)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_PL} $(DESC_SEC_DOCS_PL)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06} $(DESC_SEC_ENV)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Function un.onInit
