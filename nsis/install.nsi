@@ -124,22 +124,10 @@ BrandingText "KiCad installer for windows"
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 !insertmacro MUI_LANGUAGE "Spanish"
 !insertmacro MUI_LANGUAGE "Italian"
-;!insertmacro MUI_LANGUAGE "French"
-!insertmacro MUI_LANGUAGE "Italian"
-;!insertmacro MUI_LANGUAGE "Polish"
-;!insertmacro MUI_LANGUAGE "Portuguese"
-;!insertmacro MUI_LANGUAGE "Dutch"
-;!insertmacro MUI_LANGUAGE "Russian"
-;!insertmacro MUI_LANGUAGE "Japanese"
 
 !include "English.nsh"
-;!include "German.nsh"
 !include "Spanish.nsh"
-;!include "French.nsh"
 !include "Italian.nsh"
-;!include "Japanese.nsh"
-;!include "Dutch.nsh"
-;!include "Polish.nsh"
 
 VIProductVersion "0.0.0.0" ; Dummy version, because this can only be X.X.X.X
 VIAddVersionKey "ProductName" "${COMPANY_NAME}"
