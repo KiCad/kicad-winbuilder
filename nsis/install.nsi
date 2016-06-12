@@ -125,11 +125,13 @@ BrandingText "KiCad installer for windows"
 !insertmacro MUI_LANGUAGE "German"
 !insertmacro MUI_LANGUAGE "Italian"
 !insertmacro MUI_LANGUAGE "Spanish"
+!insertmacro MUI_LANGUAGE "Greek"
 
 !include "English.nsh"
 !include "German.nsh"
 !include "Italian.nsh"
 !include "Spanish.nsh"
+!include "Greek.nsh"
 
 VIProductVersion "0.0.0.0" ; Dummy version, because this can only be X.X.X.X
 VIAddVersionKey "ProductName" "${COMPANY_NAME}"
