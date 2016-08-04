@@ -112,6 +112,10 @@ package() {
   cd "${srcdir}/build-libs"
   make DESTDIR=${pkgdir} install
 
+  # Install the pretties
+  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
+  cp -rd "${srcdir}/kicad-footprints-${_upver}"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
+
   # Install KiCad docs.
   cp -r "${srcdir}/kicad-doc-${_upver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
