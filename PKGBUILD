@@ -29,9 +29,11 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
 source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
+        "${_realname}-footprints"::"http://ci.kicad-pcb.org/job/any-kicad-pretty-lib-nightlies/lastSuccessfulBuild/artifact/*zip*/archive.zip"
         "http://docs.kicad-pcb.org/kicad-doc-HEAD.tar.gz"
        )
 md5sums=('SKIP'
+         'SKIP'
          'SKIP'
          'SKIP'
          'SKIP'
@@ -112,6 +114,10 @@ package() {
   # Install KiCad libraries.
   cd "${srcdir}/build-libs"
   make DESTDIR=${pkgdir} install
+
+  # Install the pretties
+  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
+  cp -rd "${srcdir}/kicad-footprints"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
 
   # Install KiCad docs.
   cp -r "${srcdir}/kicad-doc-HEAD/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"

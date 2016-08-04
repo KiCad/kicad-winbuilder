@@ -29,15 +29,16 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-glm"
              "git")
 source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar.xz"
-        "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
-        "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
-        "http://docs.kicad-pcb.org/kicad-doc-HEAD.tar.gz"
+        "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_upver}.tar.gz"
+        "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_upver}.tar.gz"
+        "http://downloads.kicad-pcb.org/libraries/kicad-library-${_upver}.tar.gz"
+        "http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
        )
 md5sums=('6c40f3a511f47c1145ccc75b9c3729f7'
-         'SKIP'
-         'SKIP'
-         'SKIP'
-        )
+         '14b17243b11bccc0483efb3743bd0f7b'
+         '6d7e2b2c6767ee17c93e4fa550cb9566'
+         '217eee65b2317909c6fcc4eb4de613bd'
+         '2155e7b205635ce5e194d46c49f7d3c3')
 
 build() {
   cd "${srcdir}"
@@ -85,7 +86,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-i18n
+    ../${_realname}-i18n-${_upver}
 
   cd "${srcdir}"
 
@@ -96,7 +97,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-libs
+    ../${_realname}-library-${_upver}
 
 }
 
@@ -113,6 +114,10 @@ package() {
   cd "${srcdir}/build-libs"
   make DESTDIR=${pkgdir} install
 
+  # Install the pretties
+  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
+  cp -rd "${srcdir}/kicad-footprints-${_upver}"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
+
   # Install KiCad docs.
-  cp -r "${srcdir}/kicad-doc-HEAD/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  cp -r "${srcdir}/kicad-doc-${_upver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
