@@ -38,6 +38,7 @@ md5sums=('SKIP'
          'SKIP'
          'SKIP'
         )
+noextract=("${_realname}-footprints.zip")
 
 pkgver() {
   cd "${srcdir}/${_realname}"
