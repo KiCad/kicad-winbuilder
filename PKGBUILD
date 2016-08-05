@@ -29,7 +29,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
 source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
-        "${_realname}-footprints"::"http://ci.kicad-pcb.org/job/any-kicad-pretty-lib-nightlies/lastSuccessfulBuild/artifact/*zip*/archive.zip"
+        "${_realname}-footprints.zip"::"http://ci.kicad-pcb.org/job/any-kicad-pretty-lib-nightlies/lastSuccessfulBuild/artifact/*zip*/archive.zip"
         "http://docs.kicad-pcb.org/kicad-doc-HEAD.tar.gz"
        )
 md5sums=('SKIP'
@@ -42,6 +42,10 @@ md5sums=('SKIP'
 pkgver() {
   cd "${srcdir}/${_realname}"
   printf "r%s.%s" "$(git rev-list --count --first-parent HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  mv ${srcdir}/archive  ${srcdir}/${_realname}-footprints
 }
 
 build() {
