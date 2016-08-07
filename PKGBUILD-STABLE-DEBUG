@@ -38,7 +38,7 @@ md5sums=('2691b85b4f1a363116251e004082462d'
          '6e883d3c271c1324c5e1af042f6686fa'
          'b37aa3fe1203e56425281f16f4e8a0ae'
          'df59d23c8889905163f28787cf316e27'
-         '9d7e9dcc01f97e8c81bde8689de635e7')
+         '8e9d708a0d0a31265873f7887e929149')
 
 build() {
   cd "${srcdir}"
