@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.2
+pkgver=4.0.3
 _upver="${pkgver//_/-}"
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
@@ -34,11 +34,11 @@ source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar
         "http://downloads.kicad-pcb.org/libraries/kicad-library-${_upver}.tar.gz"
         "http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
        )
-md5sums=('6c40f3a511f47c1145ccc75b9c3729f7'
-         '14b17243b11bccc0483efb3743bd0f7b'
-         '6d7e2b2c6767ee17c93e4fa550cb9566'
-         '217eee65b2317909c6fcc4eb4de613bd'
-         '2155e7b205635ce5e194d46c49f7d3c3')
+md5sums=('2691b85b4f1a363116251e004082462d'
+         '6e883d3c271c1324c5e1af042f6686fa'
+         'b37aa3fe1203e56425281f16f4e8a0ae'
+         'df59d23c8889905163f28787cf316e27'
+         '9d7e9dcc01f97e8c81bde8689de635e7')
 
 build() {
   cd "${srcdir}"
