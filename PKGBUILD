@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=r6494.edc47c3
+pkgver=r7029.cc2b358
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -25,7 +25,8 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-pkg-config"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "${MINGW_PACKAGE_PREFIX}-glm"
-             "git")
+             "git"
+             "unzip")
 source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
         "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
@@ -46,6 +47,13 @@ pkgver() {
 }
 
 prepare() {
+  if [ -d ${srcdir}/arch ]; then
+    rm -rf ${srcdir}/archive
+  fi
+  if [ -d ${srcdir}/${_realname}-footprints ]; then
+    rm -rf ${srcdir}/${_realname}-footprints
+  fi
+  unzip ${srcdir}/${_realname}-footprints.zip
   mv ${srcdir}/archive  ${srcdir}/${_realname}-footprints
 }
 
