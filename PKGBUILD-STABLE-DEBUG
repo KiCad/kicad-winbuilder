@@ -74,7 +74,7 @@ build() {
     -DKICAD_SCRIPTING_WXPYTHON=ON \
     -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
     ${EXTRA_FLAGS} \
-    ../${_realname}-${_upver}
+    ../${_realname}-4.0
   make
 
   cd "${srcdir}"
