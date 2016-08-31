@@ -230,7 +230,7 @@ download_and_install( "${NSIS_URL}" "${NSIS_MD5}" "${NSIS_FN}" "${SUPPORT_DIR}" 
 
 # tee so that we can split the stdout and stderr streams into log file and
 # console
-set( TEE_URL        https://wintee.googlecode.com/files/wtee.exe )
+set( TEE_URL        https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/wintee/wtee.exe )
 set( TEE_MD5        836bf5c65101a8977b8c1704472c6fcd )
 set( TEE_FN         wtee.exe )
 set( TEE_COMMAND    "${BIN_DIR}/${TEE_FN}" )
