@@ -10,6 +10,7 @@ display_help() {
     echo "  -h, --help           This help message"
     echo "  -a, --arch=ARCH      Determine arch for packaging"
     echo "  -p, --pkgpath=PATH   Path to pkg.tar.xz package"
+    echo "  -d, --pkgdir=PATH    Path to make install location (DESTDIR)"
     echo "  -m, --makensis=PATH  Path to makensis.exe"
     echo "  -s, --nsispath=PATH  Path to the NSIS packaging scripts"
 }
@@ -40,13 +41,41 @@ decode_pkg() {
 }
 
 extract_pkg() {
-#    cd $2
-#    echo standing in:
     pwd
     echo ======================
 
     # Extract the pkg.tar.xz
     bsdtar xf $1 --strip-components 1 -C $2
+}
+
+copy_pkg() {
+    pwd
+    echo ======================
+
+    # Copy kicad instll
+    cp -r $1/* $2
+}
+
+# Sets some other variables depending on the ARCH set
+handle_arch() {
+    #ARCH="x86_64"
+    #ARCH="i686"
+
+    if [ -z $ARCH ]; then
+        echo "error: ARCH is not set"
+        exit 0
+    fi
+
+    if [ "$ARCH" == "x86_64" ]; then
+        echo 64bit
+        MINGWBIN="mingw64"
+    elif [ "$ARCH" == "i686" ]; then
+        echo 32bit
+        MINGWBIN="mingw32"
+    else
+        echo "Use either \"x86_64\" or \"i686\" for the ARCH variable"
+        exit 0
+    fi
 }
 
 
@@ -59,13 +88,19 @@ case $i in
     -a=*|--arch=*)
     ARCH="${i#*=}"
     echo "\$ARCH=$ARCH"
-    decode_arch
+    handle_arch
     shift
     ;;
     -p=*|--pkgpath=*)
     PKGPATH="${i#*=}"
     echo "\$PKGPATH=$PKGPATH"
     decode_pkg
+    shift
+    ;;
+    -d=*|--dirpath=*)
+    DIRPATH="${i#*=}"
+    echo "\$DIRPATH=$DIRPATH"
+    VERSION=no_version
     shift
     ;;
     -m=*|--makensis=*)
@@ -90,6 +125,8 @@ case $i in
 esac
 done
 
+# TODO: Check if both -p and -d is specified, this is illegal!
+
 # Temporary dir to store the file structure
 if [ -z "$OUTDIR" ]; then
     OUTDIR="$HOME/out"
@@ -105,28 +142,6 @@ if [ -z "$MAKENSIS" ]; then
     MAKENSIS="$HOME/NSIS-bin/Bin/makensis.exe"
     echo "warning: using hardcoded makensis path"
 fi
-
-# Sets some other variables depending on the ARCH set
-handle_arch() {
-    #ARCH="x86_64"
-    #ARCH="i686"
-
-    if [ -z $ARCH ]; then
-        echo "error: ARCH is not set"
-        exit 0
-    fi
-
-    if [ "$ARCH" == "x86_64" ]; then
-        echo 64bit
-        MINGWBIN="mingw64"
-    elif [ "$ARCH" == "i686" ]; then
-        echo 32bit
-        MINGWBIN="mingw32"
-    else
-        echo "Use either \"x86_64\" or \"i686\" for the ARCH variable"
-        exit 0
-    fi
-}
 
 copystuff() {
     SEARCHLIST=( \
@@ -232,20 +247,14 @@ makensis() {
     cd -
 }
 
-
-# This loop looks for package files in the PKGPATH
-for entry in "$PKGPATH"/*; do
-if [[ $entry == *"pkg.tar.xz"* ]]; then
-    decode_pkg $(basename $entry)
-    echo "Decoded pkg is $ARCH and $VERSION"
-    handle_arch
-    echo $ARCH $ARCH
+if [ ! -z $DIRPATH ]; then
+    echo DIRPATH=$DIRPATH
+    echo ARCH=$ARCH
+    echo MINGWBIN=$MINGWBIN
+    echo VERSION=$VERSION
 
     TARGETDIR="$OUTDIR/pack-$ARCH"
     MSYSDIR="/$MINGWBIN"
-
-    echo "\$TARGETDIR=$TARGETDIR"
-    echo "\$MSYSDIR=$MSYSDIR"
 
     echo Output will be in $TARGETDIR
     if [ -e $TARGETDIR ]; then
@@ -258,7 +267,38 @@ if [[ $entry == *"pkg.tar.xz"* ]]; then
     #mkdir -p "$TARGETDIR/nsis"
 
     copystuff
-    extract_pkg $entry "$TARGETDIR"
+    copy_pkg $DIRPATH "$TARGETDIR"
     makensis
 fi
-done
+
+if [ ! -z $PKGPATH ]; then
+    # This loop looks for package files in the PKGPATH
+    for entry in "$PKGPATH"/*; do
+    if [[ $entry == *"pkg.tar.xz"* ]]; then
+        decode_pkg $(basename $entry)
+        echo "Decoded pkg is $ARCH and $VERSION"
+        handle_arch
+        echo $ARCH $ARCH
+
+        TARGETDIR="$OUTDIR/pack-$ARCH"
+        MSYSDIR="/$MINGWBIN"
+
+        echo "\$TARGETDIR=$TARGETDIR"
+        echo "\$MSYSDIR=$MSYSDIR"
+
+        echo Output will be in $TARGETDIR
+        if [ -e $TARGETDIR ]; then
+            rm -rf $TARGETDIR/*
+        fi
+        mkdir -p "$TARGETDIR/bin"
+        mkdir -p "$TARGETDIR/lib"
+        mkdir -p "$TARGETDIR/include"
+        mkdir -p "$TARGETDIR/ssl/certs"
+        #mkdir -p "$TARGETDIR/nsis"
+
+        copystuff
+        extract_pkg $entry "$TARGETDIR"
+        makensis
+    fi
+    done
+fi
