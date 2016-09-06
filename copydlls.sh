@@ -100,7 +100,6 @@ case $i in
     -d=*|--dirpath=*)
     DIRPATH="${i#*=}"
     echo "\$DIRPATH=$DIRPATH"
-    VERSION=no_version
     shift
     ;;
     -m=*|--makensis=*)
