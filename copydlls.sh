@@ -185,7 +185,10 @@ copystuff() {
         "libtasn*.dll" \
         "libp11-kit*.dll" \
         "libgmp*.dll" \
-        "libffi*.dll" )
+        "libffi*.dll" \
+        "libFWOSPlugin.dll" \
+        "libPTKernel.dll" \
+        "libTK*.dll")
 
     #echo Copying kicad binaries and stuff...
     #cp -r $MSYSDIR/bin/* $TARGETDIR/bin
