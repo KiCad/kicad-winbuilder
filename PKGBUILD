@@ -18,6 +18,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-boost"
          "${MINGW_PACKAGE_PREFIX}-wxPython"
          "${MINGW_PACKAGE_PREFIX}-wxWidgets"
          "${MINGW_PACKAGE_PREFIX}-libxslt")
+         "${MINGW_PACKAGE_PREFIX}-oce")
 makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-doxygen"
              "${MINGW_PACKAGE_PREFIX}-gcc"
