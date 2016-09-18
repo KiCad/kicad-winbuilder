@@ -187,7 +187,10 @@ copystuff() {
         "libffi*.dll" \
         "libFWOSPlugin.dll" \
         "libPTKernel.dll" \
-        "libTK*.dll")
+        "libTK*.dll" \
+        "libgraphite2.dll" \
+        "libicu*.dll" \
+        "libpcre*.dll" )
 
     #echo Copying kicad binaries and stuff...
     #cp -r $MSYSDIR/bin/* $TARGETDIR/bin
