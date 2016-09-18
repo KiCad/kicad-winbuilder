@@ -64,7 +64,7 @@ CRCCheck force
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 
 !ifndef OUTFILE
-  !define OUTFILE "kicad-product-${PRODUCT_VERSION}-${OPTION_STRING}.exe"
+  !define OUTFILE "kicad-${PRODUCT_VERSION}-${OPTION_STRING}.exe"
 !endif
 OutFile ${OUTFILE}
 
