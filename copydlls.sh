@@ -190,7 +190,8 @@ copystuff() {
         "libTK*.dll" \
         "libgraphite2.dll" \
         "libicu*.dll" \
-        "libpcre*.dll" )
+        "libpcre*.dll" \
+        "libngspice-0.dll" )
 
     #echo Copying kicad binaries and stuff...
     #cp -r $MSYSDIR/bin/* $TARGETDIR/bin
