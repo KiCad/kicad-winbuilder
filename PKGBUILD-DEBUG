@@ -90,6 +90,7 @@ build() {
     -DKICAD_SCRIPTING_WXPYTHON=ON \
     -DKICAD_USE_OCE=ON \
     -DKICAD_USE_SCH_IO_MANAGER=OFF \
+    -DKICAD_SPICE=ON \
     -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
     ${EXTRA_FLAGS} \
     ../${_realname}
