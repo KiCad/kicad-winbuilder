@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.4
+pkgver=4.0.5_rc1
 _upver="${pkgver//_/-}"
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
@@ -27,13 +27,14 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "${MINGW_PACKAGE_PREFIX}-glm"
              "git")
-source=("https://launchpad.net/kicad/4.0/${_upver}/+download/kicad-${_upver}.tar.xz"
+#source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
+source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
         "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_upver}.tar.gz"
         "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_upver}.tar.gz"
         "http://downloads.kicad-pcb.org/libraries/kicad-library-${_upver}.tar.gz"
         "http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
        )
-md5sums=('6d972e6436061aac074f7eca549c20e7'
+md5sums=('SKIP'
          'f5e0580f7135f7f25fa5b47080c60203'
          '9ab49768f984ddf7b138297a17419590'
          'f589e740692181d1ed4fe3b6d0f01bd9'
@@ -72,7 +73,7 @@ build() {
     -DKICAD_SCRIPTING_WXPYTHON=ON \
     -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
     ${EXTRA_FLAGS} \
-    ../${_realname}-4.0
+    ../${_realname}
   make
 
   cd "${srcdir}"
