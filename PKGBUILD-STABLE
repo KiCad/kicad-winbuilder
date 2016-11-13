@@ -30,7 +30,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "git")
 #source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
 source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
-        "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_basever}.tar.gz"
+        "${_realname}-i18n-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_basever}.tar.gz"
         "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_basever}.tar.gz"
         "http://downloads.kicad-pcb.org/libraries/kicad-library-${_basever}.tar.gz"
         "http://downloads.kicad-pcb.org/docs/kicad-doc-${_basever}.tar.gz"
@@ -86,7 +86,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-i18n-${_upver}
+    ../${_realname}-i18n-${_basever}
 
   cd "${srcdir}"
 
@@ -97,7 +97,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-library-${_upver}
+    ../${_realname}-library-${_basever}
 
 }
 
