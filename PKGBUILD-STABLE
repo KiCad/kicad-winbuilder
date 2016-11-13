@@ -4,6 +4,7 @@ _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
 pkgver=4.0.5_rc1
 _upver="${pkgver//_/-}"
+_basever=4.0.4
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -29,10 +30,10 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "git")
 #source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
 source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
-        "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_upver}.tar.gz"
-        "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_upver}.tar.gz"
-        "http://downloads.kicad-pcb.org/libraries/kicad-library-${_upver}.tar.gz"
-        "http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
+        "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_basever}.tar.gz"
+        "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_basever}.tar.gz"
+        "http://downloads.kicad-pcb.org/libraries/kicad-library-${_basever}.tar.gz"
+        "http://downloads.kicad-pcb.org/docs/kicad-doc-${_basever}.tar.gz"
        )
 md5sums=('SKIP'
          'f5e0580f7135f7f25fa5b47080c60203'
