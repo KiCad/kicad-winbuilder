@@ -203,7 +203,7 @@ Function ModifyFinishPage
   IntOp $6 $4 - $2
   ; then calculate the height, and we'll make this 4 times as high
   IntOp $7 $5 - $3
-  IntOp $7 4 * $7
+  IntOp $7 6 * $7
   ; then we finally update the control size.. we don't want to move it, or change its z-order however
   System::Call "User32::SetWindowPos(i $mui.FinishPage.ShowReadme, i 0, i 0, i 0, i $6, i $7, i ${SWP_NOMOVE} | ${SWP_NOZORDER})"
 FunctionEnd
