@@ -10,9 +10,10 @@ display_help() {
     echo "  -h, --help           This help message"
     echo "  -a, --arch=ARCH      Determine arch for packaging"
     echo "  -p, --pkgpath=PATH   Path to pkg.tar.xz package"
-    echo "  -d, --pkgdir=PATH    Path to make install location (DESTDIR)"
+    echo "  -d, --dirpath=PATH   Path to make install location (DESTDIR)"
     echo "  -m, --makensis=PATH  Path to makensis.exe"
     echo "  -s, --nsispath=PATH  Path to the NSIS packaging scripts"
+    exit 1
 }
 
 decode_arch() {
@@ -119,6 +120,7 @@ case $i in
     ;;
     *)
     echo "Unknown option, see the help info below:"
+    echo "Arguments not understood: $@"
     display_help
     ;;
 esac
