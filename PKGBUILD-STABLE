@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.5_rc1
+pkgver=4.0.5
 _upver="${pkgver//_/-}"
 _basever=4.0.5
 pkgrel=1
@@ -33,14 +33,13 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
         "${_realname}-i18n-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_basever}.tar.gz"
         "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_basever}.tar.gz"
         "http://downloads.kicad-pcb.org/libraries/kicad-library-${_basever}.tar.gz"
-        #"http://downloads.kicad-pcb.org/docs/kicad-doc-${_basever}.tar.gz"
-        "http://downloads.kicad-pcb.org/docs/kicad-doc-4.0.4.tar.gz"
+        "http://downloads.kicad-pcb.org/docs/kicad-doc-${_basever}.tar.gz"
        )
 md5sums=('SKIP'
          '637468ce908ab97a1e593bcf2bbeb3c0'
          '559b031cfdf69ecf395729a146262dfe'
          'a5df6b70803cf51cb5973cfb5ac4a02c'
-         '60dcdd826a4138719782d1e622558c38')
+         '8479904e8ae468934fd97b80f4709b3c')
 
 build() {
   cd "${srcdir}"
@@ -120,6 +119,5 @@ package() {
   cp -rd "${srcdir}/kicad-footprints-${_basever}"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
 
   # Install KiCad docs.
-  #cp -r "${srcdir}/kicad-doc-${_upver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
-  cp -r "${srcdir}/kicad-doc-4.0.4/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  cp -r "${srcdir}/kicad-doc-${_upver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
