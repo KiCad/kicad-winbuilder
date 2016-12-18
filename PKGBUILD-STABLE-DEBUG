@@ -2,8 +2,9 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.5_rc1
+pkgver=4.0.5
 _upver="${pkgver//_/-}"
+_basever=4.0.5
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -30,16 +31,16 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "git")
 #source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
 source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
-        "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_upver}.tar.gz"
-        "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_upver}.tar.gz"
-        "http://downloads.kicad-pcb.org/libraries/kicad-library-${_upver}.tar.gz"
-        "http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
+        "${_realname}-i18n-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_basever}.tar.gz"
+        "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_basever}.tar.gz"
+        "http://downloads.kicad-pcb.org/libraries/kicad-library-${_basever}.tar.gz"
+        "http://downloads.kicad-pcb.org/docs/kicad-doc-${_basever}.tar.gz"
        )
 md5sums=('SKIP'
-         'f5e0580f7135f7f25fa5b47080c60203'
-         '9ab49768f984ddf7b138297a17419590'
-         'f589e740692181d1ed4fe3b6d0f01bd9'
-         '60dcdd826a4138719782d1e622558c38')
+         '16e42f905b46af04c5c29ef22337cd4d'
+         '559b031cfdf69ecf395729a146262dfe'
+         'a5df6b70803cf51cb5973cfb5ac4a02c'
+         '8479904e8ae468934fd97b80f4709b3c')
 
 build() {
   cd "${srcdir}"
@@ -87,7 +88,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-i18n-${_upver}
+    ../${_realname}-i18n-${_basever}
 
   cd "${srcdir}"
 
@@ -98,7 +99,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-library-${_upver}
+    ../${_realname}-library-${_basever}
 
 }
 
@@ -117,7 +118,7 @@ package() {
 
   # Install the pretties
   mkdir -p "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
-  cp -rd "${srcdir}/kicad-footprints-${_upver}"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
+  cp -rd "${srcdir}/kicad-footprints-${_basever}"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
 
   # Install KiCad docs.
   cp -r "${srcdir}/kicad-doc-${_upver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
