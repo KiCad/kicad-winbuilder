@@ -40,7 +40,7 @@ md5sums=('SKIP'
          '16e42f905b46af04c5c29ef22337cd4d'
          '559b031cfdf69ecf395729a146262dfe'
          'a5df6b70803cf51cb5973cfb5ac4a02c'
-         '8479904e8ae468934fd97b80f4709b3c')
+         '55674aa8e1cadd85b5d43593f1232592')
 
 build() {
   cd "${srcdir}"
