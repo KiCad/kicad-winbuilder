@@ -242,6 +242,9 @@ copystuff() {
     echo Copying ngspice library files...
     cp -r $MSYSDIR/lib/ngspice $TARGETDIR/lib
 
+    echo Copying gdb...
+    cp -r $MSYSDIR/bin/gdb.exe $TARGETDIR/bin
+
     echo Building NSIS installer exe...
     cp -r $NSISPATH $TARGETDIR
 }
