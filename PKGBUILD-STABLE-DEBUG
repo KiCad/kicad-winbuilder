@@ -2,9 +2,9 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.5
-_upver="${pkgver//_/-}"
-_basever=4.0.5
+pkgver=4.0.6
+_upver=`echo ${pkgver} | sed -e 's/_.*//g'`
+_basever=4.0.6
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -29,18 +29,18 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "${MINGW_PACKAGE_PREFIX}-glm"
              "git")
-#source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
-source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
+source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
+#source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
         "${_realname}-i18n-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_basever}.tar.gz"
         "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_basever}.tar.gz"
         "http://downloads.kicad-pcb.org/libraries/kicad-library-${_basever}.tar.gz"
         "http://downloads.kicad-pcb.org/docs/kicad-doc-${_basever}.tar.gz"
        )
 md5sums=('SKIP'
-         '16e42f905b46af04c5c29ef22337cd4d'
-         '559b031cfdf69ecf395729a146262dfe'
-         'a5df6b70803cf51cb5973cfb5ac4a02c'
-         '55674aa8e1cadd85b5d43593f1232592')
+         '6680338a8b23e7d651bb30cbba04e2b3'
+         'ed3e5680317e10e5a981f56bfce687e1'
+         '325ca078191584cd063835e01ecabd67'
+         'b6bb3cf482f47a88a7cc9fef94ecf285')
 
 build() {
   cd "${srcdir}"
@@ -69,7 +69,7 @@ build() {
     -DDEFAULT_INSTALL_PATH=${MINGW_PREFIX} \
     -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
     -DKICAD_REPO_NAME=stable \
-    -DKICAD_BUILD_VERSION=${_upver} \
+    -DKICAD_BUILD_VERSION=${pkgver} \
     -DKICAD_SKIP_BOOST=ON \
     -DKICAD_SCRIPTING=ON \
     -DKICAD_SCRIPTING_MODULES=ON \
@@ -121,5 +121,5 @@ package() {
   cp -rd "${srcdir}/kicad-footprints-${_basever}"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
 
   # Install KiCad docs.
-  cp -r "${srcdir}/kicad-doc-${_upver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  cp -r "${srcdir}/kicad-doc-${_basever}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
