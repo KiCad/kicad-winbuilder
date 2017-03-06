@@ -38,7 +38,7 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
        )
 md5sums=('SKIP'
          '6680338a8b23e7d651bb30cbba04e2b3'
-         'ed3e5680317e10e5a981f56bfce687e1'
+         'df3db90c19e12234f16bdaede7e7ce50'
          '325ca078191584cd063835e01ecabd67'
          'b6bb3cf482f47a88a7cc9fef94ecf285')
 
