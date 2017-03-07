@@ -77,13 +77,13 @@ endif()
 set( WINDOWS_DIR $ENV{WINDIR} )
 if( EXISTS "${WINDOWS_DIR}/SysWOW64" )
     set( MSYS2 msys64 )
-    set( MSYS2_PACKAGE msys2-base-x86_64-20150916.tar.xz )
-    set( MSYS2_MD5 86e930e98489d5cd96bc03d52e7ecb18 )
+    set( MSYS2_PACKAGE msys2-base-x86_64-20161025.tar.xz )
+    set( MSYS2_MD5 c1598fe0591981611387abee5089dd1f )
     set( HOST_ARCH x86_64 )
 else()
     set( MSYS2 msys32 )
-    set( MSYS2_PACKAGE msys2-base-i686-20150916.tar.xz )
-    set( MSYS2_MD5 30106e320aaebcd7e4925119bfd98ecc )
+    set( MSYS2_PACKAGE msys2-base-i686-20161025.tar.xz )
+    set( MSYS2_MD5 2799d84b4188b8faa772be6f80db9f45 )
     set( HOST_ARCH i686 )
 endif()
 
@@ -104,7 +104,8 @@ macro( download_msys2mingw_base_package PACKAGE MD5 )
     # Don't repeat things when building the build environment
     if( NOT EXISTS "${DOWNLOADS_DIR}/${PACKAGE}" )
 
-        set( _PKG_URL "http://sourceforge.net/projects/msys2/files/Base/${HOST_ARCH}/${PACKAGE}/download" )
+        set( _PKG_URL "http://repo.msys2.org/distrib/${HOST_ARCH}/${PACKAGE}" )
+	message( "_PKG_URL ${_PKG_URL}" )
 
         message( STATUS "Downloading ${PACKAGE}" )
         file( DOWNLOAD "${_PKG_URL}" "${DOWNLOADS_DIR}/${PACKAGE}"
