@@ -337,7 +337,7 @@ endif()
 
 if( NOT EXISTS "${LOG_DIR}/pacman_required_packages" )
     # Get the initial required packages and then update pacman again
-    execute_msys2_bash( "pacman --noconfirm -S base-devel" )
+    execute_msys2_bash( "pacman --noconfirm -S base-devel" "${LOG_DIR}/pacman_base_devel" )
     execute_msys2_bash( "pacman --noconfirm -S git make ${TOOLCHAIN_PACKAGES}" "${LOG_DIR}/pacman_required_packages" )
     execute_msys2_bash( "pacman --noconfirm -Su" "${LOG_DIR}/pacman_required_packages_update" )
 endif()
