@@ -24,6 +24,7 @@
 #
 # Copyright (C) 2011-2015 Brian Sidebotham
 # Copyright (C) 2015 Nick Østergaard
+# Modified 2017 Matthew Swabey
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -61,7 +62,14 @@ cmake_minimum_required( VERSION 2.8.8 )
 
 # We need a temporary directory for somewhere to download files to
 set( DOWNLOADS_DIR "${CMAKE_SOURCE_DIR}/.downloads" )
+if( NOT EXISTS "${DOWNLOADS_DIR}" )
+    file( MAKE_DIRECTORY "${DOWNLOADS_DIR}" )
+endif()
+
 set( SUPPORT_DIR "${CMAKE_SOURCE_DIR}/.support" )
+if( NOT EXISTS "${SUPPORT_DIR}" )
+    file( MAKE_DIRECTORY "${SUPPORT_DIR}" )
+endif()
 
 set( LOG_DIR "${CMAKE_SOURCE_DIR}/.logs" )
 if( NOT EXISTS "${LOG_DIR}" )
@@ -98,14 +106,33 @@ if( x86_64 )
     set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain mingw-w64-x86_64-boost mingw-w64-x86_64-cairo mingw-w64-x86_64-curl mingw-w64-x86_64-glew mingw-w64-x86_64-openssl mingw-w64-x86_64-wxPython mingw-w64-x86_64-wxWidgets mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 mingw-w64-x86_64-python2-pip mingw-w64-x86_64-pkg-config mingw-w64-x86_64-swig mingw-w64-x86_64-libxslt bzr git doxygen" )
 endif()
 
+# Test the existence of a file and verifiy its MD5 against a supplied one. 
+#    Success signalled by setting variable, name passed as TEST, to TRUE
+#    Upon MD5 failure delete file that fails hash.
+function( test_file TEST FILE_PATH MD5 )
+    set( ${TEST} "FALSE" )
+
+    if( NOT EXISTS "${FILE_PATH}" )
+        return()
+    endif()
+
+    file (MD5 ${FILE_PATH} _FILE_MD5)
+    if (NOT ${_FILE_MD5} EQUAL ${MD5} )
+        file(REMOVE ${FILE_PATH} )
+        return()
+    endif()
+    set( ${TEST} "TRUE" )
+endfunction()
+
 # Download and install an msys MinGW i686 package
 macro( download_msys2mingw_base_package PACKAGE MD5 )
 
     # Don't repeat things when building the build environment
-    if( NOT EXISTS "${DOWNLOADS_DIR}/${PACKAGE}" )
+    set(TEST "FALSE")
+    test_file( TEST "${DOWNLOADS_DIR}/${PACKAGE}" ${MD5} )
+    if( NOT ${TEST} )
 
         set( _PKG_URL "http://repo.msys2.org/distrib/${HOST_ARCH}/${PACKAGE}" )
-	message( "_PKG_URL ${_PKG_URL}" )
 
         message( STATUS "Downloading ${PACKAGE}" )
         file( DOWNLOAD "${_PKG_URL}" "${DOWNLOADS_DIR}/${PACKAGE}"
@@ -118,7 +145,7 @@ macro( download_msys2mingw_base_package PACKAGE MD5 )
         list( GET _sts 1 sts_string )
 
         if( NOT ${sts_code} EQUAL 0 )
-            message( ERROR
+	    message( FATAL_ERROR
                 " ${PACKAGE} download FAILED!\n"
                 "    URL: ${_PKG_URL}\n"
                 "   FILE: ${DOWNLOADS_DIR}/${PACKAGE}\n"
@@ -126,45 +153,47 @@ macro( download_msys2mingw_base_package PACKAGE MD5 )
                 " STRING: ${status_string}\n"
                 "    LOG: ${log}\n" )
         endif()
+    endif()
 
-        execute_process(
-            COMMAND "${SEVENZ_COMMAND}" x "${DOWNLOADS_DIR}/${PACKAGE}"
-            WORKING_DIRECTORY "${DOWNLOADS_DIR}"
-            OUTPUT_VARIABLE output
-            ERROR_VARIABLE error
-            RESULT_VARIABLE result )
+    execute_process(
+        COMMAND "${SEVENZ_COMMAND}" x "${DOWNLOADS_DIR}/${PACKAGE}" "-y"
+        WORKING_DIRECTORY "${DOWNLOADS_DIR}"
+        OUTPUT_VARIABLE output
+        ERROR_VARIABLE error
+        RESULT_VARIABLE result )
 
-        if( NOT ${result} EQUAL 0 )
-            message( STATUS "7z result ${result}" )
-            message( STATUS "7z output ${output}" )
-            message( STATUS "7z error ${error}" )
-        endif()
+    if( NOT ${result} EQUAL 0 )
+        message( STATUS "7z result ${result}" )
+        message( STATUS "7z output ${output}" )
+        message( STATUS "7z error ${error}" )
+    endif()
 
-        # Remove the .xz part of the filename because 7-zip extracts the tar from the tar.xz
-        string( LENGTH "${PACKAGE}" _FN_LEN )
-        math( EXPR _SUBLEN "${_FN_LEN} - 3" )
-        string( SUBSTRING "${PACKAGE}" 0 ${_SUBLEN} _TAR_FN )
+    # Remove the .xz part of the filename because 7-zip extracts the tar from the tar.xz
+    string( LENGTH "${PACKAGE}" _FN_LEN )
+    math( EXPR _SUBLEN "${_FN_LEN} - 3" )
+    string( SUBSTRING "${PACKAGE}" 0 ${_SUBLEN} _TAR_FN )
 
-        # Now use Cmake's internal tar implementation to extract mingw-w64
-        execute_process(
-            COMMAND "${CMAKE_COMMAND}" -E tar xf "${DOWNLOADS_DIR}/${_TAR_FN}"
-            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-            OUTPUT_VARIABLE output
-            ERROR_VARIABLE error
-            RESULT_VARIABLE result )
+    # Now use Cmake's internal tar implementation to extract mingw-w64
+    execute_process(
+        COMMAND "${CMAKE_COMMAND}" -E tar xf "${DOWNLOADS_DIR}/${_TAR_FN}"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE output
+        ERROR_VARIABLE error
+        RESULT_VARIABLE result )
 
-        if( NOT ${result} EQUAL 0 )
-            message( FATAL_ERROR
-                " ${PACKAGE} extraction FAILED!\n"
-                "  ERROR: ${error}\n"
-                " OUTPUT: ${output}\n" )
+    if( NOT ${result} EQUAL 0 )
+        message( FATAL_ERROR
+            " ${PACKAGE} extraction FAILED!\n"
+            "  ERROR: ${error}\n"
+            " OUTPUT: ${output}\n" )
 
-        endif()
     endif()
 endmacro()
 
 macro( download_and_install URL MD5 FN WD )
-    if( NOT EXISTS "${DOWNLOADS_DIR}/${FN}" )
+    set(TEST "FALSE")
+    test_file( TEST "${DOWNLOADS_DIR}/${FN}" ${MD5} )
+    if( NOT ${TEST} )
         message( STATUS "Downloading and installing ${FN}" )
 
         file( DOWNLOAD "${URL}" "${DOWNLOADS_DIR}/${FN}"
@@ -183,21 +212,21 @@ macro( download_and_install URL MD5 FN WD )
                     " STRING: ${status_string}\n"
                     "    LOG: ${log}\n" )
         endif()
+    endif()
 
-        # If the download is a zip file...
-        execute_process(
-                COMMAND ${CMAKE_COMMAND} -E tar xzf "${DOWNLOADS_DIR}/${FN}"
-                WORKING_DIRECTORY "${WD}"
-                OUTPUT_VARIABLE output
-                ERROR_VARIABLE error
-                RESULT_VARIABLE result )
+    # If the download is a zip file...
+    execute_process(
+            COMMAND ${CMAKE_COMMAND} -E tar xzf "${DOWNLOADS_DIR}/${FN}"
+            WORKING_DIRECTORY "${WD}"
+            OUTPUT_VARIABLE output
+            ERROR_VARIABLE error
+            RESULT_VARIABLE result )
 
-        if( NOT ${result} EQUAL 0 )
-            message( FATAL_ERROR
-                    "${FN} Installation failed!\n"
-                    "  ERROR: ${error}\n"
-                    " OUTPUT: ${output}\n" )
-        endif()
+    if( NOT ${result} EQUAL 0 )
+        message( FATAL_ERROR
+                "${FN} Installation failed!\n"
+                "  ERROR: ${error}\n"
+                " OUTPUT: ${output}\n" )
     endif()
 endmacro()
 
@@ -209,7 +238,7 @@ set( SEVENZ_MD5     2fac454a90ae96021f4ffc607d4c00f8 )
 set( SEVENZ_FN      7za920.zip )
 set( SEVENZ_COMMAND "${BIN_DIR}/7za.exe" )
 
-if( NOT EXISTS "${BIN_DIR}/${SEVENZ_COMMAND}" )
+if( NOT EXISTS "${SEVENZ_COMMAND}" )
     download_and_install( "${SEVENZ_URL}" "${SEVENZ_MD5}" "${SEVENZ_FN}" "${BIN_DIR}" )
 endif()
 
@@ -225,7 +254,9 @@ set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-3.0b3/Bin/makensis.exe" )
 #set( NSIS_FN nsis-2.50.zip )
 #set( NSIS_MAKE_COMMAND "${SUPPORT_DIR}/nsis-2.50/makensis.exe" )
 
-download_and_install( "${NSIS_URL}" "${NSIS_MD5}" "${NSIS_FN}" "${SUPPORT_DIR}" )
+if( NOT EXISTS "${NSIS_MAKE_COMMAND}" )
+    download_and_install( "${NSIS_URL}" "${NSIS_MD5}" "${NSIS_FN}" "${SUPPORT_DIR}" )
+endif()
 
 # ------------------------------------------------------------------------------
 
@@ -262,7 +293,8 @@ endif()
 
 # ------------------------------------------------------------------------------
 
-if( NOT EXISTS "${CMAKE_SOURCE_DIR}/${MSYS2}" )
+if( NOT EXISTS "${CMAKE_SOURCE_DIR}/${MSYS2}/msys2.ini" )
+    file( REMOVE_RECURSE "${CMAKE_SOURCE_DIR}/${MSYS2}" )
 
     message( STATUS "Installing MSYS2 Base" )
     download_msys2mingw_base_package( ${MSYS2_PACKAGE} ${MSYS2_MD5} )
@@ -305,6 +337,7 @@ endif()
 
 if( NOT EXISTS "${LOG_DIR}/pacman_required_packages" )
     # Get the initial required packages and then update pacman again
+    execute_msys2_bash( "pacman --noconfirm -S base-devel" )
     execute_msys2_bash( "pacman --noconfirm -S git make ${TOOLCHAIN_PACKAGES}" "${LOG_DIR}/pacman_required_packages" )
     execute_msys2_bash( "pacman --noconfirm -Su" "${LOG_DIR}/pacman_required_packages_update" )
 endif()
@@ -330,6 +363,13 @@ if( i686 AND NOT x86_64 )
 elseif( NOT i686 AND x86_64 )
     set( EXPORT_CARCH "export CARCH=x86_64 &&" )
 endif()
+
+# Copy proper PKGBUILD for ngspice
+file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD-ngspice-git" DESTINATION "${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git" )
+file( RENAME "${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git/PKGBUILD-ngspice-git" "${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git/PKGBUILD" )
+
+# Actually build ngspice
+execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git\" && ${EXPORT_CARCH} makepkg-mingw -is --noconfirm" "${LOG_DIR}/makepkg-ngspice" )
 
 # Copy proper PKGBUILD (without bzr docs!)
 file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD" DESTINATION "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git" )
