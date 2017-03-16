@@ -61,8 +61,8 @@ prepare() {
   # https://lists.launchpad.net/kicad-developers/msg28560.html
   rm -rf ${srcdir}/${_realname}/include/wx
   mkdir ${srcdir}/${_realname}/include/wx
-  #cp `find /usr/x86_64-*mingw*/ -path "*wx\\/app.h"` \
-  cp `find ${MINGW_CHOST} -path "*wx\\/app.h"` \
+  #cp $(find /usr/x86_64-*mingw*/ -path "*wx\\/app.h") \
+  cp $(find ${MINGW_CHOST} -path "*wx\\/app.h") \
     ${srcdir}/${_realname}/include/wx
   cd ${srcdir}/${_realname}
   patch -p1 -i ${srcdir}/${_realname}/patches/wxwidgets-3.0.2_mingw_fix_unicode_entry.patch
