@@ -262,39 +262,6 @@ endif()
 
 # ------------------------------------------------------------------------------
 
-# tee so that we can split the stdout and stderr streams into log file and
-# console
-set( TEE_URL        https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/wintee/wtee.exe )
-set( TEE_MD5        836bf5c65101a8977b8c1704472c6fcd )
-set( TEE_FN         wtee.exe )
-set( TEE_COMMAND    "${BIN_DIR}/${TEE_FN}" )
-
-if( NOT EXISTS "${TEE_COMMAND}" )
-
-    message( STATUS "Downloading and installing tee" )
-
-    file( DOWNLOAD ${TEE_URL} "${BIN_DIR}/${TEE_FN}"
-            EXPECTED_MD5 ${TEE_MD5}
-            STATUS status
-            LOG log )
-
-    list( GET status 0 status_code )
-    list( GET status 1 status_string )
-
-    if( NOT ${status_code} EQUAL 0 )
-
-        message( FATAL_ERROR
-                " tee download FAILED!\n"
-                "    URL: ${TEE_URL}\n"
-                "   CODE: ${status_code}\n"
-                " STRING: ${status_string}\n"
-                "    LOG: ${log}\n" )
-
-    endif()
-endif()
-
-# ------------------------------------------------------------------------------
-
 if( NOT EXISTS "${CMAKE_SOURCE_DIR}/${MSYS2}/msys2.ini" )
     file( REMOVE_RECURSE "${CMAKE_SOURCE_DIR}/${MSYS2}" )
 
@@ -302,14 +269,25 @@ if( NOT EXISTS "${CMAKE_SOURCE_DIR}/${MSYS2}/msys2.ini" )
     download_msys2mingw_base_package( ${MSYS2_PACKAGE} ${MSYS2_MD5} )
 
 endif()
+file( GLOB HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/*" )
 
 macro( execute_msys2_bash CMD LOG )
     message( STATUS "Running ${CMD}" )
 
     execute_process(
-        COMMAND "${CMAKE_SOURCE_DIR}/${MSYS2}/usr/bin/bash.exe" -l -c "${CMD}" 2>&1
-        COMMAND "${TEE_COMMAND}" "${LOG}"
-        RESULT_VARIABLE CMD_RESULT )
+        COMMAND "${CMAKE_SOURCE_DIR}/${MSYS2}/usr/bin/bash.exe" -l -c "set -o pipefail; ${CMD} 2>&1 | tee ~/last_error" 
+	RESULT_VARIABLE RESULT )
+
+    # UNIX commands return 0 on success while CMake treats 0 as a fail. So test for 0 success!
+    if( ${RESULT} EQUAL 0 )
+	    message ( STATUS "Success ${RESULT}: ${CMD}" )
+	    file( RENAME "${HOME_DIR}/last_error" ${LOG} )
+    else()
+	    message ( STATUS "Failure ${RESULT}: ${CMD}" )
+	    file( APPEND "${HOME_DIR}/last_error" "\n Error from: ${CMD}\n" )
+	    file( COPY "${HOME_DIR}/last_error" DESTINATION ${LOG_DIR} )
+	    message( FATAL_ERROR "Error running ${CMD}\n Output in: ${LOG_DIR}/last_error" )
+    endif()
 
 endmacro()
 
@@ -346,7 +324,6 @@ endif()
 # Get the MinGW packages source from github so we can get the official MSYS2
 # KiCad pacman package source
 # Get the home directory
-file( GLOB HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/*" )
 set( KICAD_PACKAGE_SOURCE_DIR "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git/" )
 message( STATUS "HOME_DIR ${HOME_DIR}" )
 message( STATUS "KICAD_PACKAGE_SOURCE_DIR ${KICAD_PACKAGE_SOURCE_DIR}" )
