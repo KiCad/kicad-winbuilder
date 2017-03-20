@@ -274,18 +274,17 @@ file( GLOB HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/*" )
 macro( execute_msys2_bash CMD LOG )
     message( STATUS "Running ${CMD}" )
 
+    file( WRITE "${CMAKE_SOURCE_DIR}/${MSYS2}/tmp/last_error" "${CMD}\n" )
     execute_process(
-        COMMAND "${CMAKE_SOURCE_DIR}/${MSYS2}/usr/bin/bash.exe" -l -c "set -o pipefail; ${CMD} 2>&1 | tee ~/last_error" 
+        COMMAND "${CMAKE_SOURCE_DIR}/${MSYS2}/usr/bin/bash.exe" -l -c "set -o pipefail; ${CMD} 2>&1 | tee -a /tmp/last_error" 
 	RESULT_VARIABLE RESULT )
 
     # UNIX commands return 0 on success while CMake treats 0 as a fail. So test for 0 success!
     if( ${RESULT} EQUAL 0 )
+	    file( RENAME "${CMAKE_SOURCE_DIR}/${MSYS2}/tmp/last_error" ${LOG} )
 	    message ( STATUS "Success ${RESULT}: ${CMD}" )
-	    file( RENAME "${HOME_DIR}/last_error" ${LOG} )
     else()
-	    message ( STATUS "Failure ${RESULT}: ${CMD}" )
-	    file( APPEND "${HOME_DIR}/last_error" "\n Error from: ${CMD}\n" )
-	    file( COPY "${HOME_DIR}/last_error" DESTINATION ${LOG_DIR} )
+	    file( COPY "${CMAKE_SOURCE_DIR}/${MSYS2}/tmp/last_error" DESTINATION ${LOG_DIR} )
 	    message( FATAL_ERROR "Error running ${CMD}\n Output in: ${LOG_DIR}/last_error" )
     endif()
 
