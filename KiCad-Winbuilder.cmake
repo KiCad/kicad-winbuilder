@@ -96,14 +96,16 @@ else()
 endif()
 
 # Select the target architecture(s) specified from cmake command...
-set( TOOLCHAIN_PACKAGES "" )
+set( TOOLCHAIN_PACKAGES "base-devel git" )
 
 if( i686 )
-    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-i686-toolchain mingw-w64-i686-boost mingw-w64-i686-cairo mingw-w64-i686-curl mingw-w64-i686-glew mingw-w64-i686-openssl mingw-w64-i686-wxPython mingw-w64-i686-wxWidgets mingw-w64-i686-cmake mingw-w64-i686-gcc mingw-w64-i686-python2 mingw-w64-i686-python2-pip mingw-w64-i686-pkg-config mingw-w64-i686-swig mingw-w64-i686-libxslt bzr git doxygen" )
+	#    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-i686-toolchain mingw-w64-i686-boost mingw-w64-i686-cairo mingw-w64-i686-curl mingw-w64-i686-glew mingw-w64-i686-openssl mingw-w64-i686-wxPython mingw-w64-i686-wxWidgets mingw-w64-i686-cmake mingw-w64-i686-gcc mingw-w64-i686-python2 mingw-w64-i686-python2-pip mingw-w64-i686-pkg-config mingw-w64-i686-swig mingw-w64-i686-libxslt bzr git doxygen" )
+	set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-i686-toolchain" )
 endif()
 
 if( x86_64 )
-    set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain mingw-w64-x86_64-boost mingw-w64-x86_64-cairo mingw-w64-x86_64-curl mingw-w64-x86_64-glew mingw-w64-x86_64-openssl mingw-w64-x86_64-wxPython mingw-w64-x86_64-wxWidgets mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 mingw-w64-x86_64-python2-pip mingw-w64-x86_64-pkg-config mingw-w64-x86_64-swig mingw-w64-x86_64-libxslt bzr git doxygen" )
+	#set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain mingw-w64-x86_64-boost mingw-w64-x86_64-cairo mingw-w64-x86_64-curl mingw-w64-x86_64-glew mingw-w64-x86_64-openssl mingw-w64-x86_64-wxPython mingw-w64-x86_64-wxWidgets mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 mingw-w64-x86_64-python2-pip mingw-w64-x86_64-pkg-config mingw-w64-x86_64-swig mingw-w64-x86_64-libxslt bzr git doxygen" )
+	set( TOOLCHAIN_PACKAGES "${TOOLCHAIN_PACKAGES} mingw-w64-x86_64-toolchain" )
 endif()
 
 # Test the existence of a file and verifiy its MD5 against a supplied one. 
@@ -337,8 +339,7 @@ endif()
 
 if( NOT EXISTS "${LOG_DIR}/pacman_required_packages" )
     # Get the initial required packages and then update pacman again
-    execute_msys2_bash( "pacman --noconfirm -S base-devel" "${LOG_DIR}/pacman_base_devel" )
-    execute_msys2_bash( "pacman --noconfirm -S git make ${TOOLCHAIN_PACKAGES}" "${LOG_DIR}/pacman_required_packages" )
+    execute_msys2_bash( "pacman --noconfirm -S ${TOOLCHAIN_PACKAGES}" "${LOG_DIR}/pacman_required_packages" )
     execute_msys2_bash( "pacman --noconfirm -Su" "${LOG_DIR}/pacman_required_packages_update" )
 endif()
 
