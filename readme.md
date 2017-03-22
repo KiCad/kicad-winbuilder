@@ -1,16 +1,19 @@
-﻿KiCad-Winbuilder provides the means to build up-to-date KiCad binaries
+# KiCad-Winbuilder
+KiCad-Winbuilder provides the means to build up-to-date KiCad binaries.
 
-Instructions:
-=========================================
-
+## Usage
+Using KiCad-Winbuilder is pretty straight forward:
 1. Download (and install) CMake from here: https://cmake.org/download/
-2. Git clone this repository to a location on your machine.
+2. Git clone this repository to a location on your machine
 3. Run make_all.bat from the freshly cloned git repository
 
+KiCad-Winbuilder will utilize approximately 10 Gb while downloading and building the dependencies. Make sure you have enough remaining space on your hard drive.
+
+## Concept
+KiCad-Windbuilder is loose **sandboxed**. That way it will not affect your system.
 
 
-Possible issues (and workarounds):
-========================================
+## Issues (and workarounds)
 
 MSYS2 issue with Windows 10 TH2, doesn't allow proper fork behaviour.
 Newly released version of MSYS2 contains a fix.  However must be manually updated at this time (20160103).
@@ -34,3 +37,7 @@ Procedure:
 4. open /etc/passwd in text editor and remove spaces from the username and the home directory locations (columns 1 and 5 from memory.. but it should be obvious)
 5. save file and close
 6. rename user home directory to remove space character
+
+## TODO
+- [ ] Nothing to see
+- [ ] Nothing to see
