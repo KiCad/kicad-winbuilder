@@ -3,15 +3,12 @@ KiCad-Winbuilder provides the means to build up-to-date KiCad binaries.
 
 ## Usage
 Using KiCad-Winbuilder is pretty straight forward:
-1. Download (and install) CMake from here: https://cmake.org/download/
-2. Git clone this repository to a location on your machine
-3. Run make_all.bat from the freshly cloned git repository
+1. Download and install [CMake](https://cmake.org/ "CMake Homepage")
+2. `git clone` this repository to a location on your machine
+3. Run `make_all.bat` from the freshly cloned git repository
 
-KiCad-Winbuilder will utilize approximately 10 Gb while downloading and building the dependencies. Make sure you have enough remaining space on your hard drive.
-
-## Concept
-KiCad-Windbuilder is loose **sandboxed**. That way it will not affect your system.
-
+KiCad-Winbuilder may utilize up to 10 Gb while downloading and building the dependencies. Make sure you have enough remaining space on your hard drive.
+Depending on your hardware, the first build can take several hours to finish. Following builds will be much quicker though.
 
 ## Issues (and workarounds)
 
@@ -37,7 +34,3 @@ Procedure:
 4. open /etc/passwd in text editor and remove spaces from the username and the home directory locations (columns 1 and 5 from memory.. but it should be obvious)
 5. save file and close
 6. rename user home directory to remove space character
-
-## TODO
-- [ ] Nothing to see
-- [ ] Nothing to see
