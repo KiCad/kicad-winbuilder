@@ -267,7 +267,7 @@ if( NOT EXISTS "${CMAKE_SOURCE_DIR}/${MSYS2}/msys2.ini" )
     download_msys2mingw_base_package( ${MSYS2_PACKAGE} ${MSYS2_MD5} )
 
 endif()
-file( GLOB HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/*" )
+set(HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/$ENV{USERNAME}" )
 
 macro( execute_msys2_bash CMD LOG )
     message( STATUS "Running ${CMD}" )
@@ -385,4 +385,3 @@ if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw64" 
                          --makensis=${NSIS_MAKE_COMMAND}"
                          "${LOG_DIR}/copydlls_mingw64" )
 endif()
-
