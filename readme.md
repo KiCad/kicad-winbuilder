@@ -7,7 +7,7 @@ Using KiCad-Winbuilder is pretty straight forward:
 2. `git clone` this repository to a location on your machine
 3. Run `make_all.bat` from the freshly cloned git repository
 
-KiCad-Winbuilder may utilize up to 10 Gb while downloading and building the dependencies. Make sure you have enough remaining space on your hard drive.
+KiCad-Winbuilder may utilize up to 10 GB while downloading and building the dependencies. Make sure you have enough remaining space on your hard drive.
 Depending on your hardware, the first build can take several hours to finish. Following builds will be much quicker though.
 
 ## Issues (and workarounds)
