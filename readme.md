@@ -1,16 +1,16 @@
-﻿KiCad-Winbuilder provides the means to build up-to-date KiCad binaries
+# KiCad-Winbuilder
+KiCad-Winbuilder provides the means to build up-to-date KiCad binaries.
 
-Instructions:
-=========================================
+## Usage
+Using KiCad-Winbuilder is pretty straight forward:
+1. Download and install [CMake](https://cmake.org/ "CMake Homepage")
+2. `git clone` this repository to a location on your machine
+3. Run `make_all.bat` from the freshly cloned git repository
 
-1. Download (and install) CMake from here: https://cmake.org/download/
-2. Git clone this repository to a location on your machine.
-3. Run make_all.bat from the freshly cloned git repository
+KiCad-Winbuilder may utilize up to 10 GB while downloading and building the dependencies. Make sure you have enough remaining space on your hard drive.
+Depending on your hardware, the first build can take several hours to finish. Following builds will be much quicker though.
 
-
-
-Possible issues (and workarounds):
-========================================
+## Issues (and workarounds)
 
 MSYS2 issue with Windows 10 TH2, doesn't allow proper fork behaviour.
 Newly released version of MSYS2 contains a fix.  However must be manually updated at this time (20160103).
