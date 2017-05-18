@@ -345,13 +345,13 @@ file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD-ngspice-git" DESTINATION "${HOME_DIR}/M
 file( RENAME "${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git/PKGBUILD-ngspice-git" "${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git/PKGBUILD" )
 
 # Actually build ngspice
-execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git\" && ${EXPORT_CARCH} makepkg-mingw -is --noconfirm" "${LOG_DIR}/makepkg-ngspice" )
+execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git\" && ${EXPORT_CARCH} TERM=vt220 makepkg-mingw -is --noconfirm" "${LOG_DIR}/makepkg-ngspice" )
 
 # Copy proper PKGBUILD (without bzr docs!)
 file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD" DESTINATION "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git" )
 
 # Actually build KiCad
-execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git\" && ${EXPORT_CARCH} makepkg-mingw -s --noconfirm" "${LOG_DIR}/makepkg" )
+execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git\" && ${EXPORT_CARCH} TERM=vt220 makepkg-mingw -s --noconfirm" "${LOG_DIR}/makepkg" )
 
 # Copy the runtime helper script to the MSYS2 system
 file( COPY "${CMAKE_SOURCE_DIR}/copydlls.sh" DESTINATION "${HOME_DIR}/" )
