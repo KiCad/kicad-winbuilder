@@ -267,7 +267,6 @@ if( NOT EXISTS "${CMAKE_SOURCE_DIR}/${MSYS2}/msys2.ini" )
     download_msys2mingw_base_package( ${MSYS2_PACKAGE} ${MSYS2_MD5} )
 
 endif()
-file( GLOB HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/*" )
 
 macro( execute_msys2_bash CMD LOG )
     message( STATUS "Running ${CMD}" )
@@ -322,6 +321,7 @@ endif()
 # Get the MinGW packages source from github so we can get the official MSYS2
 # KiCad pacman package source
 # Get the home directory
+file( GLOB HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/*" )
 set( KICAD_PACKAGE_SOURCE_DIR "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git/" )
 message( STATUS "HOME_DIR ${HOME_DIR}" )
 message( STATUS "KICAD_PACKAGE_SOURCE_DIR ${KICAD_PACKAGE_SOURCE_DIR}" )
