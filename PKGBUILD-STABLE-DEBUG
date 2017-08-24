@@ -2,9 +2,9 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.6
+pkgver=4.0.7
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
-_basever=4.0.6
+_basever=4.0.7
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
