@@ -302,6 +302,7 @@ Section $(TITLE_SEC_ENV) SEC07
   WriteRegExpandStr ${ENV_HKLM} KICAD_PTEMPLATES "$INSTDIR\share\kicad\template"
   WriteRegExpandStr ${ENV_HKLM} KISYS3DMOD "$INSTDIR\share\kicad\modules\packages3d"
   WriteRegExpandStr ${ENV_HKLM} KISYSMOD "$INSTDIR\share\kicad\modules"
+  WriteRegExpandStr ${ENV_HKLM} KICAD_SYMBOL_DIR "$INSTDIR\share\kicad\library"
   
   WriteRegDWORD ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "EnvInstalled" "1"
   
