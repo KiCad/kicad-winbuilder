@@ -151,5 +151,6 @@ package() {
   cp -rd "${srcdir}/kicad-footprints"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
 
   # Install KiCad docs.
+  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
   cp -r "${srcdir}/kicad-doc-HEAD/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
