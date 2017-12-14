@@ -19,7 +19,10 @@ EDIT: This might now be fixed https://lists.launchpad.net/kicad-developers/msg22
 
 Procedure:
 
-1. Launch msy2_shell.bat
+
+
+
+1. Launch msys2_shell.bat
 2. run command 'update-core'
 3. exit shell, now the rest of the Winbuilder process will work (although the pacman_initial log file should be removed to re-run the pacman updates)
 
@@ -28,9 +31,9 @@ Windows username has space in it, which will cause issues with build process (re
 
 Procedure:
 
-1. Launch msy2_shell.bat
+1. Launch msys2_shell.bat
 2. run command '/usr/bin/mkpasswd > /etc/passwd'
-3. exit msy2_shell.bat
+3. exit msys2_shell.bat
 4. open /etc/passwd in text editor and remove spaces from the username and the home directory locations (columns 1 and 5 from memory.. but it should be obvious)
 5. save file and close
 6. rename user home directory to remove space character
