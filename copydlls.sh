@@ -195,7 +195,9 @@ copystuff() {
         "libpcre*.dll" \
         "libngspice-0.dll" \
         "libnghttp2*dll" \
-        "libunistring-2.dll" )
+        "libunistring-2.dll" \
+        "libreadline7.dll" \
+        "libtermcap-0.dll" )
 
     #echo Copying kicad binaries and stuff...
     #cp -r $MSYSDIR/bin/* $TARGETDIR/bin
