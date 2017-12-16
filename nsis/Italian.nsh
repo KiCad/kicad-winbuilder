@@ -50,8 +50,8 @@ LangString DESC_SEC_DOCS_PL ${LANG_ITALIAN} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOC
 LangString DESC_SEC_ENV ${LANG_ITALIAN} "Imposta le variabili ambiente KISYSMOD, KISYS3DMOD e KICAD_PTEMPLATES ai percorsi di installazione predefiniti."
 
 ;General messages
-LangString WINGS3D_PROMPT ${LANG_ITALIAN} "Per modificare o creare modelli 3D è necessario installare Wings3D. \
-Wings3D ed il suo manuale utente possono essere scaricati liberamente dalla pagina web di Wings3D. Selezionare questa casella per aprire la pagina web di Wings3D."
+LangString FREECAD_PROMPT ${LANG_ITALIAN} "Per modificare o creare modelli 3D è necessario installare FreeCAD. \
+FreeCAD ed il suo manuale utente possono essere scaricati liberamente dalla pagina web di FreeCAD. Selezionare questa casella per aprire la pagina web di FreeCAD."
 
 LangString UNINST_PROMPT ${LANG_ITALIAN} "Sicuri di voler rimuovere completamente $(^Name) e tutti i suoi componenti? $\n\
 Ciò rimuoverà tutti i file nuovi e modificati, librerie e moduli, nella cartella del programma \

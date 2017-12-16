@@ -36,7 +36,7 @@
 !define COMMENTS ""
 !define HELP_WEB_SITE "http://groups.yahoo.com/group/kicad-users/"
 !define DEVEL_WEB_SITE "https://launchpad.net/kicad/"
-!define WINGS3D_WEB_SITE "http://www.wings3d.com"
+!define FREECAD_WEB_SITE "https://www.freecadweb.org/"
 
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define UNINST_ROOT "HKLM"
@@ -109,8 +109,8 @@ BrandingText "KiCad installer for windows"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
-!define MUI_FINISHPAGE_SHOWREADME ${WINGS3D_WEB_SITE}
-!define MUI_FINISHPAGE_SHOWREADME_TEXT $(WINGS3D_PROMPT)
+!define MUI_FINISHPAGE_SHOWREADME ${FREECAD_WEB_SITE}
+!define MUI_FINISHPAGE_SHOWREADME_TEXT $(FREECAD_PROMPT)
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 !define MUI_PAGE_CUSTOMFUNCTION_SHOW ModifyFinishPage
 !insertmacro MUI_PAGE_FINISH
@@ -315,12 +315,10 @@ Section -CreateShortcuts
   WriteIniStr "$INSTDIR\UserGroup.url"    "InternetShortcut" "URL" "${HELP_WEB_SITE}"
   WriteIniStr "$INSTDIR\DevelGroup.url"   "InternetShortcut" "URL" "${DEVEL_WEB_SITE}"
   WriteIniStr "$INSTDIR\LibrariesGroup.url" "InternetShortcut" "URL" "${LIBRARIES_WEB_SITE}"
-  WriteIniStr "$INSTDIR\Wings3D.url"      "InternetShortcut" "URL" "${WINGS3D_WEB_SITE}"
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\KiCad"
   CreateShortCut "$SMPROGRAMS\KiCad\Home Page.lnk" "$INSTDIR\HomePage.url"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad Libraries.lnk" "$INSTDIR\LibrariesGroup.url"
-  CreateShortCut "$SMPROGRAMS\KiCad\Wings3D.lnk" "$INSTDIR\Wings3D.url"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad User Group.lnk" "$INSTDIR\UserGroup.url"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad Devel Group.lnk" "$INSTDIR\DevelGroup.url"
   CreateShortCut "$SMPROGRAMS\KiCad\Uninstall.lnk" "$INSTDIR\uninstaller.exe"
@@ -396,7 +394,6 @@ Section Uninstall
   Delete "$SMPROGRAMS\KiCad\KiCad Devel Group.lnk"
   Delete "$SMPROGRAMS\KiCad\KiCad User Group.lnk"
   Delete "$SMPROGRAMS\KiCad\Uninstall.lnk"
-  Delete "$SMPROGRAMS\KiCad\Wings3D.lnk"
   Delete "$SMPROGRAMS\KiCad\KiCad.lnk"
   Delete "$SMPROGRAMS\KiCad\Eeschema.lnk"
   Delete "$SMPROGRAMS\KiCad\Pcbnew.lnk"
@@ -405,7 +402,6 @@ Section Uninstall
   Delete "$SMPROGRAMS\KiCad\PCB calculator.lnk"
   Delete "$SMPROGRAMS\KiCad\Pagelayout editor.lnk"
   Delete "$DESKTOP\KiCad.lnk"
-  Delete "$INSTDIR\Wings3D.url"
   Delete "$INSTDIR\HomePage.url"
   Delete "$INSTDIR\UserGroup.url"
   Delete "$INSTDIR\AltDownloadSite.url"
@@ -433,7 +429,6 @@ Section Uninstall
   RMDir /r "$INSTDIR\share\doc\kicad"
   RMDir /r "$INSTDIR\share\doc"
   RMDir /r "$INSTDIR\share"
-  RMDir /r "$INSTDIR\wings3d"
   RMDir /r "$INSTDIR\ssl\certs"
   RMDir /r "$INSTDIR\ssl"
   ;don't remove $INSTDIR recursively just in case the user has installed it in c:\ or

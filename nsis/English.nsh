@@ -50,8 +50,8 @@ LangString DESC_SEC_DOCS_PL ${LANG_ENGLISH} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOC
 LangString DESC_SEC_ENV ${LANG_ENGLISH} "Sets KISYSMOD, KISYS3DMOD and KICAD_PTEMPLATES environment variables to default install paths."
 
 ;General messages
-LangString WINGS3D_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models you need to install Wings3D. \
-Wings3D and user manual can be download free from the Wings3D web page. Check this box to open the Wings3D web page."
+LangString FREECAD_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models you need to install FreeCAD. \
+FreeCAD and user manual can be download free from the FreeCAD web page. Check this box to open the FreeCAD web page."
 
 LangString UNINST_PROMPT ${LANG_ENGLISH} "Are you sure you want to completely remove $(^Name) and all of its components? $\n\
 This will also remove all modified and new files, libraries and modules in the program directory \
