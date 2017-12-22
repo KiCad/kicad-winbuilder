@@ -183,6 +183,8 @@ Function .onInit
     Quit
 
   done:
+    Call EnableLiteMode
+
 FunctionEnd
 
 Function myGuiInit
@@ -479,4 +481,49 @@ Function CheckAlreadyInstalled
   StrCmp $R0 "" +3
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION $(ALREADY_INSTALLED) /SD IDOK IDOK +2
   Abort
+FunctionEnd
+
+!macro CompileTimeIfFileExist path define
+  !tempfile tmpinc
+  !system 'IF EXIST "${path}" echo !define ${define} > "${tmpinc}"'
+  !include "${tmpinc}"
+  !delfile "${tmpinc}"
+  !undef tmpinc
+!macroend
+
+Function EnableLiteMode
+  ; TODO: Add override string for lite mode
+  !insertmacro CompileTimeIfFileExist "..\share\kicad\library" ADD_LIBS
+  !ifndef ADD_LIBS
+    !insertmacro SetSectionFlag ${SEC02} ${SF_RO}
+    !insertmacro UnselectSection ${SEC02}
+  !endif
+
+  !insertmacro CompileTimeIfFileExist "..\share\kicad\modules" ADD_MODULES
+  !ifndef ADD_MODULES
+    !insertmacro SetSectionFlag ${SEC03} ${SF_RO}
+    !insertmacro UnselectSection ${SEC03}
+  !endif
+
+  !insertmacro CompileTimeIfFileExist "..\share\doc\kicad\help" ADD_HELP
+  !ifndef ADD_HELP
+    !insertmacro SetSectionFlag ${SEC06} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06}
+    !insertmacro SetSectionFlag ${SEC06_EN} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_EN}
+    !insertmacro SetSectionFlag ${SEC06_DE} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_DE}
+    !insertmacro SetSectionFlag ${SEC06_ES} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_ES}
+    !insertmacro SetSectionFlag ${SEC06_FR} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_FR}
+    !insertmacro SetSectionFlag ${SEC06_IT} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_IT}
+    !insertmacro SetSectionFlag ${SEC06_JA} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_JA}
+    !insertmacro SetSectionFlag ${SEC06_NL} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_NL}
+    !insertmacro SetSectionFlag ${SEC06_PL} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_PL}
+  !endif
 FunctionEnd
