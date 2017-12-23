@@ -31,8 +31,10 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "git"
              "unzip")
 source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
+        "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
        )
 md5sums=('SKIP'
+         'SKIP'
         )
 noextract=("${_realname}-footprints.zip")
 
@@ -45,7 +47,6 @@ prepare() {
   if [ -d ${srcdir}/arch ]; then
     rm -rf ${srcdir}/archive
   fi
-
 
   # Hack to get UTF8 support for paths with mingw
   # https://lists.launchpad.net/kicad-developers/msg28560.html
@@ -97,7 +98,16 @@ build() {
     ../${_realname}
   make
 
+  cd "${srcdir}"
 
+  # Configure the translation installation build.
+  [[ -d build-i18n ]] && rm -r build-i18n
+  mkdir build-i18n && cd build-i18n
+  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+    ../${_realname}-i18n
 }
 
 package() {
@@ -105,5 +115,7 @@ package() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   make DESTDIR=${pkgdir} install
 
-
+  # Install KiCad i18n.
+  cd "${srcdir}/build-i18n"
+  make DESTDIR=${pkgdir} install
 }
