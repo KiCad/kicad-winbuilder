@@ -31,16 +31,8 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "git"
              "unzip")
 source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
-        "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
-        "${_realname}-libs"::"git+https://github.com/KiCad/kicad-library.git"
-        "${_realname}-footprints.zip"::"http://ci.kicad-pcb.org/job/any-kicad-pretty-lib-nightlies/lastSuccessfulBuild/artifact/*zip*/archive.zip"
-        "http://docs.kicad-pcb.org/kicad-doc-HEAD.tar.gz"
        )
 md5sums=('SKIP'
-         'SKIP'
-         'SKIP'
-         'SKIP'
-         'SKIP'
         )
 noextract=("${_realname}-footprints.zip")
 
@@ -53,11 +45,7 @@ prepare() {
   if [ -d ${srcdir}/arch ]; then
     rm -rf ${srcdir}/archive
   fi
-  if [ -d ${srcdir}/${_realname}-footprints ]; then
-    rm -rf ${srcdir}/${_realname}-footprints
-  fi
-  unzip ${srcdir}/${_realname}-footprints.zip
-  mv ${srcdir}/archive  ${srcdir}/${_realname}-footprints
+
 
   # Hack to get UTF8 support for paths with mingw
   # https://lists.launchpad.net/kicad-developers/msg28560.html
@@ -109,27 +97,6 @@ build() {
     ../${_realname}
   make
 
-  cd "${srcdir}"
-
-  # Configure the translation installation build.
-  [[ -d build-i18n ]] && rm -r build-i18n
-  mkdir build-i18n && cd build-i18n
-  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
-    -G "MSYS Makefiles" \
-    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-i18n
-
-  cd "${srcdir}"
-
-  # Configure the library installation build.
-  [[ -d build-libs ]] && rm -r build-libs
-  mkdir build-libs && cd build-libs
-  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
-    -G "MSYS Makefiles" \
-    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-libs
 
 }
 
@@ -138,19 +105,5 @@ package() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   make DESTDIR=${pkgdir} install
 
-  # Install KiCad i18n.
-  cd "${srcdir}/build-i18n"
-  make DESTDIR=${pkgdir} install
 
-  # Install KiCad libraries.
-  cd "${srcdir}/build-libs"
-  make DESTDIR=${pkgdir} install
-
-  # Install the pretties
-  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
-  cp -rd "${srcdir}/kicad-footprints"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
-
-  # Install KiCad docs.
-  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
-  cp -r "${srcdir}/kicad-doc-HEAD/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
