@@ -28,13 +28,13 @@
 
 ; General Product Description Definitions
 !define PRODUCT_NAME "KiCad"
-!define LIBRARIES_WEB_SITE "https://github.com/KiCad/"
+!define LIBRARIES_WEB_SITE "https://kicad.github.io/"
 !define KICAD_MAIN_SITE "www.kicad-pcb.org/"
 !define COMPANY_NAME "KiCad"
 !define TRADE_MARKS ""
 !define COPYRIGHT "Kicad Developers Team"
 !define COMMENTS ""
-!define HELP_WEB_SITE "http://groups.yahoo.com/group/kicad-users/"
+!define KICAD_USER_FORUM "https://forum.kicad.info/"
 !define DEVEL_WEB_SITE "https://launchpad.net/kicad/"
 !define FREECAD_WEB_SITE "https://www.freecadweb.org/"
 
@@ -314,14 +314,14 @@ SectionEnd
 Section -CreateShortcuts
   SetOutPath $INSTDIR
   WriteIniStr "$INSTDIR\HomePage.url"     "InternetShortcut" "URL" "${KICAD_MAIN_SITE}"
-  WriteIniStr "$INSTDIR\UserGroup.url"    "InternetShortcut" "URL" "${HELP_WEB_SITE}"
+  WriteIniStr "$INSTDIR\UserForum.url"    "InternetShortcut" "URL" "${KICAD_USER_FORUM}"
   WriteIniStr "$INSTDIR\DevelGroup.url"   "InternetShortcut" "URL" "${DEVEL_WEB_SITE}"
   WriteIniStr "$INSTDIR\LibrariesGroup.url" "InternetShortcut" "URL" "${LIBRARIES_WEB_SITE}"
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\KiCad"
   CreateShortCut "$SMPROGRAMS\KiCad\Home Page.lnk" "$INSTDIR\HomePage.url"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad Libraries.lnk" "$INSTDIR\LibrariesGroup.url"
-  CreateShortCut "$SMPROGRAMS\KiCad\KiCad User Group.lnk" "$INSTDIR\UserGroup.url"
+  CreateShortCut "$SMPROGRAMS\KiCad\KiCad User Forum.lnk" "$INSTDIR\UserForum.url"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad Devel Group.lnk" "$INSTDIR\DevelGroup.url"
   CreateShortCut "$SMPROGRAMS\KiCad\Uninstall.lnk" "$INSTDIR\uninstaller.exe"
   CreateShortCut "$SMPROGRAMS\KiCad\KiCad.lnk" "$INSTDIR\bin\kicad.exe"
