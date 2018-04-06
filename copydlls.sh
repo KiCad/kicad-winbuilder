@@ -230,6 +230,12 @@ copystuff() {
     cp $MSYSDIR/bin/python.exe $TARGETDIR/bin
     cp $MSYSDIR/bin/python2w.exe $TARGETDIR/bin/pythonw.exe
 
+    echo Copying Tk for python...
+    cp $MSYSDIR/bin/tk86.dll $TARGETDIR/bin
+    cp $MSYSDIR/bin/tcl86.dll $TARGETDIR/bin
+    cp -r $MSYSDIR/lib/tk8.6 $TARGETDIR/lib
+    cp -r $MSYSDIR/lib/tcl8.6 $TARGETDIR/lib
+
     echo Copying setuptools for python...
     cp $MSYSDIR/bin/easy_install.exe $TARGETDIR/bin
     cp $MSYSDIR/bin/easy_install.exe.manifest $TARGETDIR/bin
