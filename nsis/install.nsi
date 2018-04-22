@@ -405,7 +405,7 @@ Section Uninstall
   Delete "$SMPROGRAMS\KiCad\Pagelayout editor.lnk"
   Delete "$DESKTOP\KiCad.lnk"
   Delete "$INSTDIR\HomePage.url"
-  Delete "$INSTDIR\UserGroup.url"
+  Delete "$INSTDIR\UserForum.url"
   Delete "$INSTDIR\AltDownloadSite.url"
   Delete "$INSTDIR\DevelGroup.url"
   Delete "$INSTDIR\LibrariesGroup.url"
