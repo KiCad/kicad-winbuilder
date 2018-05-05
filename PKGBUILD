@@ -20,7 +20,6 @@ depends=("${MINGW_PACKAGE_PREFIX}-boost"
          "${MINGW_PACKAGE_PREFIX}-libxslt"
          "${MINGW_PACKAGE_PREFIX}-oce"
          "${MINGW_PACKAGE_PREFIX}-ngspice-git")
-
 makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-doxygen"
              "${MINGW_PACKAGE_PREFIX}-gcc"
@@ -32,11 +31,16 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "unzip")
 source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
-       )
+        "git://github.com/KiCad/kicad-symbols.git"
+        "git://github.com/KiCad/kicad-footprints.git"
+        "git://github.com/KiCad/kicad-packages3D.git"
+        "git://github.com/KiCad/kicad-templates.git")
 md5sums=('SKIP'
          'SKIP'
-        )
-noextract=("${_realname}-footprints.zip")
+         'SKIP'
+         'SKIP'
+         'SKIP'
+         'SKIP')
 
 pkgver() {
   cd "${srcdir}/${_realname}"
@@ -106,6 +110,44 @@ build() {
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     ../${_realname}-i18n
+
+  cd "${srcdir}"
+
+  # Configure the library installation build.
+  [[ -d build-symbols ]] && rm -r build-symbols
+  mkdir build-symbols && cd build-symbols
+  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+    ../${_realname}-symbols
+
+  cd "${srcdir}"
+  [[ -d build-footprints ]] && rm -r build-footprints
+  mkdir build-footprints && cd build-footprints
+  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+    ../${_realname}-footprints
+
+  cd "${srcdir}"
+  [[ -d build-packages3D ]] && rm -r build-packages3D
+  mkdir build-packages3D && cd build-packages3D
+  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+    ../${_realname}-packages3D
+
+  cd "${srcdir}"
+  [[ -d build-templates ]] && rm -r build-templates
+  mkdir build-templates && cd build-templates
+  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+    ../${_realname}-templates
 }
 
 package() {
@@ -115,5 +157,15 @@ package() {
 
   # Install KiCad i18n.
   cd "${srcdir}/build-i18n"
+  make DESTDIR=${pkgdir} install
+
+  # Install the KiCad libraries.
+  cd "${srcdir}/build-symbols"
+  make DESTDIR=${pkgdir} install
+  cd "${srcdir}/build-footprints"
+  make DESTDIR=${pkgdir} install
+  cd "${srcdir}/build-packages3D"
+  make DESTDIR=${pkgdir} install
+  cd "${srcdir}/build-templates"
   make DESTDIR=${pkgdir} install
 }
