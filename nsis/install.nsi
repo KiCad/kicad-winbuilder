@@ -448,6 +448,7 @@ Section Uninstall
   DeleteRegValue ${ENV_HKLM} KICAD_PTEMPLATES
   DeleteRegValue ${ENV_HKLM} KISYS3DMOD
   DeleteRegValue ${ENV_HKLM} KISYSMOD
+  DeleteRegValue ${ENV_HKLM} KICAD_SYMBOL_DIR
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
   
   FinishUninstall:
@@ -526,4 +527,7 @@ Function EnableLiteMode
     !insertmacro SetSectionFlag ${SEC06_PL} ${SF_RO}
     !insertmacro UnselectSection ${SEC06_PL}
   !endif
+
+  ; Make the envvar install not be default
+  !insertmacro UnselectSection ${SEC07}
 FunctionEnd
