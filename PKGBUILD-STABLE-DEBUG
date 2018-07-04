@@ -2,9 +2,9 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=4.0.7
+pkgver=5.0.0_rc3
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
-_basever=4.0.7
+_basever=5.0.0-rc3
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -20,7 +20,9 @@ depends=("${MINGW_PACKAGE_PREFIX}-boost"
          "${MINGW_PACKAGE_PREFIX}-openssl"
          "${MINGW_PACKAGE_PREFIX}-wxPython"
          "${MINGW_PACKAGE_PREFIX}-wxWidgets"
-         "${MINGW_PACKAGE_PREFIX}-libxslt")
+         "${MINGW_PACKAGE_PREFIX}-libxslt"
+         "${MINGW_PACKAGE_PREFIX}-oce"
+         "${MINGW_PACKAGE_PREFIX}-ngspice-git")
 makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-doxygen"
              "${MINGW_PACKAGE_PREFIX}-gcc"
@@ -29,18 +31,21 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "${MINGW_PACKAGE_PREFIX}-glm"
              "git")
-source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
+source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_basever}"
 #source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
         "${_realname}-i18n-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_basever}.tar.gz"
-        "http://downloads.kicad-pcb.org/libraries/kicad-footprints-${_basever}.tar.gz"
-        "http://downloads.kicad-pcb.org/libraries/kicad-library-${_basever}.tar.gz"
-        "http://downloads.kicad-pcb.org/docs/kicad-doc-${_basever}.tar.gz"
+        "${_realname}-symbols-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-symbols/archive/${_basever}.tar.gz"
+        "${_realname}-footprints-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-footprints/archive/${_basever}.tar.gz"
+        "${_realname}-packages3D-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-packages3D/archive/${_basever}.tar.gz"
+        "${_realname}-templates-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-templates/archive/${_basever}.tar.gz"
+#        "${_realname}-doc-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-doc/archive/${_basever}.tar.gz"
        )
 md5sums=('SKIP'
-         'c03c2ddc45b615b1924150bc1f2e2d32'
-         '280b065c34ca9ea225772893e84c65cc'
-         'b8517ed459d1f9d73a85b0a79691df29'
-         'b418263f4e02b30468ecc4f3e08bbc24')
+         '8b5d07bb0b5fd5cdc4e42de6e266eabd'
+         'd2dc1bd5a3a76bc9afe5350290683a35'
+         '58f9532f9869086284a38f36f4e9d5ee'
+         'c31de79a5a87669f13dc59907c85fb5f'
+         'a92eca6393b859e6b1b5ff37d94a01c3')
 
 build() {
   cd "${srcdir}"
@@ -70,7 +75,6 @@ build() {
     -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
     -DKICAD_REPO_NAME=stable \
     -DKICAD_BUILD_VERSION=${pkgver} \
-    -DKICAD_SKIP_BOOST=ON \
     -DKICAD_SCRIPTING=ON \
     -DKICAD_SCRIPTING_MODULES=ON \
     -DKICAD_SCRIPTING_WXPYTHON=ON \
@@ -84,7 +88,7 @@ build() {
 
   cd "${srcdir}"
 
-  # Configure the translationn installation build.
+  # Configure the translation installation build.
   [[ -d build-i18n ]] && rm -r build-i18n
   mkdir build-i18n && cd build-i18n
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
@@ -96,14 +100,40 @@ build() {
   cd "${srcdir}"
 
   # Configure the library installation build.
-  [[ -d build-libs ]] && rm -r build-libs
-  mkdir build-libs && cd build-libs
+  [[ -d build-symbols ]] && rm -r build-symbols
+  mkdir build-symbols && cd build-symbols
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-library-${_basever}
+    ../${_realname}-symbols-${_basever}
 
+  cd "${srcdir}"
+  [[ -d build-footprints ]] && rm -r build-footprints
+  mkdir build-footprints && cd build-footprints
+  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+    ../${_realname}-footprints-${_basever}
+
+  cd "${srcdir}"
+  [[ -d build-packages3D ]] && rm -r build-packages3D
+  mkdir build-packages3D && cd build-packages3D
+  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+    ../${_realname}-packages3D-${_basever}
+
+  cd "${srcdir}"
+  [[ -d build-templates ]] && rm -r build-templates
+  mkdir build-templates && cd build-templates
+  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+  ${MINGW_PREFIX}/bin/cmake.exe \
+    -G "MSYS Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+    ../${_realname}-templates-${_basever}
 }
 
 package() {
@@ -115,15 +145,17 @@ package() {
   cd "${srcdir}/build-i18n"
   make DESTDIR=${pkgdir} install
 
-  # Install KiCad libraries.
-  cd "${srcdir}/build-libs"
+  # Install the KiCad libraries.
+  cd "${srcdir}/build-symbols"
+  make DESTDIR=${pkgdir} install
+  cd "${srcdir}/build-footprints"
+  make DESTDIR=${pkgdir} install
+  cd "${srcdir}/build-packages3D"
+  make DESTDIR=${pkgdir} install
+  cd "${srcdir}/build-templates"
   make DESTDIR=${pkgdir} install
 
-  # Install the pretties
-  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
-  cp -rd "${srcdir}/kicad-footprints-${_basever}"/* "${pkgdir}${MINGW_PREFIX}/share/kicad/modules"
-
   # Install KiCad docs.
-  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
-  cp -r "${srcdir}/kicad-doc-${_basever}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  #mkdir -p "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  #cp -r "${srcdir}/kicad-doc-${_basever}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
