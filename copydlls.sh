@@ -178,7 +178,8 @@ copystuff() {
         "xsltproc.exe"  \
         "libcurl*.dll" \
         "libidn*.dll" \
-        "libssh*.dll" \
+        "libbrotlicommon.dll" \
+        "libbrotlidec.dll" \
         "librtmp*.dll" \
         "libgnutls*.dll" \
         "libhogweed*.dll" \
