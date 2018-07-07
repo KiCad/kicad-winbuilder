@@ -523,6 +523,7 @@ Section Uninstall
   ${DeleteFileAssociation} "kicad_pcb"
   ${DeleteFileAssociation} "sch"
   ${DeleteFileAssociation} "pro"
+  ${DeleteFileAssociation} "kicad_wks"
   
   FinishUninstall:
   ;Note - application registry keys are stored in the users individual registry hive (HKCU\Software\kicad".
