@@ -146,11 +146,11 @@ VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 
 ;--------------------------------
 ;Reserve Files
-  
+
   ;If you are using solid compression, files that are required before
   ;the actual installation should be stored first in the data block,
   ;because this will make your installer start faster.
-  
+
   !insertmacro MUI_RESERVEFILE_LANGDLL
 
 ; MUI end ------
@@ -175,7 +175,7 @@ VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
   Exch 2
   Exch 3
   Exch $R3 ;ICON_RESOURCE_NAME
-  
+
   ;global extension reference to program
   WriteRegExpandStr ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\.$R0\OpenWithProgids\" "${REG_VALUE_NAME}.$R0" ""
 
@@ -216,12 +216,12 @@ Function .onInit
   Pop $2
   StrCmp $1 "Admin" 0 AdminQuit
     Goto LangDisplay
-  
+
   AdminQuit:
     MessageBox MB_OK $(ERROR_ADMIN_REQ)
     Quit
 
-  LangDisplay:    
+  LangDisplay:
     ReserveFile "install.ico"
     ReserveFile "uninstall.ico"
     ReserveFile "${NSISDIR}\Plugins\x86-unicode\LangDLL.dll"
@@ -356,9 +356,9 @@ Section $(TITLE_SEC_ENV) SEC07
   WriteRegExpandStr ${ENV_HKLM} KISYS3DMOD "$INSTDIR\share\kicad\modules\packages3d"
   WriteRegExpandStr ${ENV_HKLM} KISYSMOD "$INSTDIR\share\kicad\modules"
   WriteRegExpandStr ${ENV_HKLM} KICAD_SYMBOL_DIR "$INSTDIR\share\kicad\library"
-  
+
   WriteRegDWORD ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "EnvInstalled" "1"
-  
+
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 SectionEnd
 
@@ -503,28 +503,28 @@ Section Uninstall
   ClearErrors
   ReadRegDWORD $0 ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "EnvInstalled"
   IfErrors FinishUninstall 0
-  
+
   IntCmp $0 1 0 FinishUninstall FinishUninstall
-  
+
   DeleteRegValue ${ENV_HKLM} KICAD_PTEMPLATES
   DeleteRegValue ${ENV_HKLM} KISYS3DMOD
   DeleteRegValue ${ENV_HKLM} KISYSMOD
   DeleteRegValue ${ENV_HKLM} KICAD_SYMBOL_DIR
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
-  
+
   ;remove file association only if it was installed
   ClearErrors
   ReadRegDWORD $0 ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "FileAssocInstalled"
   IfErrors FinishUninstall 0
-  
+
   IntCmp $0 1 0 FinishUninstall FinishUninstall
-  
+
   ;delete file associations
   ${DeleteFileAssociation} "kicad_pcb"
   ${DeleteFileAssociation} "sch"
   ${DeleteFileAssociation} "pro"
   ${DeleteFileAssociation} "kicad_wks"
-  
+
   FinishUninstall:
   ;Note - application registry keys are stored in the users individual registry hive (HKCU\Software\kicad".
   ;It might be possible to remove these keys as well but it would require a lot of testing of permissions
