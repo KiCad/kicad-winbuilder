@@ -43,6 +43,9 @@
 
 !define ENV_HKLM 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
 
+!define REG_VALUE_NAME	"KiCad"
+!define SOFTWARE_CLASSES_ROOT_KEY 'HKLM'
+
 !define gflag ;Needed to use ifdef and such
 ;Define on command line //DPRODUCT_VERSION=42
 !ifndef PRODUCT_VERSION
@@ -151,6 +154,54 @@ VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
   !insertmacro MUI_RESERVEFILE_LANGDLL
 
 ; MUI end ------
+
+;--------------------------------
+; File Association Helpers
+
+!macro _DeleteFileAssociationFunc EXT
+  ;be sure to only delete the specific kicad.extension entry
+  DeleteRegValue ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\.${EXT}\OpenWithProgids\" "${REG_VALUE_NAME}.${EXT}"
+  ;delete the entire kicad.extension key set
+  DeleteRegKey ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\${REG_VALUE_NAME}.${EXT}"
+!macroend
+
+!macro _CreateFileAssociationFunc
+  Exch $R0 ;ext
+  Exch
+  Exch $R1 ;exe
+  Exch
+  Exch 2
+  Exch $R2 ;desc
+  Exch 2
+  Exch 3
+  Exch $R3 ;ICON_RESOURCE_NAME
+  
+  ;global extension reference to program
+  WriteRegExpandStr ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\.$R0\OpenWithProgids\" "${REG_VALUE_NAME}.$R0" ""
+
+  ;program level extension entry
+  WriteRegExpandStr ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\${REG_VALUE_NAME}.$R0" "" "$R2"
+  WriteRegExpandStr ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\${REG_VALUE_NAME}.$R0\" "DefaultIcon" "$INSTDIR\bin\$R1,$R3"
+  WriteRegExpandStr ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\${REG_VALUE_NAME}.$R0\shell\open\command" "" '$INSTDIR\bin\$R1 "%1"'
+
+  Pop $R3
+  Pop $R2
+  Pop $R1
+  Pop $R0
+!macroend
+
+!macro CreateFileAssociationCall EXT EXE DESCRIPTION ICON_RESOURCE_NAME
+  Push `${ICON_RESOURCE_NAME}`
+  Push `${DESCRIPTION}`
+  Push `${EXE}`
+  Push `${EXT}`
+  ${CallArtificialFunction} _CreateFileAssociationFunc
+!macroend
+
+!define CreateFileAssociation `!insertmacro CreateFileAssociationCall`
+!define DeleteFileAssociation `!insertmacro _DeleteFileAssociationFunc`
+
+;--------------------------------
 
 Function .onInit
   ; Request that we get elevated rights to install so that we don't end up in
@@ -311,6 +362,15 @@ Section $(TITLE_SEC_ENV) SEC07
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 SectionEnd
 
+Section $(TITLE_SEC_FILE_ASSOC) SEC08
+  ${CreateFileAssociation} "kicad_pcb" "pcbnew.exe" $(FILE_DESC_KICAD_PCB) "icon_pcbnew"
+  ${CreateFileAssociation} "sch" "eeschema.exe" $(FILE_DESC_SCH) "icon_eeschema"
+  ${CreateFileAssociation} "pro" "kicad.exe" $(FILE_DESC_PRO) "icon_kicad"
+  ${CreateFileAssociation} "kicad_wks" "pl_editor.exe" $(FILE_DESC_KICAD_WKS) "icon_pagelayout_editor"
+
+  WriteRegDWORD ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "FileAssocInstalled" "1"
+SectionEnd
+
 Section -CreateShortcuts
   SetOutPath $INSTDIR
   WriteIniStr "$INSTDIR\HomePage.url"     "InternetShortcut" "URL" "${KICAD_MAIN_SITE}"
@@ -367,6 +427,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_NL} $(DESC_SEC_DOCS_NL)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_PL} $(DESC_SEC_DOCS_PL)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC07} $(DESC_SEC_ENV)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC08} $(DESC_SEC_FILE_ASSOC)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Function un.onInit
@@ -450,6 +511,19 @@ Section Uninstall
   DeleteRegValue ${ENV_HKLM} KISYSMOD
   DeleteRegValue ${ENV_HKLM} KICAD_SYMBOL_DIR
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
+  
+  ;remove file association only if it was installed
+  ClearErrors
+  ReadRegDWORD $0 ${UNINST_ROOT} "${PRODUCT_UNINST_KEY}" "FileAssocInstalled"
+  IfErrors FinishUninstall 0
+  
+  IntCmp $0 1 0 FinishUninstall FinishUninstall
+  
+  ;delete file associations
+  ${DeleteFileAssociation} "kicad_pcb"
+  ${DeleteFileAssociation} "sch"
+  ${DeleteFileAssociation} "pro"
+  ${DeleteFileAssociation} "kicad_wks"
   
   FinishUninstall:
   ;Note - application registry keys are stored in the users individual registry hive (HKCU\Software\kicad".

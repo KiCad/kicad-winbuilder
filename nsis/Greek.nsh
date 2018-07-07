@@ -31,6 +31,7 @@ LangString TITLE_SEC_FPWIZ ${LANG_GREEK} "Οδηγοί αποτυπωμάτων"
 LangString TITLE_SEC_DEMOS ${LANG_GREEK} "Έργα επίδειξης"
 LangString TITLE_SEC_DOCS ${LANG_GREEK} "Αρχεία βοήθειας"
 LangString TITLE_SEC_ENV ${LANG_GREEK} "Μεταβλητές περιβάλλοντος"
+LangString TITLE_SEC_FILE_ASSOC ${LANG_GREEK} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_GREEK} "Αρχεία κύριας εφαρμογής."
@@ -48,6 +49,13 @@ LangString DESC_SEC_DOCS_JA ${LANG_GREEK} "$(LANGUAGE_NAME_JA) $(TITLE_SEC_DOCS)
 LangString DESC_SEC_DOCS_NL ${LANG_GREEK} "$(LANGUAGE_NAME_NL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_PL ${LANG_GREEK} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_ENV ${LANG_GREEK} "Θέτει τις μεταβλητές περιβάλλοντος KISYSMOD, KISYS3DMOD και KICAD_PTEMPLATES στις προκαθορισμένες διαδρομές εγκατάστασης."
+LangString DESC_SEC_FILE_ASSOC ${LANG_GREEK} "Creates file associations for KiCad related files"
+
+;File association descriptions (show in Windows Explorer)
+LangString FILE_DESC_KICAD_PCB ${LANG_GREEK} "KiCad Board"
+LangString FILE_DESC_SCH ${LANG_GREEK} "KiCad Schematic"
+LangString FILE_DESC_PRO ${LANG_GREEK} "KiCad Project"
+LangString FILE_DESC_KICAD_WKS ${LANG_GREEK} "KiCad Page Layout"
 
 ;General messages
 LangString FREECAD_PROMPT ${LANG_GREEK} "Για να επεξεργαστείτε ή να δημιουργήσετε μοντέλα 3Δ απαιτείται η εγκατάσταση του FreeCAD. \

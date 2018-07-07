@@ -31,6 +31,7 @@ LangString TITLE_SEC_FPWIZ ${LANG_ITALIAN} "Assistenti per le impronte di circui
 LangString TITLE_SEC_DEMOS ${LANG_ITALIAN} "Progetti dimostrativi"
 LangString TITLE_SEC_DOCS ${LANG_ITALIAN} "File di aiuto"
 LangString TITLE_SEC_ENV ${LANG_ITALIAN} "Variabili ambiente"
+LangString TITLE_SEC_FILE_ASSOC ${LANG_ITALIAN} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_ITALIAN} "File dell'applicazione principale."
@@ -48,6 +49,13 @@ LangString DESC_SEC_DOCS_JA ${LANG_ITALIAN} "$(LANGUAGE_NAME_JA) $(TITLE_SEC_DOC
 LangString DESC_SEC_DOCS_NL ${LANG_ITALIAN} "$(LANGUAGE_NAME_NL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_PL ${LANG_ITALIAN} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_ENV ${LANG_ITALIAN} "Imposta le variabili ambiente KISYSMOD, KISYS3DMOD e KICAD_PTEMPLATES ai percorsi di installazione predefiniti."
+LangString DESC_SEC_FILE_ASSOC ${LANG_ITALIAN} "Creates file associations for KiCad related files"
+
+;File association descriptions (show in Windows Explorer)
+LangString FILE_DESC_KICAD_PCB ${LANG_ITALIAN} "KiCad Board"
+LangString FILE_DESC_SCH ${LANG_ITALIAN} "KiCad Schematic"
+LangString FILE_DESC_PRO ${LANG_ITALIAN} "KiCad Project"
+LangString FILE_DESC_KICAD_WKS ${LANG_ITALIAN} "KiCad Page Layout"
 
 ;General messages
 LangString FREECAD_PROMPT ${LANG_ITALIAN} "Per modificare o creare modelli 3D è necessario installare FreeCAD. \

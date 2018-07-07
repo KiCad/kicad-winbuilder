@@ -31,6 +31,7 @@ LangString TITLE_SEC_FPWIZ ${LANG_GERMAN} "Footprint Wizards"
 LangString TITLE_SEC_DEMOS ${LANG_GERMAN} "Demo Projekte"
 LangString TITLE_SEC_DOCS ${LANG_GERMAN} "Hilfedateien"
 LangString TITLE_SEC_ENV ${LANG_GERMAN} "Umgebungsvariablen"
+LangString TITLE_SEC_FILE_ASSOC ${LANG_GERMAN} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_GERMAN} "Dateien für das Hauptprogramm."
@@ -48,6 +49,13 @@ LangString DESC_SEC_DOCS_JA ${LANG_GERMAN} "$(LANGUAGE_NAME_JA) $(TITLE_SEC_DOCS
 LangString DESC_SEC_DOCS_NL ${LANG_GERMAN} "$(LANGUAGE_NAME_NL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_PL ${LANG_GERMAN} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_ENV ${LANG_GERMAN} "Fügt die Umgebungsvariablen KISYSMOD, KISYS3DMOD und KICAD_PTEMPLATES zu den standardmäßigen Installationspfaden hinzu."
+LangString DESC_SEC_FILE_ASSOC ${LANG_GERMAN} "Creates file associations for KiCad related files"
+
+;File association descriptions (show in Windows Explorer)
+LangString FILE_DESC_KICAD_PCB ${LANG_GERMAN} "KiCad Board"
+LangString FILE_DESC_SCH ${LANG_GERMAN} "KiCad Schematic"
+LangString FILE_DESC_PRO ${LANG_GERMAN} "KiCad Project"
+LangString FILE_DESC_KICAD_WKS ${LANG_GERMAN} "KiCad Page Layout"
 
 ;General messages
 LangString FREECAD_PROMPT ${LANG_GERMAN} "Um 3D Objekte zu erstellen oder verändern zu können benötigen Sie das Programm FreeCAD. \

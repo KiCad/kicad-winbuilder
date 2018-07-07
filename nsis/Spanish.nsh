@@ -31,6 +31,7 @@ LangString TITLE_SEC_FPWIZ ${LANG_SPANISH} "Asistentes de huellas"
 LangString TITLE_SEC_DEMOS ${LANG_SPANISH} "Proyectos de demostración"
 LangString TITLE_SEC_DOCS ${LANG_SPANISH} "Archivos de ayuda"
 LangString TITLE_SEC_ENV ${LANG_SPANISH} "Variables de entorno"
+LangString TITLE_SEC_FILE_ASSOC ${LANG_SPANISH} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_SPANISH} "Archivos de la aplicación principal."
@@ -48,6 +49,13 @@ LangString DESC_SEC_DOCS_JA ${LANG_SPANISH} "$(LANGUAGE_NAME_JA) $(TITLE_SEC_DOC
 LangString DESC_SEC_DOCS_NL ${LANG_SPANISH} "$(LANGUAGE_NAME_NL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_PL ${LANG_SPANISH} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_ENV ${LANG_SPANISH} "Ajusta las variables de entorno KISYSMOD, KISYS3DMOD y KICAD_PTEMPLATES a las rutas por defecto."
+LangString DESC_SEC_FILE_ASSOC ${LANG_SPANISH} "Creates file associations for KiCad related files"
+
+;File association descriptions (show in Windows Explorer)
+LangString FILE_DESC_KICAD_PCB ${LANG_SPANISH} "KiCad Board"
+LangString FILE_DESC_SCH ${LANG_SPANISH} "KiCad Schematic"
+LangString FILE_DESC_PRO ${LANG_SPANISH} "KiCad Project"
+LangString FILE_DESC_KICAD_WKS ${LANG_SPANISH} "KiCad Page Layout"
 
 ;General messages
 LangString FREECAD_PROMPT ${LANG_SPANISH} "Para editar o crear modelos de objetos 3D es necesario instalar FreeCAD. \
