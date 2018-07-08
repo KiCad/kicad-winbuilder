@@ -57,6 +57,12 @@ LangString FILE_DESC_SCH ${LANG_GERMAN} "KiCad Schematic"
 LangString FILE_DESC_PRO ${LANG_GERMAN} "KiCad Project"
 LangString FILE_DESC_KICAD_WKS ${LANG_GERMAN} "KiCad Page Layout"
 
+;Application Friendly Names
+LangString APP_FRIENDLY_KICAD ${LANG_GERMAN} "KiCad"
+LangString APP_FRIENDLY_PCBNEW ${LANG_GERMAN} "KiCad - Pcbnew"
+LangString APP_FRIENDLY_EESCHEMA ${LANG_GERMAN} "KiCad - Eeschema"
+LangString APP_FRIENDLY_PLEDITOR ${LANG_GERMAN} "KiCad - Page Layout Editor"
+
 ;General messages
 LangString FREECAD_PROMPT ${LANG_GERMAN} "Um 3D Objekte zu erstellen oder verändern zu können benötigen Sie das Programm FreeCAD. \
 FreeCAD und das zugehörige Benutzerhandbuch können frei von der der Webdeite von FreeCAD Webseite geladen werden. Aktivieren Sie diese Checkbox um die FreeCAD Webseite zu öffnen."

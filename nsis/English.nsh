@@ -57,6 +57,12 @@ LangString FILE_DESC_SCH ${LANG_ENGLISH} "KiCad Schematic"
 LangString FILE_DESC_PRO ${LANG_ENGLISH} "KiCad Project"
 LangString FILE_DESC_KICAD_WKS ${LANG_ENGLISH} "KiCad Page Layout"
 
+;Application Friendly Names
+LangString APP_FRIENDLY_KICAD ${LANG_ENGLISH} "KiCad"
+LangString APP_FRIENDLY_PCBNEW ${LANG_ENGLISH} "KiCad - Pcbnew"
+LangString APP_FRIENDLY_EESCHEMA ${LANG_ENGLISH} "KiCad - Eeschema"
+LangString APP_FRIENDLY_PLEDITOR ${LANG_ENGLISH} "KiCad - Page Layout Editor"
+
 ;General messages
 LangString FREECAD_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models you need to install FreeCAD. \
 FreeCAD and user manual can be download free from the FreeCAD web page. Check this box to open the FreeCAD web page."
