@@ -331,13 +331,6 @@ elseif( NOT i686 AND x86_64 )
     set( EXPORT_CARCH "export CARCH=x86_64 &&" )
 endif()
 
-# Copy proper PKGBUILD for ngspice
-file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD-ngspice-git" DESTINATION "${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git" )
-file( RENAME "${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git/PKGBUILD-ngspice-git" "${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git/PKGBUILD" )
-
-# Actually build ngspice
-execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-ngspice-git\" && ${EXPORT_CARCH} TERM=vt220 makepkg-mingw -is --noconfirm" "${LOG_DIR}/makepkg-ngspice" )
-
 # Copy proper PKGBUILD (without bzr docs!)
 file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD" DESTINATION "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git" )
 

@@ -195,6 +195,7 @@ copystuff() {
         "libicu*.dll" \
         "libpcre*.dll" \
         "libngspice-0.dll" \
+        "libfftw*.dll" \
         "libnghttp2*dll" \
         "libunistring-2.dll" \
         "libreadline7.dll" \
