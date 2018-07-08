@@ -57,6 +57,12 @@ LangString FILE_DESC_SCH ${LANG_GREEK} "KiCad Schematic"
 LangString FILE_DESC_PRO ${LANG_GREEK} "KiCad Project"
 LangString FILE_DESC_KICAD_WKS ${LANG_GREEK} "KiCad Page Layout"
 
+;Application Friendly Names
+LangString APP_FRIENDLY_KICAD ${LANG_GREEK} "KiCad"
+LangString APP_FRIENDLY_PCBNEW ${LANG_GREEK} "KiCad - Pcbnew"
+LangString APP_FRIENDLY_EESCHEMA ${LANG_GREEK} "KiCad - Eeschema"
+LangString APP_FRIENDLY_PLEDITOR ${LANG_GREEK} "KiCad - Page Layout Editor"
+
 ;General messages
 LangString FREECAD_PROMPT ${LANG_GREEK} "Για να επεξεργαστείτε ή να δημιουργήσετε μοντέλα 3Δ απαιτείται η εγκατάσταση του FreeCAD. \
 Μπορείτε να κατεβάσετε το FreeCAD και τον οδηγό χρήσης του, δωρεάν από την ιστοσελίδα του FreeCAD. Κάντε τικ σε αυτό το κουτάκι για να ανοίξει η ιστοσελίδα του FreeCAD."

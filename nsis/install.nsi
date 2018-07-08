@@ -203,6 +203,29 @@ VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 
 ;--------------------------------
 
+!macro _RegisterApplicationFunc
+  Exch $R0 ;exe
+  Exch
+  Exch $R1 ;desc
+
+  ;global extension reference to program
+  WriteRegExpandStr ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\Applications\$R0\shell\open" "FriendlyAppName" "$R1"
+  WriteRegExpandStr ${SOFTWARE_CLASSES_ROOT_KEY} "Software\Classes\Applications\$R0\shell\open\command" "" '$INSTDIR\bin\$R0 "%1"'
+
+  Pop $R1
+  Pop $R0
+!macroend
+
+!macro RegisterApplicationCall EXE DESCRIPTION
+  Push `${DESCRIPTION}`
+  Push `${EXE}`
+  ${CallArtificialFunction} _RegisterApplicationFunc
+!macroend
+
+!define RegisterApplication `!insertmacro RegisterApplicationCall`
+
+;--------------------------------
+
 Function .onInit
   ; Request that we get elevated rights to install so that we don't end up in
   ; the virtual store
@@ -278,6 +301,11 @@ Section $(TITLE_SEC_MAIN) SEC01
   File /nonfatal /r "..\share\kicad\internat\*"
   SetOutPath "$INSTDIR\ssl\certs"
   File "..\ssl\certs\ca-bundle.crt"
+
+  ${RegisterApplication} "kicad.exe" $(APP_FRIENDLY_KICAD)
+  ${RegisterApplication} "pcbnew.exe" $(APP_FRIENDLY_PCBNEW)
+  ${RegisterApplication} "eeschema.exe" $(APP_FRIENDLY_EESCHEMA)
+  ${RegisterApplication} "pl_editor.exe" $(APP_FRIENDLY_PLEDITOR)
 SectionEnd
 
 Section $(TITLE_SEC_SCHLIB) SEC02
