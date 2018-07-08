@@ -24,7 +24,11 @@
 ; This script expects the install.ico, uninstall.ico, language and license
 ; files to be in the same directory as this script
 
+!addplugindir /x86-ansi "./plugins/x86-ansi"
+!addplugindir /x86-unicode "./plugins/x86-unicode"
+
 !include "winmessages.nsh"
+!include "nsProcess.nsh"
 
 ; General Product Description Definitions
 !define PRODUCT_NAME "KiCad"
@@ -103,14 +107,17 @@ BrandingText "KiCad installer for windows"
 !define MUI_LANGDLL_REGISTRY_VALUENAME "NSIS:Language"
 
 ; Installer pages
-!define MUI_CUSTOMFUNCTION_GUIINIT myGuiInit
-!define MUI_CUSTOMFUNCTION_UNGUIINIT un.myGuiInit
+!define MUI_CUSTOMFUNCTION_GUIINIT onMyGuiInit
+!define MUI_CUSTOMFUNCTION_UNGUIINIT un.onMyGuiInit
 !define MUI_WELCOMEPAGE_TEXT $(WELCOME_PAGE_TEXT)
 !define MUI_WELCOMEPAGE_TITLE_3LINES
 !insertmacro MUI_PAGE_WELCOME
 ;!insertmacro MUI_PAGE_LICENSE $(MUILicense)
 !insertmacro MUI_PAGE_COMPONENTS
+
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE onDirectoryPageLeave
 !insertmacro MUI_PAGE_DIRECTORY
+
 !insertmacro MUI_PAGE_INSTFILES
 !define MUI_FINISHPAGE_SHOWREADME ${FREECAD_WEB_SITE}
 !define MUI_FINISHPAGE_SHOWREADME_TEXT $(FREECAD_PROMPT)
@@ -226,6 +233,29 @@ VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 
 ;--------------------------------
 
+!macro _RunningProcessCheck EXE NICENAME
+  Push $R0
+  ${nsProcess::FindProcess} ${EXE} $R0
+
+  ${If} $R0 == "0"
+    Push $R1
+    StrCpy $R1 ${NICENAME}
+
+    MessageBox mb_ok|mb_iconinformation $(PROGRAM_IS_OPEN_ERROR)
+
+    Pop $R1
+    Exch $R0
+    Abort
+  ${Else}
+    Pop $R0
+  ${EndIf}
+
+!macroend
+
+!define RunningProcessCheck `!insertmacro _RunningProcessCheck`
+
+;--------------------------------
+
 Function .onInit
   ; Request that we get elevated rights to install so that we don't end up in
   ; the virtual store
@@ -261,7 +291,7 @@ Function .onInit
 
 FunctionEnd
 
-Function myGuiInit
+Function onMyGuiInit
   Call PreventMultiInstances
   Call CheckAlreadyInstalled
 FunctionEnd
@@ -282,6 +312,22 @@ Function ModifyFinishPage
   IntOp $7 6 * $7
   ; then we finally update the control size.. we don't want to move it, or change its z-order however
   System::Call "User32::SetWindowPos(i $mui.FinishPage.ShowReadme, i 0, i 0, i 0, i $6, i $7, i ${SWP_NOMOVE} | ${SWP_NOZORDER})"
+FunctionEnd
+
+!macro KiCadRunningProccessesCheck
+  ${RunningProcessCheck} "kicad.exe" $(APP_NAME_KICAD)
+  ${RunningProcessCheck} "pcbnew.exe" $(APP_NAME_PCBNEW)
+  ${RunningProcessCheck} "eeschema.exe" $(APP_NAME_EESCHEMA)
+  ${RunningProcessCheck} "pl_editor.exe" $(APP_NAME_PLEDITOR)
+  ${RunningProcessCheck} "pcb_calculator.exe" $(APP_NAME_PCBCALCULATOR)
+  ${RunningProcessCheck} "bitmap2component.exe" $(APP_NAME_BITMAP2COMPONENT)
+  ${RunningProcessCheck} "gerbview.exe" $(APP_NAME_GERBVIEW)
+!macroend
+
+Function onDirectoryPageLeave
+  !insertmacro KiCadRunningProccessesCheck
+
+  ${nsProcess::Unload}
 FunctionEnd
 
 Section $(TITLE_SEC_MAIN) SEC01
@@ -462,8 +508,11 @@ Function un.onInit
   !insertmacro MUI_UNGETLANGUAGE
 FunctionEnd
 
-Function un.myGuiInit
+Function un.onMyGuiInit
   Call un.PreventMultiInstances
+
+  !insertmacro KiCadRunningProccessesCheck
+
   MessageBox MB_ICONEXCLAMATION|MB_YESNO|MB_DEFBUTTON2 $(UNINST_PROMPT) /SD IDYES IDYES +2
   Abort
 FunctionEnd

@@ -57,13 +57,24 @@ LangString FILE_DESC_SCH ${LANG_ITALIAN} "KiCad Schematic"
 LangString FILE_DESC_PRO ${LANG_ITALIAN} "KiCad Project"
 LangString FILE_DESC_KICAD_WKS ${LANG_ITALIAN} "KiCad Page Layout"
 
-;Application Friendly Names
+;Application Friendly Names (for windows explorer hook)
 LangString APP_FRIENDLY_KICAD ${LANG_ITALIAN} "KiCad"
 LangString APP_FRIENDLY_PCBNEW ${LANG_ITALIAN} "KiCad - Pcbnew"
 LangString APP_FRIENDLY_EESCHEMA ${LANG_ITALIAN} "KiCad - Eeschema"
 LangString APP_FRIENDLY_PLEDITOR ${LANG_ITALIAN} "KiCad - Page Layout Editor"
 
+;Application names
+LangString APP_NAME_KICAD ${LANG_ITALIAN} "KiCad"
+LangString APP_NAME_PCBNEW ${LANG_ITALIAN} "Pcbnew"
+LangString APP_NAME_EESCHEMA ${LANG_ITALIAN} "Eeschema"
+LangString APP_NAME_PLEDITOR ${LANG_ITALIAN} "Page Layout Editor"
+LangString APP_NAME_PCBCALCULATOR ${LANG_ITALIAN} "PCB Calculator"
+LangString APP_NAME_BITMAP2COMPONENT ${LANG_ITALIAN} "Bitmap to Component"
+LangString APP_NAME_GERBVIEW ${LANG_ITALIAN} "Gerbview"
+
 ;General messages
+LangString PROGRAM_IS_OPEN_ERROR ${LANG_ITALIAN} "$R1 is currently running! You must close the program before you are allowed continue."
+
 LangString FREECAD_PROMPT ${LANG_ITALIAN} "Per modificare o creare modelli 3D è necessario installare FreeCAD. \
 FreeCAD ed il suo manuale utente possono essere scaricati liberamente dalla pagina web di FreeCAD. Selezionare questa casella per aprire la pagina web di FreeCAD."
 
