@@ -298,11 +298,6 @@ if( NOT EXISTS "${LOG_DIR}/pacman_initial" )
             COMMAND "${TEE_COMMAND}" "${LOGDIR}/autorebase" )
     endif()
 
-    # Append our own mirror
-    file( APPEND "${CMAKE_SOURCE_DIR}/${MSYS2}/etc/pacman.d/mirrorlist.mingw32" "\nServer = https://www2.futureware.at/~nickoe/msys2-mirror/mingw32" )
-    file( APPEND "${CMAKE_SOURCE_DIR}/${MSYS2}/etc/pacman.d/mirrorlist.mingw64" "\nServer = https://www2.futureware.at/~nickoe/msys2-mirror/mingw64" )
-    file( APPEND "${CMAKE_SOURCE_DIR}/${MSYS2}/etc/pacman.d/mirrorlist.msys" "\nServer = https://www2.futureware.at/~nickoe/msys2-mirror/msys2-$arch" )
-
     # Final update and then we're ready to use msys2...
     execute_msys2_bash( "pacman --noconfirm -Su" "${LOG_DIR}/pacman_update" )
 endif()
