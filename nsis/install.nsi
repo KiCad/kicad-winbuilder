@@ -380,7 +380,7 @@ SectionGroup $(TITLE_SEC_DOCS) SEC06
 SectionGroupEnd
 
 Section $(TITLE_SEC_ENV) SEC07
-  WriteRegExpandStr ${ENV_HKLM} KICAD_PTEMPLATES "$INSTDIR\share\kicad\template"
+  WriteRegExpandStr ${ENV_HKLM} KICAD_TEMPLATE_DIR "$INSTDIR\share\kicad\template"
   WriteRegExpandStr ${ENV_HKLM} KISYS3DMOD "$INSTDIR\share\kicad\modules\packages3d"
   WriteRegExpandStr ${ENV_HKLM} KISYSMOD "$INSTDIR\share\kicad\modules"
   WriteRegExpandStr ${ENV_HKLM} KICAD_SYMBOL_DIR "$INSTDIR\share\kicad\library"
@@ -534,7 +534,7 @@ Section Uninstall
 
   IntCmp $0 1 0 FinishUninstall FinishUninstall
 
-  DeleteRegValue ${ENV_HKLM} KICAD_PTEMPLATES
+  DeleteRegValue ${ENV_HKLM} KICAD_TEMPLATE_DIR
   DeleteRegValue ${ENV_HKLM} KISYS3DMOD
   DeleteRegValue ${ENV_HKLM} KISYSMOD
   DeleteRegValue ${ENV_HKLM} KICAD_SYMBOL_DIR
