@@ -532,7 +532,7 @@ Section Uninstall
   Delete "$SMPROGRAMS\KiCad\KiCad Libraries.lnk"
   Delete "$SMPROGRAMS\KiCad\KiCad Alternate Download.lnk"
   Delete "$SMPROGRAMS\KiCad\KiCad Devel Group.lnk"
-  Delete "$SMPROGRAMS\KiCad\KiCad User Group.lnk"
+  Delete "$SMPROGRAMS\KiCad\KiCad User Forum.lnk"
   Delete "$SMPROGRAMS\KiCad\Uninstall.lnk"
   Delete "$SMPROGRAMS\KiCad\KiCad.lnk"
   Delete "$SMPROGRAMS\KiCad\Eeschema.lnk"
