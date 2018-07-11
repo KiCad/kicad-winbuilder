@@ -48,7 +48,7 @@ LangString DESC_SEC_DOCS_IT ${LANG_GREEK} "$(LANGUAGE_NAME_IT) $(TITLE_SEC_DOCS)
 LangString DESC_SEC_DOCS_JA ${LANG_GREEK} "$(LANGUAGE_NAME_JA) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_NL ${LANG_GREEK} "$(LANGUAGE_NAME_NL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_PL ${LANG_GREEK} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOCS)"
-LangString DESC_SEC_ENV ${LANG_GREEK} "Θέτει τις μεταβλητές περιβάλλοντος KISYSMOD, KISYS3DMOD και KICAD_PTEMPLATES στις προκαθορισμένες διαδρομές εγκατάστασης."
+LangString DESC_SEC_ENV ${LANG_GREEK} "Θέτει τις μεταβλητές περιβάλλοντος KISYSMOD, KISYS3DMOD και KICAD_TEMPLATE_DIR στις προκαθορισμένες διαδρομές εγκατάστασης."
 LangString DESC_SEC_FILE_ASSOC ${LANG_GREEK} "Creates file associations for KiCad related files"
 
 ;File association descriptions (show in Windows Explorer)

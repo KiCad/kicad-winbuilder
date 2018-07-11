@@ -48,7 +48,7 @@ LangString DESC_SEC_DOCS_IT ${LANG_GERMAN} "$(LANGUAGE_NAME_IT) $(TITLE_SEC_DOCS
 LangString DESC_SEC_DOCS_JA ${LANG_GERMAN} "$(LANGUAGE_NAME_JA) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_NL ${LANG_GERMAN} "$(LANGUAGE_NAME_NL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_PL ${LANG_GERMAN} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOCS)"
-LangString DESC_SEC_ENV ${LANG_GERMAN} "Fügt die Umgebungsvariablen KISYSMOD, KISYS3DMOD und KICAD_PTEMPLATES zu den standardmäßigen Installationspfaden hinzu."
+LangString DESC_SEC_ENV ${LANG_GERMAN} "Fügt die Umgebungsvariablen KISYSMOD, KISYS3DMOD und KICAD_TEMPLATE_DIR zu den standardmäßigen Installationspfaden hinzu."
 LangString DESC_SEC_FILE_ASSOC ${LANG_GERMAN} "Creates file associations for KiCad related files"
 
 ;File association descriptions (show in Windows Explorer)
