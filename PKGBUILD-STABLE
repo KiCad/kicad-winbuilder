@@ -4,7 +4,7 @@ _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
 pkgver=5.0.0
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
-_basever=5.0.0-rc3
+_basever=5.0.0
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -42,10 +42,10 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${pkgver}"
        )
 md5sums=('SKIP'
          '1e1503b89c575c80ff51583d40667c14'
-         'd2dc1bd5a3a76bc9afe5350290683a35'
-         '58f9532f9869086284a38f36f4e9d5ee'
-         'c31de79a5a87669f13dc59907c85fb5f'
-         'a92eca6393b859e6b1b5ff37d94a01c3'
+         '03cb33312062571118a277bafd01c06d'
+         'e8ce40c47b108280d7878f858899ab10'
+         'aac66499bbbd9f21ad3e90af7ba854d2'
+         'd8a5c09a33588a73eb8552c83bdb0381'
          '4728d484cac51c7272ae0ad1ee938d2d')
 
 build() {
@@ -54,7 +54,7 @@ build() {
   # Configure and build KiCad.
   [[ -d build-${MINGW_CHOST} ]] && rm -r build-${MINGW_CHOST}
   mkdir build-${MINGW_CHOST} && cd build-${MINGW_CHOST}
-  
+
   # Get GCC version
   GCCVERSION=`gcc --version | grep ^gcc | sed 's/^.* //g'`
 
@@ -65,7 +65,7 @@ build() {
   if [ $GCCVERSION = "5.1.0" ] || [ $GCCVERSION = "5.2.0" ]; then
     EXTRA_FLAGS=" -DCMAKE_CXX_FLAGS=-Wno-deprecated-declarations"
   fi
-  
+
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G"MSYS Makefiles" \
