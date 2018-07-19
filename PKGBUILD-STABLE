@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=5.0.0_rc3
+pkgver=5.0.0
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
 _basever=5.0.0-rc3
 pkgrel=1
@@ -31,21 +31,22 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "${MINGW_PACKAGE_PREFIX}-glm"
              "git")
-source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_basever}"
+source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${pkgver}"
 #source=("${_realname}::git+https://git.launchpad.net/kicad#branch=4.0"
-        "${_realname}-i18n-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_basever}.tar.gz"
+        "${_realname}-i18n-${pkgver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${pkgver}.tar.gz"
         "${_realname}-symbols-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-symbols/archive/${_basever}.tar.gz"
         "${_realname}-footprints-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-footprints/archive/${_basever}.tar.gz"
         "${_realname}-packages3D-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-packages3D/archive/${_basever}.tar.gz"
         "${_realname}-templates-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-templates/archive/${_basever}.tar.gz"
-#        "${_realname}-doc-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-doc/archive/${_basever}.tar.gz"
+        "${_realname}-doc-${pkgver}.tar.gz"::"http://downloads.kicad-pcb.org/docs/kicad-doc-${pkgver}.tar.gz"
        )
 md5sums=('SKIP'
-         '8b5d07bb0b5fd5cdc4e42de6e266eabd'
+         '1e1503b89c575c80ff51583d40667c14'
          'd2dc1bd5a3a76bc9afe5350290683a35'
          '58f9532f9869086284a38f36f4e9d5ee'
          'c31de79a5a87669f13dc59907c85fb5f'
-         'a92eca6393b859e6b1b5ff37d94a01c3')
+         'a92eca6393b859e6b1b5ff37d94a01c3'
+         '4728d484cac51c7272ae0ad1ee938d2d')
 
 build() {
   cd "${srcdir}"
@@ -94,7 +95,7 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-i18n-${_basever}
+    ../${_realname}-i18n-${pkgver}
 
   cd "${srcdir}"
 
@@ -155,6 +156,6 @@ package() {
   make DESTDIR=${pkgdir} install
 
   # Install KiCad docs.
-  #mkdir -p "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
-  #cp -r "${srcdir}/kicad-doc-${_basever}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  mkdir -p "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  cp -r "${srcdir}/kicad-doc-${pkgver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
