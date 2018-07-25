@@ -71,6 +71,8 @@ build() {
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G"MSYS Makefiles" \
     -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DCMAKE_RULE_MESSAGES:BOOL=OFF \
     -DCMAKE_PREFIX_PATH=${MINGW_PREFIX} \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DDEFAULT_INSTALL_PATH=${MINGW_PREFIX} \
@@ -96,6 +98,8 @@ build() {
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DCMAKE_RULE_MESSAGES:BOOL=OFF \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     ../${_realname}-i18n-${pkgver}
 
@@ -107,6 +111,8 @@ build() {
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DCMAKE_RULE_MESSAGES:BOOL=OFF \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     ../${_realname}-symbols-${_basever}
 
@@ -116,6 +122,8 @@ build() {
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DCMAKE_RULE_MESSAGES:BOOL=OFF \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     ../${_realname}-footprints-${_basever}
 
@@ -125,6 +133,8 @@ build() {
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DCMAKE_RULE_MESSAGES:BOOL=OFF \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     ../${_realname}-packages3D-${_basever}
 
@@ -134,6 +144,8 @@ build() {
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G "MSYS Makefiles" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DCMAKE_RULE_MESSAGES:BOOL=OFF \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     ../${_realname}-templates-${_basever}
 }
