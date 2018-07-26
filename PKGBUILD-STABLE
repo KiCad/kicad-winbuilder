@@ -48,6 +48,17 @@ md5sums=('SKIP'
          'd8a5c09a33588a73eb8552c83bdb0381'
          '4728d484cac51c7272ae0ad1ee938d2d')
 
+prepare() {
+  # Hack to get UTF8 support for paths with mingw
+  # https://lists.launchpad.net/kicad-developers/msg28560.html
+  rm -rf ${srcdir}/${_realname}/include/wx
+  mkdir ${srcdir}/${_realname}/include/wx
+  cp $(find ${MINGW_PREFIX} -path "*wx\\/app.h") \
+    ${srcdir}/${_realname}/include/wx
+  cd ${srcdir}/${_realname}
+  patch -p1 -i ${srcdir}/${_realname}/patches/wxwidgets-3.0.2_mingw_fix_unicode_entry.patch
+}
+
 build() {
   cd "${srcdir}"
 
