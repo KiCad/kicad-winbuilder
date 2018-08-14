@@ -231,8 +231,8 @@ copystuff() {
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyc" -type f -delete
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyo" -type f -delete
 
-    echo Copying include/python3.6...
-    cp -r "$MSYSDIR/include/python3.6" "$TARGETDIR/include"
+    echo Copying include/python3.6m...
+    cp -r "$MSYSDIR/include/python3.6m" "$TARGETDIR/include"
 
     echo Copying lib/python3.6...
     cp -r "$MSYSDIR/lib/python3.6/" "$TARGETDIR/lib/"
