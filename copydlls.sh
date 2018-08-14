@@ -231,8 +231,8 @@ copystuff() {
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyc" -type f -delete
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyo" -type f -delete
 
-    echo Copying include/python2.7...
-    cp -r "$MSYSDIR/include/python2.7" "$TARGETDIR/include"
+    echo Copying include/python3.6...
+    cp -r "$MSYSDIR/include/python3.6" "$TARGETDIR/include"
 
     echo Copying lib/python3.6...
     cp -r "$MSYSDIR/lib/python3.6/" "$TARGETDIR/lib/"
@@ -247,10 +247,14 @@ copystuff() {
     echo Copying ssl/certs/ca-bundle.crt...
     cp "$MSYSDIR/ssl/certs/ca-bundle.crt" "$TARGETDIR/ssl/certs"
 
-    echo Copying python...
+    echo Copying python2...
     cp $MSYSDIR/bin/python.exe $TARGETDIR/bin
     cp $MSYSDIR/bin/python2w.exe $TARGETDIR/bin/pythonw.exe
 
+    echo Copying python3...
+    cp $MSYSDIR/bin/python3.exe $TARGETDIR/bin/python.exe
+    cp $MSYSDIR/bin/python3w.exe $TARGETDIR/bin/pythonw.exe
+    
     echo Copying Tk for python...
     cp $MSYSDIR/bin/tk86.dll $TARGETDIR/bin
     cp $MSYSDIR/bin/tcl86.dll $TARGETDIR/bin
