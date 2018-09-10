@@ -13,6 +13,7 @@ display_help() {
     echo "  -d, --dirpath=PATH   Path to make install location (DESTDIR)"
     echo "  -m, --makensis=PATH  Path to makensis.exe"
     echo "  -s, --nsispath=PATH  Path to the NSIS packaging scripts"
+    echo "  -v, --version=VERSTR Version string" 
     exit 1
 }
 
@@ -116,6 +117,11 @@ case $i in
     -o=*|--outdir=*)
     OUTDIR="${i#*=}"
     echo "\$OUTDIR=$OUTDIR"
+    shift
+    ;;
+    -v=*|--version=*)
+    VERSION="${i#*=}"
+    echo "\$VERSION=$VERSION"
     shift
     ;;
     *)
