@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=5.0.1_rc2
+pkgver=5.0.1_1
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
 _basever=5.0.1
 _rcver=rc2
