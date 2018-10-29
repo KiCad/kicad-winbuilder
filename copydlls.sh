@@ -231,18 +231,18 @@ copystuff() {
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyc" -type f -delete
     find "${TARGETDIR}/lib/python2.7/" -name "*.pyo" -type f -delete
 
-    echo Copying include/python3.6m...
-    cp -r "$MSYSDIR/include/python3.6m" "$TARGETDIR/include"
+    echo Copying include/python3.7m...
+    cp -r "$MSYSDIR/include/python3.7m" "$TARGETDIR/include"
 
-    echo Copying lib/python3.6...
-    cp -r "$MSYSDIR/lib/python3.6/" "$TARGETDIR/lib/"
+    echo Copying lib/python3.7...
+    cp -r "$MSYSDIR/lib/python3.7/" "$TARGETDIR/lib/"
     # Get rid of any parts of the python install that are not required by
     # a KiCad installation
-    rm -f "${TARGETDIR}/lib/python3.6/config-3.6m/libpython3.6.dll.a"
-    rm -f "${TARGETDIR}/lib/python3.6/config-3.6m/libpython3.6m.dll.a"
-    rm -rf "${TARGETDIR}/lib/python3.6/test"
-    find "${TARGETDIR}/lib/python3.6/" -name "*.pyc" -type f -delete
-    find "${TARGETDIR}/lib/python3.6/" -name "*.pyo" -type f -delete
+    rm -f "${TARGETDIR}/lib/python3.7/config-3.7m/libpython3.7.dll.a"
+    rm -f "${TARGETDIR}/lib/python3.7/config-3.7m/libpython3.7m.dll.a"
+    rm -rf "${TARGETDIR}/lib/python3.7/test"
+    find "${TARGETDIR}/lib/python3.7/" -name "*.pyc" -type f -delete
+    find "${TARGETDIR}/lib/python3.7/" -name "*.pyo" -type f -delete
     
     echo Copying ssl/certs/ca-bundle.crt...
     cp "$MSYSDIR/ssl/certs/ca-bundle.crt" "$TARGETDIR/ssl/certs"
