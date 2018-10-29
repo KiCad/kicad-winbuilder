@@ -13,7 +13,7 @@ display_help() {
     echo "  -d, --dirpath=PATH   Path to make install location (DESTDIR)"
     echo "  -m, --makensis=PATH  Path to makensis.exe"
     echo "  -s, --nsispath=PATH  Path to the NSIS packaging scripts"
-    echo "  -v, --version=VERSTR Version string" 
+    echo "  -v, --version=VERSTR Version string"
     exit 1
 }
 
@@ -243,7 +243,7 @@ copystuff() {
     rm -rf "${TARGETDIR}/lib/python3.7/test"
     find "${TARGETDIR}/lib/python3.7/" -name "*.pyc" -type f -delete
     find "${TARGETDIR}/lib/python3.7/" -name "*.pyo" -type f -delete
-    
+
     echo Copying ssl/certs/ca-bundle.crt...
     cp "$MSYSDIR/ssl/certs/ca-bundle.crt" "$TARGETDIR/ssl/certs"
 
@@ -254,7 +254,7 @@ copystuff() {
     echo Copying python3...
     cp $MSYSDIR/bin/python3.exe $TARGETDIR/bin/python.exe
     cp $MSYSDIR/bin/python3w.exe $TARGETDIR/bin/pythonw.exe
-    
+
     echo Copying Tk for python...
     cp $MSYSDIR/bin/tk86.dll $TARGETDIR/bin
     cp $MSYSDIR/bin/tcl86.dll $TARGETDIR/bin
