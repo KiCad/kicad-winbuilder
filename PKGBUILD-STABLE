@@ -2,11 +2,11 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=5.0.2_1
+pkgver=5.0.2_2
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
 _basever=5.0.2
 _rcver=`echo ${pkgver} | sed -e 's/.*_//g'`
-pkgrel=2
+pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
 url="http://www.kicad-pcb.org"
