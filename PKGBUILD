@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=r7029.cc2b358
+pkgver=r12153.72c885797
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -30,7 +30,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-glm"
              "git"
              "unzip")
-source=("${_realname}"::"git+https://github.com/KiCad/kicad-source-mirror.git"
+source=("${_realname}"::"git+https://git.launchpad.net/kicad"
         "${_realname}-i18n"::"git+https://github.com/KiCad/kicad-i18n.git"
         "git://github.com/KiCad/kicad-symbols.git"
         "git://github.com/KiCad/kicad-footprints.git"
@@ -70,7 +70,7 @@ build() {
   # Configure and build KiCad.
   [[ -d build-${MINGW_CHOST} ]] && rm -r build-${MINGW_CHOST}
   mkdir build-${MINGW_CHOST} && cd build-${MINGW_CHOST}
-  
+
   # Get GCC version
   GCCVERSION=`gcc --version | grep ^gcc | sed 's/^.* //g'`
 
@@ -81,7 +81,7 @@ build() {
   if [ $GCCVERSION = "5.1.0" ] || [ $GCCVERSION = "5.2.0" ]; then
     EXTRA_FLAGS=" -DCMAKE_CXX_FLAGS=-Wno-deprecated-declarations"
   fi
-  
+
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake.exe \
     -G"MSYS Makefiles" \
