@@ -2,9 +2,9 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=5.0.2_3
+pkgver=5.1.0_1
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
-_basever=5.0.2
+_basever=5.1.0
 _rcver=`echo ${pkgver} | sed -e 's/.*_//g'`
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
@@ -40,16 +40,14 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
         "${_realname}-packages3D-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-packages3D/archive/${_basever}.tar.gz"
         "${_realname}-templates-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-templates/archive/${_basever}.tar.gz"
         "${_realname}-doc-${_upver}.tar.gz"::"http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
-        "0001-Do-not-set-wxSetAssertHandler-on-non-debug-builds.patch"
        )
 md5sums=('SKIP'
-         '540eb9bbfb2004749ded2553adfcefd1'
-         '12d1baa4b77f6aa90c0ebe013934bf11'
-         'caa7a7e263fb2520a95032485c3e2d13'
-         '9166a728ba291fd943165f14c04399b0'
-         '8ad047f22a0ee9ddcf113300d83a7d83'
-         '780d865b31ccaddabce07b43a7e89187'
-         'aeddf02763c114f9c2fb80ddeb3ed518')
+         'c1e8fdd7bf4d1377f7ee0968fb5ab1d6'
+         'f78847a49329c9d8bfd4f5aac7dc36b1'
+         'cbdc858a0657878df24cec5eb0ab64a0'
+         'dde395e19f69881930a8820a922f239a'
+         '451fc7de145ff122f1de08dfcef368d6'
+         '5874730b9922f128fd152a2d94ab39cc')
 
 prepare() {
   # Hack to get UTF8 support for paths with mingw
@@ -60,7 +58,6 @@ prepare() {
     ${srcdir}/${_realname}/include/wx
   cd ${srcdir}/${_realname}
   patch -p1 -i ${srcdir}/${_realname}/patches/wxwidgets-3.0.2_mingw_fix_unicode_entry.patch
-  patch -p1 -i ${srcdir}/0001-Do-not-set-wxSetAssertHandler-on-non-debug-builds.patch
 }
 
 build() {
