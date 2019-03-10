@@ -39,7 +39,7 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
         "${_realname}-footprints-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-footprints/archive/${_basever}.tar.gz"
         "${_realname}-packages3D-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-packages3D/archive/${_basever}.tar.gz"
         "${_realname}-templates-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-templates/archive/${_basever}.tar.gz"
-        "${_realname}-doc-${_upver}.tar.gz"::"http://downloads.kicad-pcb.org/docs/kicad-doc-${_upver}.tar.gz"
+        "${_realname}-doc-${_upver}.tar.gz"::"https://kicad-downloads.s3.cern.ch/docs/kicad-doc-${_upver}.tar.gz"
        )
 md5sums=('SKIP'
          'c1e8fdd7bf4d1377f7ee0968fb5ab1d6'
@@ -47,7 +47,7 @@ md5sums=('SKIP'
          'cbdc858a0657878df24cec5eb0ab64a0'
          'dde395e19f69881930a8820a922f239a'
          '451fc7de145ff122f1de08dfcef368d6'
-         '5874730b9922f128fd152a2d94ab39cc')
+         '10d452047c4c1637fd4a7a7ca2277eb2')
 
 prepare() {
   # Hack to get UTF8 support for paths with mingw
