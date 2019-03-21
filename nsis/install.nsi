@@ -136,12 +136,14 @@ BrandingText "KiCad installer for windows"
 !insertmacro MUI_LANGUAGE "Italian"
 !insertmacro MUI_LANGUAGE "Spanish"
 !insertmacro MUI_LANGUAGE "Greek"
+!insertmacro MUI_LANGUAGE "Chinese"
 
 !include "English.nsh"
 !include "German.nsh"
 !include "Italian.nsh"
 !include "Spanish.nsh"
 !include "Greek.nsh"
+!include "Chinese.nsh"
 
 VIProductVersion "0.0.0.0" ; Dummy version, because this can only be X.X.X.X
 VIAddVersionKey "ProductName" "${COMPANY_NAME}"
@@ -423,6 +425,11 @@ SectionGroup $(TITLE_SEC_DOCS) SEC06
     SetOutPath "$INSTDIR\share\doc\kicad\help\pl"
     File /nonfatal /r "..\share\doc\kicad\help\pl\*"
   SectionEnd
+  Section $(LANGUAGE_NAME_ZH) SEC06_ZH
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\doc\kicad\help\zh"
+    File /nonfatal /r "..\share\doc\kicad\help\zh\*"
+  SectionEnd
 SectionGroupEnd
 
 Section $(TITLE_SEC_ENV) SEC07
@@ -500,6 +507,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_JA} $(DESC_SEC_DOCS_JA)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_NL} $(DESC_SEC_DOCS_NL)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_PL} $(DESC_SEC_DOCS_PL)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC06_ZH} $(DESC_SEC_DOCS_ZH) 
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC07} $(DESC_SEC_ENV)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC08} $(DESC_SEC_FILE_ASSOC)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
@@ -677,6 +685,8 @@ Function EnableLiteMode
     !insertmacro UnselectSection ${SEC06_NL}
     !insertmacro SetSectionFlag ${SEC06_PL} ${SF_RO}
     !insertmacro UnselectSection ${SEC06_PL}
+    !insertmacro SetSectionFlag ${SEC06_ZH} ${SF_RO}
+    !insertmacro UnselectSection ${SEC06_ZH}
   !endif
 
   ; Make the envvar install not be default
