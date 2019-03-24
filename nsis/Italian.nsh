@@ -22,7 +22,6 @@ LangString LANGUAGE_NAME_IT ${LANG_ITALIAN} "Italiano"
 LangString LANGUAGE_NAME_JA ${LANG_ITALIAN} "Giapponese"
 LangString LANGUAGE_NAME_NL ${LANG_ITALIAN} "Olandese"
 LangString LANGUAGE_NAME_PL ${LANG_ITALIAN} "Polacco"
-LangString LANGUAGE_NAME_ZH ${LANG_ITALIAN} "Cinese"
 
 ;Component option
 LangString TITLE_SEC_MAIN ${LANG_ITALIAN} "Applicazione principale"
@@ -49,7 +48,6 @@ LangString DESC_SEC_DOCS_IT ${LANG_ITALIAN} "$(LANGUAGE_NAME_IT) $(TITLE_SEC_DOC
 LangString DESC_SEC_DOCS_JA ${LANG_ITALIAN} "$(LANGUAGE_NAME_JA) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_NL ${LANG_ITALIAN} "$(LANGUAGE_NAME_NL) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_DOCS_PL ${LANG_ITALIAN} "$(LANGUAGE_NAME_PL) $(TITLE_SEC_DOCS)"
-LangString DESC_SEC_DOCS_ZH ${LANG_ITALIAN} "$(LANGUAGE_NAME_ZH) $(TITLE_SEC_DOCS)"
 LangString DESC_SEC_ENV ${LANG_ITALIAN} "Imposta le variabili ambiente KISYSMOD, KISYS3DMOD e KICAD_TEMPLATE_DIR ai percorsi di installazione predefiniti."
 LangString DESC_SEC_FILE_ASSOC ${LANG_ITALIAN} "Creates file associations for KiCad related files"
 
