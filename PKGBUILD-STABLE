@@ -39,7 +39,7 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
         "${_realname}-footprints-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-footprints/archive/${_basever}.tar.gz"
         "${_realname}-packages3D-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-packages3D/archive/${_basever}.tar.gz"
         "${_realname}-templates-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-templates/archive/${_basever}.tar.gz"
-        "${_realname}-doc-${_upver}.tar.gz"::"https://kicad-downloads.s3.cern.ch/docs/kicad-doc-${_upver}.tar.gz"
+        "${_realname}-doc-${_upver}.tar.gz"::"https://kicad-downloads.s3.cern.ch/docs/kicad-doc-${_basever}.tar.gz"
        )
 md5sums=('SKIP'
          'c1e8fdd7bf4d1377f7ee0968fb5ab1d6'
