@@ -2,9 +2,10 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=5.0.0
+pkgver=5.0.2_1
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
-_basever=5.0.0
+_basever=5.0.2
+_rcver=`echo ${pkgver} | sed -e 's/.*_//g'`
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
 arch=('any')
@@ -31,9 +32,9 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-swig"
              "${MINGW_PACKAGE_PREFIX}-glm"
              "git")
-#source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${pkgver}"
+#source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
 source=("${_realname}::git+https://git.launchpad.net/kicad#branch=5.0"
-        "${_realname}-i18n-${pkgver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${pkgver}.tar.gz"
+        "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_upver}.tar.gz"
         "${_realname}-symbols-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-symbols/archive/${_basever}.tar.gz"
         "${_realname}-footprints-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-footprints/archive/${_basever}.tar.gz"
         "${_realname}-packages3D-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-packages3D/archive/${_basever}.tar.gz"
@@ -41,12 +42,12 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#branch=5.0"
         "${_realname}-doc-${_upver}.tar.gz"::"https://kicad-downloads.s3.cern.ch/docs/kicad-doc-${_basever}.tar.gz"
        )
 md5sums=('SKIP'
-         '1e1503b89c575c80ff51583d40667c14'
-         '03cb33312062571118a277bafd01c06d'
-         'e8ce40c47b108280d7878f858899ab10'
-         'aac66499bbbd9f21ad3e90af7ba854d2'
-         'd8a5c09a33588a73eb8552c83bdb0381'
-         '4728d484cac51c7272ae0ad1ee938d2d')
+         '540eb9bbfb2004749ded2553adfcefd1'
+         '12d1baa4b77f6aa90c0ebe013934bf11'
+         'caa7a7e263fb2520a95032485c3e2d13'
+         '9166a728ba291fd943165f14c04399b0'
+         '8ad047f22a0ee9ddcf113300d83a7d83'
+         '780d865b31ccaddabce07b43a7e89187')
 
 prepare() {
   # Hack to get UTF8 support for paths with mingw
@@ -78,7 +79,7 @@ build() {
   fi
 
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
+  ${MINGW_PREFIX}/bin/cmake \
     -G"MSYS Makefiles" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
@@ -87,15 +88,14 @@ build() {
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DDEFAULT_INSTALL_PATH=${MINGW_PREFIX} \
     -DOPENSSL_ROOT_DIR=${MINGW_PREFIX} \
-    -DKICAD_REPO_NAME=stable \
-    -DKICAD_BUILD_VERSION=${pkgver} \
+    -DKICAD_VERSION_EXTRA=${_rcver} \
     -DKICAD_SCRIPTING=ON \
     -DKICAD_SCRIPTING_MODULES=ON \
     -DKICAD_SCRIPTING_WXPYTHON=ON \
     -DKICAD_SCRIPTING_ACTION_MENU=ON \
     -DKICAD_USE_OCE=ON \
     -DKICAD_SPICE=ON \
-    -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2.exe \
+    -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2 \
     ${EXTRA_FLAGS} \
     ../${_realname}
   make
@@ -106,12 +106,12 @@ build() {
   [[ -d build-i18n ]] && rm -r build-i18n
   mkdir build-i18n && cd build-i18n
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
+  ${MINGW_PREFIX}/bin/cmake \
     -G "MSYS Makefiles" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DCMAKE_RULE_MESSAGES:BOOL=OFF \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-i18n-${pkgver}
+    ../${_realname}-i18n-${_upver}
 
   cd "${srcdir}"
 
@@ -119,7 +119,7 @@ build() {
   [[ -d build-symbols ]] && rm -r build-symbols
   mkdir build-symbols && cd build-symbols
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
+  ${MINGW_PREFIX}/bin/cmake \
     -G "MSYS Makefiles" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DCMAKE_RULE_MESSAGES:BOOL=OFF \
@@ -130,7 +130,7 @@ build() {
   [[ -d build-footprints ]] && rm -r build-footprints
   mkdir build-footprints && cd build-footprints
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
+  ${MINGW_PREFIX}/bin/cmake \
     -G "MSYS Makefiles" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DCMAKE_RULE_MESSAGES:BOOL=OFF \
@@ -141,7 +141,7 @@ build() {
   [[ -d build-packages3D ]] && rm -r build-packages3D
   mkdir build-packages3D && cd build-packages3D
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
+  ${MINGW_PREFIX}/bin/cmake \
     -G "MSYS Makefiles" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DCMAKE_RULE_MESSAGES:BOOL=OFF \
@@ -152,7 +152,7 @@ build() {
   [[ -d build-templates ]] && rm -r build-templates
   mkdir build-templates && cd build-templates
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
+  ${MINGW_PREFIX}/bin/cmake \
     -G "MSYS Makefiles" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DCMAKE_RULE_MESSAGES:BOOL=OFF \
@@ -181,5 +181,5 @@ package() {
 
   # Install KiCad docs.
   mkdir -p "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
-  cp -r "${srcdir}/kicad-doc-${_basever}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
+  cp -r "${srcdir}/kicad-doc-${_upver}/share/doc/kicad/help" "${pkgdir}${MINGW_PREFIX}/share/doc/kicad/"
 }
