@@ -2,7 +2,7 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=5.1.0_1
+pkgver=5.1.1_1
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
 _basever=5.1.1
 _rcver=`echo ${pkgver} | sed -e 's/.*_//g'`
@@ -34,7 +34,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cmake"
              "git")
 #source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
 source=("${_realname}::git+https://git.launchpad.net/kicad#branch=5.1"
-        "${_realname}-i18n-${_upver}.tar.gz"::"https://github.com/KiCad/kicad-i18n/archive/${_upver}.tar.gz"
+        "${_realname}-i18n::git+https://git.launchpad.net/kicad-i18n#branch=5.1"
         "${_realname}-symbols-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-symbols/archive/${_basever}.tar.gz"
         "${_realname}-footprints-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-footprints/archive/${_basever}.tar.gz"
         "${_realname}-packages3D-${_basever}.tar.gz"::"https://github.com/KiCad/kicad-packages3D/archive/${_basever}.tar.gz"
@@ -42,12 +42,12 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#branch=5.1"
         "${_realname}-doc-${_upver}.tar.gz"::"https://kicad-downloads.s3.cern.ch/docs/kicad-doc-${_basever}.tar.gz"
        )
 md5sums=('SKIP'
-         '540eb9bbfb2004749ded2553adfcefd1'
-         '12d1baa4b77f6aa90c0ebe013934bf11'
-         'caa7a7e263fb2520a95032485c3e2d13'
-         '9166a728ba291fd943165f14c04399b0'
-         '8ad047f22a0ee9ddcf113300d83a7d83'
-         '780d865b31ccaddabce07b43a7e89187')
+         'SKIP'
+         '6376f5e0dd9919ec65ac5ddf49c0c769'
+         '159a362ca66a6587b79a28bb95b53782'
+         '16c727a7b18c49d5f9f11f4fd74dc507'
+         '7c4314de118805ad31e1443488ee9d71'
+         'e94f8b549c451f1da460f3b446c1aa79')
 
 prepare() {
   # Hack to get UTF8 support for paths with mingw
@@ -111,7 +111,7 @@ build() {
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DCMAKE_RULE_MESSAGES:BOOL=OFF \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-    ../${_realname}-i18n-${_upver}
+    ../${_realname}-i18n
 
   cd "${srcdir}"
 
