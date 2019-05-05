@@ -54,7 +54,8 @@ copy_pkg() {
     pwd
     echo ======================
 
-    # Copy kicad instll
+    # Copy kicad install
+    echo Copying KiCad binaries from $1 to $2
     cp -r $1/* $2
 }
 
