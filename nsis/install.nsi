@@ -136,7 +136,7 @@ BrandingText "KiCad installer for windows"
 !insertmacro MUI_LANGUAGE "Italian"
 !insertmacro MUI_LANGUAGE "Spanish"
 !insertmacro MUI_LANGUAGE "Greek"
-!insertmacro MUI_LANGUAGE "Chinese"
+!insertmacro MUI_LANGUAGE "SimpChinese"
 
 !include "English.nsh"
 !include "German.nsh"
