@@ -316,38 +316,42 @@ endif()
 # Copy proper PKGBUILD (without bzr docs!)
 file( COPY "${CMAKE_SOURCE_DIR}/PKGBUILD" DESTINATION "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git" )
 
-# Actually build KiCad
-execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git\" && ${EXPORT_CARCH} TERM=vt220 makepkg-mingw -s --noconfirm" "${LOG_DIR}/makepkg" )
+if( i686 OR x86_64)
+  # Actually build KiCad
+  execute_msys2_bash( "cd \"${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git\" && ${EXPORT_CARCH} TERM=vt220 makepkg-mingw -s --noconfirm" "${LOG_DIR}/makepkg" )
 
-# Copy the runtime helper script to the MSYS2 system
-file( COPY "${CMAKE_SOURCE_DIR}/copydlls.sh" DESTINATION "${HOME_DIR}/" )
+  # Copy the runtime helper script to the MSYS2 system
+  file( COPY "${CMAKE_SOURCE_DIR}/copydlls.sh" DESTINATION "${HOME_DIR}/" )
 
-# Run through the installer process for each architecture
-if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" AND i686 )
-#    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
-    file( COPY "${CMAKE_SOURCE_DIR}/nsis"
-          DESTINATION "${HOME_DIR}" )
+  # Run through the installer process for each architecture
+  if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-i686-kicad-git/mingw32" AND i686 )
+  #    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
+      file( COPY "${CMAKE_SOURCE_DIR}/nsis"
+            DESTINATION "${HOME_DIR}" )
 
-    # Copy the runtime requirements (shared objects mainly)
-    execute_msys2_bash( "$HOME/copydlls.sh \
-                         --arch=i686 \
-                         --pkgpath=$HOME/MINGW-packages/mingw-w64-kicad-git \
-                         --nsispath=$HOME/nsis \
-                         --makensis=${NSIS_MAKE_COMMAND}"
-                         "${LOG_DIR}/copydlls_mingw32" )
-endif()
+      # Copy the runtime requirements (shared objects mainly)
+      execute_msys2_bash( "$HOME/copydlls.sh \
+                           --arch=i686 \
+                           --pkgpath=$HOME/MINGW-packages/mingw-w64-kicad-git \
+                           --nsispath=$HOME/nsis \
+                           --makensis=${NSIS_MAKE_COMMAND}"
+                           "${LOG_DIR}/copydlls_mingw32" )
+  endif()
 
-if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw64" AND x86_64 )
-#    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
-    file( COPY "${CMAKE_SOURCE_DIR}/nsis"
-          DESTINATION "${HOME_DIR}" )
+  if( EXISTS "${KICAD_PACKAGE_SOURCE_DIR}/pkg/mingw-w64-x86_64-kicad-git/mingw64" AND x86_64 )
+  #    file( COPY "${KICAD_PACKAGE_SOURCE_DIR}/src/kicad/packaging/windows/nsis"
+      file( COPY "${CMAKE_SOURCE_DIR}/nsis"
+            DESTINATION "${HOME_DIR}" )
 
-    # Copy the runtime requirements (shared objects mainly)
-    execute_msys2_bash( "~/copydlls.sh \
-                         --arch=x86_64 \
-                         --pkgpath=\$HOME/MINGW-packages/mingw-w64-kicad-git \
-                         --nsispath=$HOME/nsis \
-                         --makensis=${NSIS_MAKE_COMMAND}"
-                         "${LOG_DIR}/copydlls_mingw64" )
+      # Copy the runtime requirements (shared objects mainly)
+      execute_msys2_bash( "~/copydlls.sh \
+                           --arch=x86_64 \
+                           --pkgpath=\$HOME/MINGW-packages/mingw-w64-kicad-git \
+                           --nsispath=$HOME/nsis \
+                           --makensis=${NSIS_MAKE_COMMAND}"
+                           "${LOG_DIR}/copydlls_mingw64" )
+  endif()
+else()
+  message( STATUS "No arch specifed, skipping build and packaging" )
 endif()
 
