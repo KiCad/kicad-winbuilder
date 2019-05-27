@@ -155,27 +155,9 @@ macro( download_msys2mingw_base_package PACKAGE MD5 )
         endif()
     endif()
 
-    execute_process(
-        COMMAND "${SEVENZ_COMMAND}" x "${DOWNLOADS_DIR}/${PACKAGE}" "-y"
-        WORKING_DIRECTORY "${DOWNLOADS_DIR}"
-        OUTPUT_VARIABLE output
-        ERROR_VARIABLE error
-        RESULT_VARIABLE result )
-
-    if( NOT ${result} EQUAL 0 )
-        message( STATUS "7z result ${result}" )
-        message( STATUS "7z output ${output}" )
-        message( STATUS "7z error ${error}" )
-    endif()
-
-    # Remove the .xz part of the filename because 7-zip extracts the tar from the tar.xz
-    string( LENGTH "${PACKAGE}" _FN_LEN )
-    math( EXPR _SUBLEN "${_FN_LEN} - 3" )
-    string( SUBSTRING "${PACKAGE}" 0 ${_SUBLEN} _TAR_FN )
-
     # Now use Cmake's internal tar implementation to extract mingw-w64
     execute_process(
-        COMMAND "${CMAKE_COMMAND}" -E tar xf "${DOWNLOADS_DIR}/${_TAR_FN}"
+        COMMAND "${CMAKE_COMMAND}" -E tar xvf "${DOWNLOADS_DIR}/${PACKAGE}"
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         OUTPUT_VARIABLE output
         ERROR_VARIABLE error
