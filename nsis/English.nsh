@@ -26,8 +26,10 @@ LangString LANGUAGE_NAME_ZH ${LANG_ENGLISH} "Chinese"
 
 ;Component option
 LangString TITLE_SEC_MAIN ${LANG_ENGLISH} "Main application"
+LangString TITLE_SEC_LIBRARIES ${LANG_ENGLISH} "Libraries"
 LangString TITLE_SEC_SCHLIB ${LANG_ENGLISH} "Schematic libraries"
 LangString TITLE_SEC_FPLIB ${LANG_ENGLISH} "Footprint libraries"
+LangString TITLE_SEC_PACKAGES3D ${LANG_ENGLISH} "Footprint 3d models"
 LangString TITLE_SEC_FPWIZ ${LANG_ENGLISH} "Footprint wizards"
 LangString TITLE_SEC_DEMOS ${LANG_ENGLISH} "Demonstration projects"
 LangString TITLE_SEC_DOCS ${LANG_ENGLISH} "Help files"
@@ -38,6 +40,8 @@ LangString TITLE_SEC_FILE_ASSOC ${LANG_ENGLISH} "File associations"
 LangString DESC_SEC_MAIN ${LANG_ENGLISH} "Main application files."
 LangString DESC_SEC_SCHLIB ${LANG_ENGLISH} "Schematic libraries are required unless they have been previously installed."
 LangString DESC_SEC_FPLIB ${LANG_ENGLISH} "Footprint libraries are required unless they have been previously installed."
+LangString DESC_SEC_PACKAGES3D_DOWNLOAD ${LANG_ENGLISH} "Footprint 3d models are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
+LangString DESC_SEC_PACKAGES3D ${LANG_ENGLISH} "Footprint 3d models are recommended to install."
 LangString DESC_SEC_FPWIZ ${LANG_ENGLISH} "Default python based footprint wizards available in the footprint editor. This is an experimental feature on windows."
 LangString DESC_SEC_DEMOS ${LANG_ENGLISH} "Some demonstration projects and tutorials."
 LangString DESC_SEC_DOCS ${LANG_ENGLISH} "Help files in PDF format."
@@ -80,6 +84,7 @@ LangString PROGRAM_IS_OPEN_ERROR ${LANG_ENGLISH} "$R1 is currently running! You 
 LangString FREECAD_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models you need to install FreeCAD. \
 FreeCAD and user manual can be download free from the FreeCAD web page. Check this box to open the FreeCAD web page."
 
+LangString CLEANUP_PROMPT ${LANG_ENGLISH} "Remove downloaded files?"
 LangString UNINST_PROMPT ${LANG_ENGLISH} "Are you sure you want to completely remove $(^Name) and all of its components? $\n\
 This will also remove all modified and new files, libraries and modules in the program directory \
 (including python modules installed by user)!"

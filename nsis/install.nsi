@@ -9,6 +9,7 @@
 ; Copyright (C) 2015 Nick Østergaard
 ; Copyright (C) 2015 Brian Sidebotham <brian.sidebotham@gmail.com>
 ; Copyright (C) 2016 Bevan Weiss <bevan.weiss@gmail.com>
+; Copyright (C) 2019 Andrew Lutsenko
 ;
 ; This program is free software; you can redistribute it and/or modify it
 ; under the terms of the GNU General Public License as published by the Free
@@ -58,6 +59,20 @@
 
 !ifndef OPTION_STRING
   !define OPTION_STRING "unknown"
+!endif
+
+;Define libraries download urls
+!ifdef LIBRARIES_TAG
+Var DELETE_DOWNLOADED_FILES
+!define KICAD_SYMBOLS_FILE "kicad-symbols-${LIBRARIES_TAG}.zip"
+!define KICAD_SYMBOLS_FOLDER "kicad-symbols-${LIBRARIES_TAG}"
+!define KICAD_SYMBOLS_URL "https://github.com/KiCad/kicad-symbols/archive/${LIBRARIES_TAG}.zip"
+!define KICAD_FOOTPRINTS_FILE "kicad-footprints-${LIBRARIES_TAG}.zip"
+!define KICAD_FOOTPRINTS_FOLDER "kicad-footprints-${LIBRARIES_TAG}"
+!define KICAD_FOOTPRINTS_URL "https://github.com/KiCad/kicad-footprints/archive/${LIBRARIES_TAG}.zip"
+!define KICAD_PACKAGES3D_FILE "kicad-packages3D-${LIBRARIES_TAG}.zip"
+!define KICAD_PACKAGES3D_FOLDER "kicad-packages3D-${LIBRARIES_TAG}"
+!define KICAD_PACKAGES3D_URL "https://github.com/KiCad/kicad-packages3D/archive/${LIBRARIES_TAG}.zip"
 !endif
 
 ;Properly display all languages (Installer will not work on Windows 95, 98 or ME!)
@@ -259,6 +274,9 @@ VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 ;--------------------------------
 
 Function .onInit
+  !ifdef LIBRARIES_TAG
+  StrCpy $DELETE_DOWNLOADED_FILES "unknown"
+  !endif
   ; Request that we get elevated rights to install so that we don't end up in
   ; the virtual store
   ClearErrors
@@ -326,6 +344,46 @@ FunctionEnd
   ${RunningProcessCheck} "gerbview.exe" $(APP_NAME_GERBVIEW)
 !macroend
 
+!macro DownloadAndExtract File Url What ZippedName DestinationBase DestinationName
+  ${If} $DELETE_DOWNLOADED_FILES == "unknown"
+    StrCpy $DELETE_DOWNLOADED_FILES "no"
+    ; ask this only once
+    MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON1 $(CLEANUP_PROMPT) /SD IDYES IDNO +2
+      StrCpy $DELETE_DOWNLOADED_FILES "yes"
+  ${Endif}
+
+  CreateDirectory "${DestinationBase}${DestinationName}"
+
+  IfFileExists "$EXEDIR\${File}" unzip download
+
+  download:
+  DetailPrint "Downloading ${Url}"
+  inetc::get /caption "Downloading ${What}" /popup "" ${Url} "$EXEDIR\${File}" /end
+  Pop $R0
+  StrCmp $R0 "OK" complete
+    MessageBox MB_ICONEXCLAMATION|MB_ABORTRETRYIGNORE|MB_DEFBUTTON2 "Download failed: $R0" /SD IDIGNORE IDRETRY download IDIGNORE +2
+      Abort "Installation aborted."
+      Return
+
+  complete:
+  DetailPrint "Downloaded ${What} archive to $EXEDIR\${File}"
+
+  unzip:
+  nsisunz::UnzipToLog "$EXEDIR\${File}" "${DestinationBase}"
+  Pop $R0
+  ${If} $R0 == "success"
+    CopyFiles /SILENT "${DestinationBase}${ZippedName}\*" "${DestinationBase}${DestinationName}"
+    RMDir /r "${DestinationBase}${ZippedName}"
+    ${If} $DELETE_DOWNLOADED_FILES == "yes"
+      Delete "$EXEDIR\${File}"
+    ${EndIf}
+  ${Else}
+    DetailPrint "Extracting ${What} failed: $R0"
+    MessageBox MB_ICONEXCLAMATION|MB_OK "Extracting ${What} failed: $R0"
+    Abort "Installation aborted."
+  ${EndIf}
+!macroend
+
 Function onDirectoryPageLeave
   !insertmacro KiCadRunningProccessesCheck
 
@@ -356,17 +414,46 @@ Section $(TITLE_SEC_MAIN) SEC01
   ${RegisterApplication} "pl_editor.exe" $(APP_FRIENDLY_PLEDITOR)
 SectionEnd
 
-Section $(TITLE_SEC_SCHLIB) SEC02
-  SetOverwrite try
-  SetOutPath "$INSTDIR\share\kicad\library"
-  File /nonfatal /r "..\share\kicad\library\*"
-SectionEnd
+SectionGroup /e $(TITLE_SEC_LIBRARIES) SEC03
+  !ifndef LIBRARIES_TAG
+  Section $(TITLE_SEC_SCHLIB) SEC03_SCHLIB
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\kicad\library"
+    File /nonfatal /r "..\share\kicad\library\*"
+  SectionEnd
+  !else
+  Section /o $(TITLE_SEC_SCHLIB) SEC03_SCHLIB
+    AddSize 24576 ; 24MB
+    !insertmacro DownloadAndExtract "${KICAD_SYMBOLS_FILE}" "${KICAD_SYMBOLS_URL}" "symbols" "${KICAD_SYMBOLS_FOLDER}" "$INSTDIR\share\kicad\" "library"
+  SectionEnd
+  !endif
 
-Section $(TITLE_SEC_FPLIB) SEC03
-  SetOverwrite try
-  SetOutPath "$INSTDIR\share\kicad\modules"
-  File /nonfatal /r "..\share\kicad\modules\*"
-SectionEnd
+  !ifndef LIBRARIES_TAG
+  Section $(TITLE_SEC_FPLIB) SEC03_MODULES
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\kicad\modules"
+    File /nonfatal /r /x "packages3d" "..\share\kicad\modules\*"
+  SectionEnd
+  !else
+  Section /o $(TITLE_SEC_FPLIB) SEC03_MODULES
+    AddSize 81920 ; 80MB
+    !insertmacro DownloadAndExtract "${KICAD_FOOTPRINTS_FILE}" "${KICAD_FOOTPRINTS_URL}" "footprints" "${KICAD_FOOTPRINTS_FOLDER}" "$INSTDIR\share\kicad\" "modules"
+  SectionEnd
+  !endif
+
+  !ifndef LIBRARIES_TAG
+  Section $(TITLE_SEC_PACKAGES3D) SEC03_PACKAGES3D
+    SetOverwrite try
+    SetOutPath "$INSTDIR\share\kicad\modules\packages3d"
+    File /nonfatal /r "..\share\kicad\modules\packages3d\*"
+  SectionEnd
+  !else
+  Section /o $(TITLE_SEC_PACKAGES3D) SEC03_PACKAGES3D
+    AddSize 5767168 ; 5.5GB
+    !insertmacro DownloadAndExtract "${KICAD_PACKAGES3D_FILE}" "${KICAD_PACKAGES3D_URL}" "3d models" "${KICAD_PACKAGES3D_FOLDER}" "$INSTDIR\share\kicad\modules\" "packages3d"
+  SectionEnd
+  !endif
+SectionGroupEnd
 
 Section $(TITLE_SEC_FPWIZ) SEC04
   SetOverwrite try
@@ -494,8 +581,13 @@ SectionEnd
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} $(DESC_SEC_MAIN)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} $(DESC_SEC_SCHLIB)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} $(DESC_SEC_FPLIB)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC03_SCHLIB} $(DESC_SEC_SCHLIB)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC03_MODULES} $(DESC_SEC_FPLIB)
+  !ifdef LIBRARIES_TAG
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC03_PACKAGES3D} $(DESC_SEC_PACKAGES3D_DOWNLOAD)
+  !else
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC03_PACKAGES3D} $(DESC_SEC_PACKAGES3D)
+  !endif
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC04} $(DESC_SEC_FPWIZ)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC05} $(DESC_SEC_DEMOS)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC06} $(DESC_SEC_DOCS)
@@ -655,14 +747,14 @@ Function EnableLiteMode
   ; TODO: Add override string for lite mode
   !insertmacro CompileTimeIfFileExist "..\share\kicad\library" ADD_LIBS
   !ifndef ADD_LIBS
-    !insertmacro SetSectionFlag ${SEC02} ${SF_RO}
-    !insertmacro UnselectSection ${SEC02}
+    !insertmacro SetSectionFlag ${SEC03_SCHLIB} ${SF_RO}
+    !insertmacro UnselectSection ${SEC03_SCHLIB}
   !endif
 
   !insertmacro CompileTimeIfFileExist "..\share\kicad\modules" ADD_MODULES
   !ifndef ADD_MODULES
-    !insertmacro SetSectionFlag ${SEC03} ${SF_RO}
-    !insertmacro UnselectSection ${SEC03}
+    !insertmacro SetSectionFlag ${SEC03_MODULES} ${SF_RO}
+    !insertmacro UnselectSection ${SEC03_MODULES}
   !endif
 
   !insertmacro CompileTimeIfFileExist "..\share\doc\kicad\help" ADD_HELP
