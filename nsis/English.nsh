@@ -38,7 +38,9 @@ LangString TITLE_SEC_FILE_ASSOC ${LANG_ENGLISH} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_ENGLISH} "Main application files."
+LangString DESC_SEC_SCHLIB_DOWNLOAD ${LANG_ENGLISH} "Schematic libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_SCHLIB ${LANG_ENGLISH} "Schematic libraries are required unless they have been previously installed."
+LangString DESC_SEC_FPLIB_DOWNLOAD ${LANG_ENGLISH} "Footprint libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_FPLIB ${LANG_ENGLISH} "Footprint libraries are required unless they have been previously installed."
 LangString DESC_SEC_PACKAGES3D_DOWNLOAD ${LANG_ENGLISH} "Footprint 3d models are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_PACKAGES3D ${LANG_ENGLISH} "Footprint 3d models are recommended to install."
@@ -84,7 +86,7 @@ LangString PROGRAM_IS_OPEN_ERROR ${LANG_ENGLISH} "$R1 is currently running! You 
 LangString FREECAD_PROMPT ${LANG_ENGLISH} "To edit or create 3D object models you need to install FreeCAD. \
 FreeCAD and user manual can be download free from the FreeCAD web page. Check this box to open the FreeCAD web page."
 
-LangString CLEANUP_PROMPT ${LANG_ENGLISH} "Remove downloaded files?"
+LangString CLEANUP_PROMPT ${LANG_ENGLISH} "Remove downloaded files after installation?"
 LangString UNINST_PROMPT ${LANG_ENGLISH} "Are you sure you want to completely remove $(^Name) and all of its components? $\n\
 This will also remove all modified and new files, libraries and modules in the program directory \
 (including python modules installed by user)!"
