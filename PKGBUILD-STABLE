@@ -96,6 +96,7 @@ build() {
     -DKICAD_USE_OCE=ON \
     -DKICAD_SPICE=ON \
     -DPYTHON_EXECUTABLE=${MINGW_PREFIX}/bin/python2 \
+    -DwxWidgets_CONFIG_EXECUTABLE=${MINGW_PREFIX}/bin/wx-config-3.0 \
     ${EXTRA_FLAGS} \
     ../${_realname}
   make
