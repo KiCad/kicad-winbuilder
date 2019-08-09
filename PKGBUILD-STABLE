@@ -2,9 +2,9 @@
 
 _realname=kicad
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
-pkgver=5.1.3_3
+pkgver=5.1.4_
 _upver=`echo ${pkgver} | sed -e 's/_.*//g'`
-_basever=5.1.3
+_basever=5.1.4
 _rcver=`echo ${pkgver} | sed -e 's/.*_//g'`
 pkgrel=1
 pkgdesc="Software for the creation of electronic schematic diagrams and printed circuit board artwork (mingw-w64)"
@@ -42,12 +42,12 @@ source=("${_realname}::git+https://git.launchpad.net/kicad#tag=${_upver}"
         "${_realname}-doc-${_upver}.tar.gz"::"https://kicad-downloads.s3.cern.ch/docs/kicad-doc-${_basever}.tar.gz"
        )
 md5sums=('SKIP'
-         'cf1897243d31bf6882ab6e60f77adb4a'
-         '84b1d245deb8ee043384f1b933fc485d'
-         '7aa398aa0f82295b7c27399538145ee7'
-         '7cafcf48ecba76b8c3e0280684774e9b'
-         'a15e178b79df779c36195a7ff2997f48'
-         '28932607781218154df388a050fd4240')
+         'f8f88696977bdb78e0ebc40761331626'
+         '92b64f0a88782b95be887378289002b4'
+         '8db001204ae43e28648d3acea4f472de'
+         'e12f72c4a5c65cb0bb6a3c242e2ed482'
+         'ac9e18f5e22cc90b669b186531f76314'
+         '6276747b245bbe25c39cdcc7fc3a1a5e')
 
 prepare() {
   # Hack to get UTF8 support for paths with mingw
