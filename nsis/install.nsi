@@ -87,7 +87,7 @@ RequestExecutionLevel admin
 
 ShowInstDetails show
 ShowUnInstDetails show
-BrandingText "KiCad installer for windows"
+BrandingText "KiCad installer for Windows"
 
 ; MUI 2 compatible ------
 !include "MUI2.nsh"
