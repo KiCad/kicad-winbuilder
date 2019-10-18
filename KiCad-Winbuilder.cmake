@@ -313,6 +313,10 @@ endif()
 # KiCad pacman package source
 # Get the home directory
 file( GLOB HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/*" )
+if ( "${HOME_DIR}" STREQUAL "" )
+    set( HOME_DIR "${CMAKE_SOURCE_DIR}/${MSYS2}/home/user" )
+    file( MAKE_DIRECTORY "${HOME_DIR}" )
+endif()
 set( KICAD_PACKAGE_SOURCE_DIR "${HOME_DIR}/MINGW-packages/mingw-w64-kicad-git/" )
 message( STATUS "HOME_DIR ${HOME_DIR}" )
 message( STATUS "KICAD_PACKAGE_SOURCE_DIR ${KICAD_PACKAGE_SOURCE_DIR}" )
