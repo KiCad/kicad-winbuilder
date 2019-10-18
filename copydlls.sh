@@ -209,7 +209,8 @@ copystuff() {
         "libreadline7.dll" \
         "libtermcap-0.dll" \
         "libpsl-5.dll" \
-        "libcrypto-1_1*.dll" )
+        "libcrypto-1_1*.dll" \
+        "libzstd.dll" )
 
     #echo Copying kicad binaries and stuff...
     #cp -r $MSYSDIR/bin/* $TARGETDIR/bin
@@ -247,15 +248,13 @@ copystuff() {
 
     echo Copying setuptools for python...
     cp $MSYSDIR/bin/easy_install.exe $TARGETDIR/bin
-    cp $MSYSDIR/bin/easy_install.exe.manifest $TARGETDIR/bin
     cp $MSYSDIR/bin/easy_install-script.py $TARGETDIR/bin
     sed -i 's/^#!.*exe$/#!python.exe/' $TARGETDIR/bin/easy_install-script.py
     # Rest of setuptools in lib/python2.7/site-packages
 
     echo Copying pip for python...
-    cp $MSYSDIR/bin/pip.exe $TARGETDIR/bin
-    cp $MSYSDIR/bin/pip.exe.manifest $TARGETDIR/bin
-    cp $MSYSDIR/bin/pip-script.py $TARGETDIR/bin
+    cp $MSYSDIR/bin/pip2.exe $TARGETDIR/bin/pip.exe
+    cp $MSYSDIR/bin/pip2-script.py $TARGETDIR/bin/pip-script.py
     sed -i 's/^#!.*exe$/#!python.exe/' $TARGETDIR/bin/pip-script.py
     # Rest of pip in lib/python2.7/site-packages
 
