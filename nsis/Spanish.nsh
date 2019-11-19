@@ -26,8 +26,10 @@ LangString LANGUAGE_NAME_ZH ${LANG_SPANISH} "Chino"
 
 ;Component option
 LangString TITLE_SEC_MAIN ${LANG_SPANISH} "Aplicación principal"
+LangString TITLE_SEC_LIBRARIES ${LANG_SPANISH} "Librerías"
 LangString TITLE_SEC_SCHLIB ${LANG_SPANISH} "Librerías de esquema"
 LangString TITLE_SEC_FPLIB ${LANG_SPANISH} "Librerías de huellas"
+LangString TITLE_SEC_PACKAGES3D ${LANG_SPANISH} "Footprint 3d models"
 LangString TITLE_SEC_FPWIZ ${LANG_SPANISH} "Asistentes de huellas"
 LangString TITLE_SEC_DEMOS ${LANG_SPANISH} "Proyectos de demostración"
 LangString TITLE_SEC_DOCS ${LANG_SPANISH} "Archivos de ayuda"
@@ -36,8 +38,12 @@ LangString TITLE_SEC_FILE_ASSOC ${LANG_SPANISH} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_SPANISH} "Archivos de la aplicación principal."
+LangString DESC_SEC_SCHLIB_DOWNLOAD ${LANG_SPANISH} "Schematic libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_SCHLIB ${LANG_SPANISH} "Las librerías de esquemas son necesarias si no han sido instaladas previamente."
+LangString DESC_SEC_FPLIB_DOWNLOAD ${LANG_SPANISH} "Footprint libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_FPLIB ${LANG_SPANISH} "Las librerías de huellas son necesarias si no han sido instaladas previamente."
+LangString DESC_SEC_PACKAGES3D_DOWNLOAD ${LANG_SPANISH} "Footprint 3d models are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
+LangString DESC_SEC_PACKAGES3D ${LANG_SPANISH} "Footprint 3d models are recommended to install."
 LangString DESC_SEC_FPWIZ ${LANG_SPANISH} "Asistentes de huellas, basados en Python, disponibles en el Editor de huellas. Es una función experimental en Windows."
 LangString DESC_SEC_DEMOS ${LANG_SPANISH} "Algunos proyectos y tutoriales de demostración."
 LangString DESC_SEC_DOCS ${LANG_SPANISH} "Archivos de ayuda en formato PDF."
@@ -80,6 +86,7 @@ LangString PROGRAM_IS_OPEN_ERROR ${LANG_SPANISH} "$R1 is currently running! You 
 LangString FREECAD_PROMPT ${LANG_SPANISH} "Para editar o crear modelos de objetos 3D es necesario instalar FreeCAD. \
 FreeCAD y su manual de usuario pueden descargarse desde la página web de FreeCAD. Seleccione esta opción para abrir la página web de FreeCAD."
 
+LangString CLEANUP_PROMPT ${LANG_SPANISH} "Remove downloaded files after installation?"
 LangString UNINST_PROMPT ${LANG_SPANISH} "¿Está seguro de que quiere eliminar completamente $(^Name) y todos sus componentes? $\n\
 ¡También se eliminarán todos los archivos modificados o nuevos, librerias y huellas de la carpeta del programa \
 (incluidos los modulos de python instalados por el usuario)!"

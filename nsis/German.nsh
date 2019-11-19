@@ -26,8 +26,10 @@ LangString LANGUAGE_NAME_ZH ${LANG_GERMAN} "Chinesisch"
 
 ;Component option
 LangString TITLE_SEC_MAIN ${LANG_GERMAN} "Hauptprogramm"
+LangString TITLE_SEC_LIBRARIES ${LANG_GERMAN} "Bibliotheken"
 LangString TITLE_SEC_SCHLIB ${LANG_GERMAN} "Bauteil Bibliotheken"
 LangString TITLE_SEC_FPLIB ${LANG_GERMAN} "Footprint Bibliotheken"
+LangString TITLE_SEC_PACKAGES3D ${LANG_GERMAN} "Footprint 3d models"
 LangString TITLE_SEC_FPWIZ ${LANG_GERMAN} "Footprint Wizards"
 LangString TITLE_SEC_DEMOS ${LANG_GERMAN} "Demo Projekte"
 LangString TITLE_SEC_DOCS ${LANG_GERMAN} "Hilfedateien"
@@ -36,8 +38,12 @@ LangString TITLE_SEC_FILE_ASSOC ${LANG_GERMAN} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_GERMAN} "Dateien für das Hauptprogramm."
+LangString DESC_SEC_SCHLIB_DOWNLOAD ${LANG_GERMAN} "Schematic libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_SCHLIB ${LANG_GERMAN} "Benötigte Bauteil Bibliotheken, es sei denn diese wurden zuvor schon installiert."
+LangString DESC_SEC_FPLIB_DOWNLOAD ${LANG_GERMAN} "Footprint libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_FPLIB ${LANG_GERMAN} "Benötigte Footprint Bibliotheken, es sei denn diese wurden zuvor schon installiert."
+LangString DESC_SEC_PACKAGES3D_DOWNLOAD ${LANG_GERMAN} "Footprint 3d models are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
+LangString DESC_SEC_PACKAGES3D ${LANG_GERMAN} "Footprint 3d models are recommended to install."
 LangString DESC_SEC_FPWIZ ${LANG_GERMAN} "Im Footprint Editor sind einige standardmäßige Python basierte Footprint Wizards enthalten. Dies ist ein experimentelles Feature in Windows."
 LangString DESC_SEC_DEMOS ${LANG_GERMAN} "Einige Demo Projekte und Anleitungen."
 LangString DESC_SEC_DOCS ${LANG_GERMAN} "Hilfedateien im PDF Format."
@@ -80,6 +86,7 @@ LangString PROGRAM_IS_OPEN_ERROR ${LANG_GERMAN} "$R1 is currently running! You m
 LangString FREECAD_PROMPT ${LANG_GERMAN} "Um 3D-Objekte zu erstellen oder verändern zu können benötigen Sie das Programm FreeCAD. \
 FreeCAD und das zugehörige Benutzerhandbuch können frei von der FreeCAD-Webseite geladen werden. Aktivieren Sie diese Checkbox um die FreeCAD-Webseite zu öffnen."
 
+LangString CLEANUP_PROMPT ${LANG_GERMAN} "Remove downloaded files after installation?"
 LangString UNINST_PROMPT ${LANG_GERMAN} "Sind Sie sicher das Sie $(^Name) komplett und alle seine Komponenten entfernen wollen? $\n\
 Diese Aktion wird ebenfalls alle modifizierten und neuen Dateien, Bibliotheken und Module im Programmverzeichnis entfernen \
 (inklusive der Python Module die durch Benutzer installiert worden sind)!"

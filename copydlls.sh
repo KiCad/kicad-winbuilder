@@ -279,10 +279,26 @@ makensis() {
     cd "$TARGETDIR/nsis"
     pwd
     echo "This is still a work in progress... but GPL..." > ../COPYRIGHT.txt
+    # Extract git tag from version string. If it's of the form N.N.N-xxxx then the
+    # first part is considered to be the tag, otherwise use master.
+    GIT_TAG=$(echo "$VERSION" | grep -Po '^\d+\.\d+\.\d+')
+    if [ -z $GIT_TAG ]; then
+      GIT_TAG="master"
+    fi
+
+    echo Generating full installer...
     "$MAKENSIS" \
         //DPRODUCT_VERSION=$VERSION \
         //DOUTFILE="..\kicad-$VERSION-$ARCH.exe" \
         //DARCH="$ARCH" \
+        install.nsi
+
+    echo Generating light installer...
+    "$MAKENSIS" \
+        //DPRODUCT_VERSION=$VERSION \
+        //DOUTFILE="..\kicad-$VERSION-$ARCH-lite.exe" \
+        //DARCH="$ARCH" \
+        //DLIBRARIES_TAG="$GIT_TAG" \
         install.nsi
     cd -
 }

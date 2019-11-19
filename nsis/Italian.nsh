@@ -26,8 +26,10 @@ LangString LANGUAGE_NAME_ZH ${LANG_ITALIAN} "Cinese"
 
 ;Component option
 LangString TITLE_SEC_MAIN ${LANG_ITALIAN} "Applicazione principale"
+LangString TITLE_SEC_LIBRARIES ${LANG_ITALIAN} "Librerie"
 LangString TITLE_SEC_SCHLIB ${LANG_ITALIAN} "Librerie di simboli elettrici"
 LangString TITLE_SEC_FPLIB ${LANG_ITALIAN} "Librerie di impronte per circuiti stampati"
+LangString TITLE_SEC_PACKAGES3D ${LANG_ITALIAN} "Footprint 3d models"
 LangString TITLE_SEC_FPWIZ ${LANG_ITALIAN} "Assistenti per le impronte di circuiti stampati"
 LangString TITLE_SEC_DEMOS ${LANG_ITALIAN} "Progetti dimostrativi"
 LangString TITLE_SEC_DOCS ${LANG_ITALIAN} "File di aiuto"
@@ -36,8 +38,12 @@ LangString TITLE_SEC_FILE_ASSOC ${LANG_ITALIAN} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_ITALIAN} "File dell'applicazione principale."
+LangString DESC_SEC_SCHLIB_DOWNLOAD ${LANG_ITALIAN} "Schematic libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_SCHLIB ${LANG_ITALIAN} "Le librerie di simboli elettrici sono necessarie a meno che non siano già installate in precedenza."
+LangString DESC_SEC_FPLIB_DOWNLOAD ${LANG_ITALIAN} "Footprint libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_FPLIB ${LANG_ITALIAN} "Le librerie di impronte di circuiti stampati sono necessarie a meno che non siano già state installate in precedenza."
+LangString DESC_SEC_PACKAGES3D_DOWNLOAD ${LANG_ITALIAN} "Footprint 3d models are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
+LangString DESC_SEC_PACKAGES3D ${LANG_ITALIAN} "Footprint 3d models are recommended to install."
 LangString DESC_SEC_FPWIZ ${LANG_ITALIAN} "Gli assistenti impronte predefiniti python disponibili nell'editor delle impronte. Questa è una caratteristica sperimentale su Windows."
 LangString DESC_SEC_DEMOS ${LANG_ITALIAN} "Alcuni tutorial e progetti dimostrativi."
 LangString DESC_SEC_DOCS ${LANG_ITALIAN} "I file di aiuto in formato PDF."
@@ -80,6 +86,7 @@ LangString PROGRAM_IS_OPEN_ERROR ${LANG_ITALIAN} "$R1 is currently running! You 
 LangString FREECAD_PROMPT ${LANG_ITALIAN} "Per modificare o creare modelli 3D è necessario installare FreeCAD. \
 FreeCAD ed il suo manuale utente possono essere scaricati liberamente dalla pagina web di FreeCAD. Selezionare questa casella per aprire la pagina web di FreeCAD."
 
+LangString CLEANUP_PROMPT ${LANG_ITALIAN} "Remove downloaded files after installation?"
 LangString UNINST_PROMPT ${LANG_ITALIAN} "Sicuri di voler rimuovere completamente $(^Name) e tutti i suoi componenti? $\n\
 Ciò rimuoverà tutti i file nuovi e modificati, librerie e moduli, nella cartella del programma \
 (inclusi i moduli python installati dall'utente)!"

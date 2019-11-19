@@ -26,8 +26,10 @@ LangString LANGUAGE_NAME_ZH ${LANG_GREEK} "Κινέζικα"
 
 ;Component option
 LangString TITLE_SEC_MAIN ${LANG_GREEK} "Κύρια εφαρμογή"
+LangString TITLE_SEC_LIBRARIES ${LANG_GREEK} "Libraries"
 LangString TITLE_SEC_SCHLIB ${LANG_GREEK} "Βιβλιοθήκες σχηματικών"
 LangString TITLE_SEC_FPLIB ${LANG_GREEK} "Βιβλιοθήκες αποτυπωμάτων"
+LangString TITLE_SEC_PACKAGES3D ${LANG_GREEK} "Footprint 3d models"
 LangString TITLE_SEC_FPWIZ ${LANG_GREEK} "Οδηγοί αποτυπωμάτων"
 LangString TITLE_SEC_DEMOS ${LANG_GREEK} "Έργα επίδειξης"
 LangString TITLE_SEC_DOCS ${LANG_GREEK} "Αρχεία βοήθειας"
@@ -36,8 +38,12 @@ LangString TITLE_SEC_FILE_ASSOC ${LANG_GREEK} "File associations"
 
 ;Component option descriptions
 LangString DESC_SEC_MAIN ${LANG_GREEK} "Αρχεία κύριας εφαρμογής."
+LangString DESC_SEC_SCHLIB_DOWNLOAD ${LANG_GREEK} "Schematic libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_SCHLIB ${LANG_GREEK} "Οι βιβλιοθήκες σχηματικών πρέπει να εγκατασταθούν, αν δεν είναι ήδη εγκατεστημένες."
+LangString DESC_SEC_FPLIB_DOWNLOAD ${LANG_GREEK} "Footprint libraries are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
 LangString DESC_SEC_FPLIB ${LANG_GREEK} "Οι βιβλιοθήκες αποτυπωμάτων πρέπει να εγκατασταθούν, αν δεν είναι ήδη εγκατεστημένες."
+LangString DESC_SEC_PACKAGES3D_DOWNLOAD ${LANG_GREEK} "Footprint 3d models are recommended to install. They will be downloaded separately unless installer detects a previously downloaded archive."
+LangString DESC_SEC_PACKAGES3D ${LANG_GREEK} "Footprint 3d models are recommended to install."
 LangString DESC_SEC_FPWIZ ${LANG_GREEK} "Οι, βασισμένοι σε python, οδηγοί αποτυπωμάτων που είναι διαθέσιμοι στον επεξεργαστή αποτυπωμάτων. Αυτή είναι μία πειραματική λειτουργία στα windows."
 LangString DESC_SEC_DEMOS ${LANG_GREEK} "Μερικά ενδεικτικά έργα επίδειξης και οδηγοί εκμάθησης."
 LangString DESC_SEC_DOCS ${LANG_GREEK} "Αρχεία βοήθειας σε μορφή PDF."
@@ -80,6 +86,7 @@ LangString PROGRAM_IS_OPEN_ERROR ${LANG_GREEK} "$R1 is currently running! You mu
 LangString FREECAD_PROMPT ${LANG_GREEK} "Για να επεξεργαστείτε ή να δημιουργήσετε μοντέλα 3Δ απαιτείται η εγκατάσταση του FreeCAD. \
 Μπορείτε να κατεβάσετε το FreeCAD και τον οδηγό χρήσης του, δωρεάν από την ιστοσελίδα του FreeCAD. Κάντε τικ σε αυτό το κουτάκι για να ανοίξει η ιστοσελίδα του FreeCAD."
 
+LangString CLEANUP_PROMPT ${LANG_GREEK} "Remove downloaded files after installation?"
 LangString UNINST_PROMPT ${LANG_GREEK} "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε εντελώς το $(^Name) και όλα του τα κομμάτια; $\n\
 Αυτό θα αφαιρέσει επίσης όλα τα αρχεία, τις βιβλιοθήκες και τα προγράμματα στον φάκελο του προγράμματος \
 (συμπεριλαμβανόμενων και των προγραμμάτων python που εγκαταστάθηκαν από τον χρήστη)!"
